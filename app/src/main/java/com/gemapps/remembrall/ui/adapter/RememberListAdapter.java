@@ -2,6 +2,7 @@ package com.gemapps.remembrall.ui.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,8 @@ import butterknife.ButterKnife;
  * Created by edu on 7/19/16.
  */
 public class RememberListAdapter extends RecyclerView.Adapter<RememberListAdapter.RememberViewItem> {
+
+    private static final String TAG = "RememberListAdapter";
 
     private final Context context;
     private List<Rememball> items;
@@ -39,7 +42,7 @@ public class RememberListAdapter extends RecyclerView.Adapter<RememberListAdapte
     @Override
     public void onBindViewHolder(RememberViewItem holder, int position) {
         Rememball item = items.get(position);
-
+        Log.d(TAG, "onBindViewHolder: "+item.contactName);
         holder.mContactNameView.setText(item.contactName);
         holder.mContactAddressView.setText(item.contactAddress);
     }

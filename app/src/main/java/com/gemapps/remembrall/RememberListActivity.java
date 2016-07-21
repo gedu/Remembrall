@@ -16,7 +16,6 @@ public class RememberListActivity extends ButterActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_remember_list);
-
     }
 
     @Override

@@ -2,7 +2,6 @@ package com.gemapps.remembrall;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.gemapps.remembrall.ui.ButterFragment;
 import com.gemapps.remembrall.ui.adapter.RememberListAdapter;
 import com.gemapps.remembrall.ui.model.Rememball;
 import com.gemapps.remembrall.util.Util;
@@ -18,12 +18,11 @@ import com.gemapps.remembrall.util.Util;
 import java.util.Arrays;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class RememberListActivityFragment extends Fragment {
+public class RememberListActivityFragment extends ButterFragment {
 
     private static final String TAG = "RememberListActivityFra";
     @BindView(R.id.recycler_view) RecyclerView mRecyclerView;
@@ -61,8 +60,7 @@ public class RememberListActivityFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_remember_list, container, false);
-        ButterKnife.bind(this, rootView);
+        View rootView = createView(inflater, container, R.layout.fragment_remember_list);
 
         RecyclerView.LayoutManager layoutManager;
 

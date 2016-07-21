@@ -2,7 +2,6 @@ package com.gemapps.remembrall.ui.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,7 +41,7 @@ public class RememberListAdapter extends RecyclerView.Adapter<RememberListAdapte
     @Override
     public void onBindViewHolder(RememberViewItem holder, int position) {
         Rememball item = items.get(position);
-        Log.d(TAG, "onBindViewHolder: "+item.contactName);
+
         holder.mContactNameView.setText(item.contactName);
         holder.mContactAddressView.setText(item.contactAddress);
     }

@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.gemapps.remembrall.R;
-import com.gemapps.remembrall.ui.model.Rememball;
+import com.gemapps.remembrall.ui.model.Remembrall;
 
 import java.util.List;
 
@@ -23,9 +23,9 @@ public class RememberListAdapter extends RecyclerView.Adapter<RememberListAdapte
     private static final String TAG = "RememberListAdapter";
 
     private final Context context;
-    private List<Rememball> items;
+    private List<Remembrall> items;
 
-    public RememberListAdapter(List<Rememball> items, Context context) {
+    public RememberListAdapter(List<Remembrall> items, Context context) {
         this.items = items;
         this.context = context;
     }
@@ -40,7 +40,7 @@ public class RememberListAdapter extends RecyclerView.Adapter<RememberListAdapte
 
     @Override
     public void onBindViewHolder(RememberViewItem holder, int position) {
-        Rememball item = items.get(position);
+        Remembrall item = items.get(position);
 
         holder.mContactNameView.setText(item.contactName);
         holder.mContactAddressView.setText(item.contactAddress);

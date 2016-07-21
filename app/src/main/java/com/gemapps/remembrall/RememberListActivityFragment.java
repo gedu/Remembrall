@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 
 import com.gemapps.remembrall.ui.ButterFragment;
 import com.gemapps.remembrall.ui.adapter.RememberListAdapter;
-import com.gemapps.remembrall.ui.model.Rememball;
+import com.gemapps.remembrall.ui.model.Remembrall;
 import com.gemapps.remembrall.util.Util;
 
 import java.util.Arrays;
@@ -33,22 +33,22 @@ public class RememberListActivityFragment extends ButterFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(TAG, "onCreate: ");
-        Rememball[] dummyArray = new Rememball[]{
-                new Rememball("Eduardo graciano", "Lafuente 391"),
-                new Rememball("Eduardo graciano", "Lafuente 391"),
-                new Rememball("Eduardo graciano", "Lafuente 391"),
-                new Rememball("Eduardo graciano", "Lafuente 391"),
-                new Rememball("Eduardo graciano", "Lafuente 391"),
-                new Rememball("Eduardo graciano", "Lafuente 391"),
-                new Rememball("Eduardo graciano", "Lafuente 391"),
-                new Rememball("Eduardo graciano", "Lafuente 391"),
-                new Rememball("Eduardo graciano", "Lafuente 391"),
-                new Rememball("Eduardo graciano", "Lafuente 391"),
-                new Rememball("Eduardo graciano", "Lafuente 391"),
-                new Rememball("Eduardo graciano", "Lafuente 391"),
-                new Rememball("Eduardo graciano", "Lafuente 391"),
-                new Rememball("Eduardo graciano", "Lafuente 391")
+
+        Remembrall[] dummyArray = new Remembrall[]{
+                new Remembrall("Eduardo graciano", "Lafuente 391"),
+                new Remembrall("Eduardo graciano", "Lafuente 391"),
+                new Remembrall("Eduardo graciano", "Lafuente 391"),
+                new Remembrall("Eduardo graciano", "Lafuente 391"),
+                new Remembrall("Eduardo graciano", "Lafuente 391"),
+                new Remembrall("Eduardo graciano", "Lafuente 391"),
+                new Remembrall("Eduardo graciano", "Lafuente 391"),
+                new Remembrall("Eduardo graciano", "Lafuente 391"),
+                new Remembrall("Eduardo graciano", "Lafuente 391"),
+                new Remembrall("Eduardo graciano", "Lafuente 391"),
+                new Remembrall("Eduardo graciano", "Lafuente 391"),
+                new Remembrall("Eduardo graciano", "Lafuente 391"),
+                new Remembrall("Eduardo graciano", "Lafuente 391"),
+                new Remembrall("Eduardo graciano", "Lafuente 391")
         };
 
         Log.d(TAG, "is a large: "+ Util.isLargeTablet(getActivity()));

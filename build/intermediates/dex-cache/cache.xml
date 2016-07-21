@@ -12,6 +12,33 @@
     </item>
     <item
         is-multidex="false"
+        jar="/Users/angeles/GithubProjects/Remembrall/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/23.4.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="false"
+        revision="23.0.2"
+        sha1="d9ecde39b460470e655de6e47c05573d2d5a8bfb">
+        <dex dex="/Users/angeles/GithubProjects/Remembrall/app/build/intermediates/pre-dexed/debug/com.android.support-cardview-v7-23.4.0_9eec2ca3f320af9c4788ebd8e1a2e18cd30ed920.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/angeles/GithubProjects/Remembrall/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.4.0/jars/libs/internal_impl-23.4.0.jar"
+        jumboMode="false"
+        optimize="false"
+        revision="23.0.2"
+        sha1="ea3c07504d2c8f4b13aa17c45c1b68ed9c1c3674">
+        <dex dex="/Users/angeles/GithubProjects/Remembrall/app/build/intermediates/pre-dexed/debug/internal_impl-23.4.0_244506b445fb22d345a9e30275d53946161f1ddc.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/angeles/GithubProjects/Remembrall/app/build/intermediates/exploded-aar/com.jakewharton/butterknife/8.2.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="false"
+        revision="23.0.2"
+        sha1="ca5e58104f56f918f0fb3a5b1b371ab599ae56b2">
+        <dex dex="/Users/angeles/GithubProjects/Remembrall/app/build/intermediates/pre-dexed/debug/com.jakewharton-butterknife-8.2.1_bf84711a34e80f3766cfbd635ca65f3c6f2ef633.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="/Users/angeles/GithubProjects/Remembrall/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.4.0/jars/classes.jar"
         jumboMode="false"
         optimize="false"
@@ -48,12 +75,30 @@
     </item>
     <item
         is-multidex="false"
+        jar="/Users/angeles/GithubProjects/Remembrall/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/23.4.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="false"
+        revision="23.0.2"
+        sha1="ec75036c3c52e451d0cde50a5aedaf5fd32354a0">
+        <dex dex="/Users/angeles/GithubProjects/Remembrall/app/build/intermediates/pre-dexed/debug/com.android.support-recyclerview-v7-23.4.0_ea0f461aab82eafe5f564fd8d6091c521049e0a5.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="/Users/angeles/GithubProjects/Remembrall/app/build/intermediates/exploded-aar/com.android.support.constraint/constraint-layout/1.0.0-alpha4/jars/classes.jar"
         jumboMode="false"
         optimize="false"
         revision="23.0.2"
         sha1="affe29a90a2a709bfd2b8d6411aa99c05a2be96f">
         <dex dex="/Users/angeles/GithubProjects/Remembrall/app/build/intermediates/pre-dexed/debug/com.android.support.constraint-constraint-layout-1.0.0-alpha4_0fb68424525a4c46aeeaa175517cfbfdd9c8e653.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/angeles/GithubProjects/Remembrall/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/23.4.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="false"
+        revision="23.0.2"
+        sha1="c2c594cace5d83a3227b2b6e658ecbfd586d3ed9">
+        <dex dex="/Users/angeles/GithubProjects/Remembrall/app/build/intermediates/pre-dexed/debug/com.android.support-support-vector-drawable-23.4.0_77bcaf03a6a38da3205107e8830574afa17155fe.jar" />
     </item>
     <item
         is-multidex="false"
@@ -75,48 +120,12 @@
     </item>
     <item
         is-multidex="false"
-        jar="/Users/angeles/GithubProjects/Remembrall/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/23.4.0/jars/classes.jar"
+        jar="/Users/angeles/GithubProjects/Remembrall/app/build/intermediates/exploded-aar/com.simplify/ink/0.2.1/jars/classes.jar"
         jumboMode="false"
         optimize="false"
         revision="23.0.2"
-        sha1="d9ecde39b460470e655de6e47c05573d2d5a8bfb">
-        <dex dex="/Users/angeles/GithubProjects/Remembrall/app/build/intermediates/pre-dexed/debug/com.android.support-cardview-v7-23.4.0_9eec2ca3f320af9c4788ebd8e1a2e18cd30ed920.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/angeles/GithubProjects/Remembrall/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.4.0/jars/libs/internal_impl-23.4.0.jar"
-        jumboMode="false"
-        optimize="false"
-        revision="23.0.2"
-        sha1="ea3c07504d2c8f4b13aa17c45c1b68ed9c1c3674">
-        <dex dex="/Users/angeles/GithubProjects/Remembrall/app/build/intermediates/pre-dexed/debug/internal_impl-23.4.0_244506b445fb22d345a9e30275d53946161f1ddc.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/angeles/GithubProjects/Remembrall/app/build/intermediates/exploded-aar/com.jakewharton/butterknife/8.2.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="false"
-        revision="23.0.2"
-        sha1="ca5e58104f56f918f0fb3a5b1b371ab599ae56b2">
-        <dex dex="/Users/angeles/GithubProjects/Remembrall/app/build/intermediates/pre-dexed/debug/com.jakewharton-butterknife-8.2.1_bf84711a34e80f3766cfbd635ca65f3c6f2ef633.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/angeles/GithubProjects/Remembrall/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/23.4.0/jars/classes.jar"
-        jumboMode="false"
-        optimize="false"
-        revision="23.0.2"
-        sha1="ec75036c3c52e451d0cde50a5aedaf5fd32354a0">
-        <dex dex="/Users/angeles/GithubProjects/Remembrall/app/build/intermediates/pre-dexed/debug/com.android.support-recyclerview-v7-23.4.0_ea0f461aab82eafe5f564fd8d6091c521049e0a5.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/angeles/GithubProjects/Remembrall/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/23.4.0/jars/classes.jar"
-        jumboMode="false"
-        optimize="false"
-        revision="23.0.2"
-        sha1="c2c594cace5d83a3227b2b6e658ecbfd586d3ed9">
-        <dex dex="/Users/angeles/GithubProjects/Remembrall/app/build/intermediates/pre-dexed/debug/com.android.support-support-vector-drawable-23.4.0_77bcaf03a6a38da3205107e8830574afa17155fe.jar" />
+        sha1="f5ae9251559e371337ee7f6ef39ef8122f242a10">
+        <dex dex="/Users/angeles/GithubProjects/Remembrall/app/build/intermediates/pre-dexed/debug/com.simplify-ink-0.2.1_65478b9eafed83cf96aa7d0c4ca37e8ed1839c78.jar" />
     </item>
 
 </items>

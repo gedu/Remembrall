@@ -6,4 +6,16 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="first_name">Nombre</string>
+    <string name="last_name">Apellido</string>
+    <string name="id_card">DNI</string>
+    <string name="address">Dirección</string>
+    <string name="email">Email</string>
+    <string name="home_phone">Tel. casa</string>
+    <string name="mobile_phone">Celular</string>
+    <string name="client_title_form">Datos del cliente</string>
+    <string name="date_title_form">Fechas</string>
+    <string name="product_title_form">Equipo</string>
+    <string name="equip_number">N equipo</string>
+    <string name="sign_title_form">Firma</string>
 </resources>

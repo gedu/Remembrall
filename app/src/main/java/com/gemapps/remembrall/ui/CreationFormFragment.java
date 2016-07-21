@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 
 import com.gemapps.remembrall.R;
 
+import butterknife.OnClick;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link CreationFormFragment#newInstance} factory method to
@@ -37,4 +39,9 @@ public class CreationFormFragment extends ButterFragment {
         return createView(inflater, container, R.layout.fragment_creation_form);
     }
 
+    @OnClick(R.id.form_sign)
+    public void onSignClicked(View view){
+        startActivity(BaseCardActivity.getInstance(view, InkWritingActivity.class));
+
+    }
 }

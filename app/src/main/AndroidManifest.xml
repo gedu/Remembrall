@@ -27,6 +27,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.gemapps.remembrall.RememberListActivity"/>
         </activity>
+        <activity android:name=".ui.InkWritingActivity"
+            android:theme="@style/AppTheme.Dialog">
+        </activity>
     </application>
 
 </manifest>

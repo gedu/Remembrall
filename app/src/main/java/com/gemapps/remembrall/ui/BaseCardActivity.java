@@ -21,6 +21,7 @@ import com.gemapps.remembrall.util.Util;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by edu on 7/21/16.
@@ -157,6 +158,11 @@ public class BaseCardActivity extends AppCompatActivity {
                 return false;
             }
         });
+    }
+
+    @OnClick(R.id.trans_bg_view)
+    public void onBgClicked(){
+        dismiss(null);
     }
 
     protected void dismiss(View view){

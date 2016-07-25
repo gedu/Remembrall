@@ -12,20 +12,72 @@
           android:id="@+id/trans_bg_view"
           android:layout_width="match_parent"
           android:layout_height="match_parent"
-          android:background="@color/dialog_background"
-          android:alpha="@fraction/dialog_background_alpha"/>
+          android:alpha="@fraction/dialog_background_alpha"
+          android:background="@color/dialog_background"/>
 
     <android.support.v7.widget.CardView
         android:id="@+id/card_panel_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/MarginCenter"
         android:layout_gravity="center"
+        android:clickable="true"
         app:cardUseCompatPadding="true">
 
-
-        <com.simplify.ink.InkView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="300dp"/>
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.simplify.ink.InkView
+                android:id="@+id/ink_view"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/ink_rect_height"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:background="@color/gray_divider"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right|end"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+
+                <ImageView
+                    android:id="@+id/redo_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:minHeight="@dimen/min_height"
+                    app:srcCompat="@drawable/ic_replay_black_24px"/>
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="6"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:minHeight="@dimen/min_height"
+                    app:srcCompat="@drawable/ic_done_black_24px"/>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
 
     </android.support.v7.widget.CardView>
 

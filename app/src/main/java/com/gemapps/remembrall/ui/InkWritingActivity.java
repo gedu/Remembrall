@@ -1,5 +1,6 @@
 package com.gemapps.remembrall.ui;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import com.gemapps.remembrall.R;
@@ -10,7 +11,7 @@ import butterknife.OnClick;
 
 public class InkWritingActivity extends BaseCardActivity {
 
-    @BindView(R.id.ink_view) InkView mInkView;
+    @BindView(R.id.ink_view) private InkView mInkView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,5 +25,14 @@ public class InkWritingActivity extends BaseCardActivity {
     @OnClick(R.id.redo_button)
     public void redoSignClicked(){
         mInkView.clear();
+    }
+
+    @OnClick(R.id.done_button)
+    public void doneSignClicked(){
+
+        //TODO: save or send it back or store it in a public var
+        Bitmap userSignBitmap = mInkView.getBitmap();
+
+        dismiss(null);
     }
 }

@@ -6,9 +6,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.gemapps.remembrall.R;
 
+import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
@@ -17,6 +19,11 @@ import butterknife.OnClick;
  * create an instance of this fragment.
  */
 public class CreationFormFragment extends ButterFragment {
+
+    @BindView(R.id.form_first_name_edit) private EditText mFirstNameEdit;
+    @BindView(R.id.form_last_name_edit) private EditText mLastNameEdit;
+    @BindView(R.id.form_id_card_edit) private EditText mIdCardEdit;
+    @BindView(R.id.form_address_edit) private EditText mAddressEdit;
 
     public CreationFormFragment() {
         // Required empty public constructor
@@ -42,6 +49,14 @@ public class CreationFormFragment extends ButterFragment {
     @OnClick(R.id.form_sign)
     public void onSignClicked(View view){
         startActivity(BaseCardActivity.getInstance(view, InkWritingActivity.class));
+    }
+
+    public void saveForm(){
+
+        String firstName = mFirstNameEdit.getText().toString();
+        String lastName = mLastNameEdit.getText().toString();
+        String idCard = mIdCardEdit.getText().toString();
+        String address = mAddressEdit.getText().toString();
 
     }
 }

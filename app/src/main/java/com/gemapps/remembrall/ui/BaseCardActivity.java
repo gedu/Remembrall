@@ -26,7 +26,12 @@ import butterknife.OnClick;
 /**
  * Created by edu on 7/21/16.
  *
- * Base activity for the cards activities. This activity handle the enter and exit animation
+ * Base activity for the cards activities with Butter knife. This activity handle the enter and exit animation
+ *
+ * For this activity works the root should be a Frame
+ * then the first child should be translucent_bg layout include it then the content
+ * preferably inside a Card with an id card_panel_container
+ * Set in the manifest @style/AppTheme.Dialog like style
  */
 public class BaseCardActivity extends AppCompatActivity {
 
@@ -71,6 +76,10 @@ public class BaseCardActivity extends AppCompatActivity {
         ButterKnife.bind(this);
     }
 
+    /**
+     * To make the animation works this should be called after the doEntryAnimation
+     * on the onCreate method
+     */
     protected void overrideTrans(){
         overridePendingTransition(0, 0);
     }
@@ -87,6 +96,9 @@ public class BaseCardActivity extends AppCompatActivity {
         dismiss(null);
     }
 
+    /**
+     * Should be called on the onCreate function at the end before {#link overrideTrans}
+     */
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     protected void doEntryAnimation(){
 

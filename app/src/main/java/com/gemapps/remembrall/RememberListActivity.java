@@ -6,7 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.gemapps.remembrall.ui.ButterActivity;
-import com.gemapps.remembrall.ui.RembrallCreationActivity;
+import com.gemapps.remembrall.ui.RemembrallCreationActivity;
 
 import butterknife.OnClick;
 
@@ -41,6 +41,6 @@ public class RememberListActivity extends ButterActivity {
 
     @OnClick(R.id.fab)
     public void onFabClicked(){
-        startActivity(new Intent(this, RembrallCreationActivity.class));
+        startActivity(new Intent(this, RemembrallCreationActivity.class));
     }
 }

@@ -60,7 +60,7 @@ public class RemembrallContract {
                 RememberEntry.TABLE_NAME + " (" + RememberEntry._ID + "), " +
 
                 " FOREIGN KEY (" + COLUMN_PRODUCT_ID + ") REFERENCES " +
-                ProductEntry.TABLE_NAME + " (" + ProductEntry._ID + "); ";
+                ProductEntry.TABLE_NAME + " (" + ProductEntry._ID + ")); ";
 
         public static final String SQL_DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
     }

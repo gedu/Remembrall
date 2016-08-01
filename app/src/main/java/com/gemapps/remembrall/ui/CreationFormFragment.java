@@ -20,10 +20,10 @@ import butterknife.OnClick;
  */
 public class CreationFormFragment extends ButterFragment {
 
-    @BindView(R.id.form_first_name_edit) private EditText mFirstNameEdit;
-    @BindView(R.id.form_last_name_edit) private EditText mLastNameEdit;
-    @BindView(R.id.form_id_card_edit) private EditText mIdCardEdit;
-    @BindView(R.id.form_address_edit) private EditText mAddressEdit;
+    @BindView(R.id.form_first_name_edit) EditText mFirstNameEdit;
+    @BindView(R.id.form_last_name_edit) EditText mLastNameEdit;
+    @BindView(R.id.form_id_card_edit) EditText mIdCardEdit;
+    @BindView(R.id.form_address_edit) EditText mAddressEdit;
 
     public CreationFormFragment() {
         // Required empty public constructor

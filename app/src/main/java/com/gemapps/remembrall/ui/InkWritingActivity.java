@@ -11,7 +11,7 @@ import butterknife.OnClick;
 
 public class InkWritingActivity extends BaseCardActivity {
 
-    @BindView(R.id.ink_view) private InkView mInkView;
+    @BindView(R.id.ink_view) InkView mInkView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

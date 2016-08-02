@@ -32,7 +32,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center">
 
-                    <EditText
+                    <android.support.design.widget.TextInputEditText
                         android:id="@+id/form_first_name_edit"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -44,7 +44,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center">
 
-                    <EditText
+                    <android.support.design.widget.TextInputEditText
                         android:id="@+id/form_last_name_edit"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -56,7 +56,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center">
 
-                    <EditText
+                    <android.support.design.widget.TextInputEditText
                         android:id="@+id/form_id_card_edit"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -68,7 +68,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center">
 
-                    <EditText
+                    <android.support.design.widget.TextInputEditText
                         android:id="@+id/form_address_edit"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -80,7 +80,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center">
 
-                    <EditText
+                    <android.support.design.widget.TextInputEditText
                         android:id="@+id/form_email_edit"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -93,7 +93,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center">
 
-                    <EditText
+                    <android.support.design.widget.TextInputEditText
                         android:id="@+id/form_home_phone_edit"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -106,7 +106,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center">
 
-                    <EditText
+                    <android.support.design.widget.TextInputEditText
                         android:id="@+id/form_mobile_phone_edit"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

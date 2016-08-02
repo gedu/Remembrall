@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
 
 import com.gemapps.remembrall.R;
@@ -19,6 +18,11 @@ import butterknife.OnClick;
 public class RemembrallCreationActivity extends ButterActivity {
 
     private static final String TAG = "RemembrallCreationActiv";
+
+    public interface PickupDateListener {
+        void onStartDatePick(long ts);
+        void onEndDatePick(long ts);
+    }
 
     public static final int REQUEST_START_DATE_RESULT = 1;
     public static final int REQUEST_END_DATE_RESULT = 2;
@@ -31,6 +35,7 @@ public class RemembrallCreationActivity extends ButterActivity {
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
     private SectionsPagerAdapter mSectionsPagerAdapter;
+    private PickupDateListener mPickupDateListener;
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -56,7 +61,18 @@ public class RemembrallCreationActivity extends ButterActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d(TAG, "onActivityResult() called with: requestCode = [" + requestCode + "], resultCode = [" + resultCode + "], data = [" + data + "]");
+
+        if(resultCode == RESULT_CANCELED) return;
+
+        if(requestCode == REQUEST_START_DATE_RESULT ) {
+            mPickupDateListener.onStartDatePick(data.getLongExtra(DatePickerActivity.DATA_RESULT_KEY, -1));
+        }else if(requestCode == REQUEST_END_DATE_RESULT){
+            mPickupDateListener.onEndDatePick(data.getLongExtra(DatePickerActivity.DATA_RESULT_KEY, -1));
+        }
+    }
+
+    public void addListener(PickupDateListener listener){
+        mPickupDateListener = listener;
     }
 
     @OnClick(R.id.fab)

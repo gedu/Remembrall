@@ -20,6 +20,8 @@ public class DatePickerActivity extends BaseCardActivity {
     private static final String TAG = "DatePickerActivity";
 
     public static final String INTENT_EXTRA_DAYS_KEY = "extra_days";
+    public static final String INTENT_EXTRA_SET_TS= "set_ts";
+
     public static final String DATA_RESULT_KEY = "date_picked";
 
     @BindView(R.id.date_picker) DatePicker mDatePicker;
@@ -33,9 +35,10 @@ public class DatePickerActivity extends BaseCardActivity {
         setContentView(R.layout.activity_date_picker);
 
         int daysToAdd = getIntent().getIntExtra(INTENT_EXTRA_DAYS_KEY, 0);
+        long ts = getIntent().getLongExtra(INTENT_EXTRA_SET_TS, -1);
 
         setResult(RESULT_CANCELED);
-        setupDatePicker(daysToAdd);
+        setupDatePicker(daysToAdd, ts);
 
         doEntryAnimation();
         overrideTrans();
@@ -49,10 +52,11 @@ public class DatePickerActivity extends BaseCardActivity {
                 mDatePicker.getMonth(), mDatePicker.getDayOfMonth());
     }
 
-    private void setupDatePicker(int daysToAdd){
+    private void setupDatePicker(int daysToAdd, long ts){
         Log.d(TAG, "setupDatePicker() called with: daysToAdd = [" + daysToAdd + "]");
 
         Calendar calendar = Calendar.getInstance();
+        if(ts != -1) calendar.setTimeInMillis(ts);
         calendar.add(Calendar.DAY_OF_MONTH, daysToAdd);
 
         mDatePicker.init(calendar.get(Calendar.YEAR),
@@ -62,8 +66,6 @@ public class DatePickerActivity extends BaseCardActivity {
                 new DatePicker.OnDateChangedListener() {
                     @Override
                     public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        Log.d(TAG, "onDateChanged() view = [" + view.isShown() + "], year = ["
-                                + year + "], monthOfYear = [" + monthOfYear + "], dayOfMonth = [" + dayOfMonth + "]");
 
                         mDatePicked = getTime(year, monthOfYear, dayOfMonth);
                     }
@@ -94,6 +96,7 @@ public class DatePickerActivity extends BaseCardActivity {
     public void finish() {
 
         if(mSendResult) {
+            Log.d(TAG, "finish: time: "+mDatePicked);
             Intent data = new Intent();
             data.putExtra(DATA_RESULT_KEY, mDatePicked);
             setResult(RESULT_OK, data);

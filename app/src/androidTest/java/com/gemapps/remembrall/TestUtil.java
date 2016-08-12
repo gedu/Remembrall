@@ -4,6 +4,8 @@ import android.content.ContentValues;
 
 import com.gemapps.remembrall.data.RemembrallContract;
 
+import org.json.JSONArray;
+
 /**
  * Created by edu on 7/27/16.
  */
@@ -43,6 +45,23 @@ public class TestUtil {
         contentValues.put(RemembrallContract.ClientEntry.COLUMN_HOME_PHONE, "23112321");
         contentValues.put(RemembrallContract.ClientEntry.COLUMN_MOBILE_PHONE, "2312312");
         contentValues.put(RemembrallContract.ClientEntry.COLUMN_PRODUCT_ID, productId);
+        contentValues.put(RemembrallContract.ClientEntry.COLUMN_REMEMBER_ID, rememberId);
+        contentValues.put(RemembrallContract.ClientEntry.COLUMN_SIGN_IMAGE_PATH, "someplace/path");
+
+        return contentValues;
+    }
+
+    public static ContentValues createClientValues(JSONArray productIds, long rememberId){
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(RemembrallContract.ClientEntry.COLUMN_FIRST_NAME, "Foo");
+        contentValues.put(RemembrallContract.ClientEntry.COLUMN_LAST_NAME, "Bar");
+        contentValues.put(RemembrallContract.ClientEntry.COLUMN_ADDRESS, "Fake Street 1234");
+        contentValues.put(RemembrallContract.ClientEntry.COLUMN_ID_CARD, "2134432");
+        contentValues.put(RemembrallContract.ClientEntry.COLUMN_EMAIL, "fooBar@gmail.com");
+        contentValues.put(RemembrallContract.ClientEntry.COLUMN_HOME_PHONE, "23112321");
+        contentValues.put(RemembrallContract.ClientEntry.COLUMN_MOBILE_PHONE, "2312312");
+        contentValues.put(RemembrallContract.ClientEntry.COLUMN_PRODUCT_ID, productIds.toString());
         contentValues.put(RemembrallContract.ClientEntry.COLUMN_REMEMBER_ID, rememberId);
         contentValues.put(RemembrallContract.ClientEntry.COLUMN_SIGN_IMAGE_PATH, "someplace/path");
 

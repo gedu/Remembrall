@@ -7,6 +7,9 @@ import android.test.AndroidTestCase;
 
 import com.gemapps.remembrall.TestUtil;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.util.HashSet;
 
 /**
@@ -138,6 +141,57 @@ public class TestDb extends AndroidTestCase {
                 while(cursor.moveToNext()){
 
                     String label = cursor.getString(cursor.getColumnIndex(RemembrallContract.ClientEntry.COLUMN_FIRST_NAME));
+
+                    assertEquals(label, "Foo");
+                }
+                cursor.close();
+            }
+            readDb.close();
+        }
+        db.close();
+    }
+
+    public void testClientTableManyAlarms(){
+
+        RemembrallSqlHelper helper = new RemembrallSqlHelper(mContext);
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        JSONArray productIds = new JSONArray();
+
+        for (int i = 0; i < 10; i++) {
+
+            long productId = insertProduct(db);
+            productIds.put(productId);
+        }
+        long rememberId = insertRemember(db);
+
+        ContentValues contentValues = TestUtil.createClientValues(productIds, rememberId);
+
+        long clientId = db.insert(RemembrallContract.ClientEntry.TABLE_NAME, null, contentValues);
+
+        if(clientId != -1){
+
+            SQLiteDatabase readDb = helper.getReadableDatabase();
+
+            Cursor cursor = readDb.query(RemembrallContract.ClientEntry.TABLE_NAME,
+                    null,
+                    RemembrallContract.ClientEntry._ID+"= ?",
+                    new String[]{String.valueOf(clientId)},
+                    null, null, null);
+
+            if(cursor != null){
+                cursor.moveToPosition(-1);
+                while(cursor.moveToNext()){
+
+                    String label = cursor.getString(cursor.getColumnIndex(RemembrallContract.ClientEntry.COLUMN_FIRST_NAME));
+                    String cProductIds = cursor.getString(cursor.getColumnIndex(RemembrallContract.ClientEntry.COLUMN_PRODUCT_ID));
+
+                    try {
+                        JSONArray pIds = new JSONArray(cProductIds);
+                        assertEquals(pIds.length(), 10);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
 
                     assertEquals(label, "Foo");
                 }

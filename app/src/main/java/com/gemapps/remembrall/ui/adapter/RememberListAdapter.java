@@ -42,8 +42,8 @@ public class RememberListAdapter extends RecyclerView.Adapter<RememberListAdapte
     public void onBindViewHolder(RememberViewItem holder, int position) {
         Remembrall item = items.get(position);
 
-        holder.mContactNameView.setText(item.contactName);
-        holder.mContactAddressView.setText(item.contactAddress);
+        holder.mContactNameView.setText(item.firstName);
+        holder.mContactAddressView.setText(item.lastName);
     }
 
     @Override

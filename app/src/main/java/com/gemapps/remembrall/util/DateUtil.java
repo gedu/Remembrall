@@ -13,17 +13,21 @@ public class DateUtil {
 
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yy", Locale.US);
 
-    public static String formatDate(){
-        return formatDate(0);
+    public static long getDate(){
+        return getDate(0);
     }
 
-    public static String formatDate(int daysToAdd){
+    public static long getDate(int daysToAdd){
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DAY_OF_MONTH, daysToAdd);
+        return calendar.getTimeInMillis();
+    }
 
-        Date date = new Date(calendar.getTimeInMillis());
-
-        return DATE_FORMAT.format(date);
+    public static long getDate(int daysToAdd, long ts){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(ts);
+        calendar.add(Calendar.DAY_OF_MONTH, daysToAdd);
+        return calendar.getTimeInMillis();
     }
 
     public static String formatDateFromTs(long ts){
@@ -31,11 +35,19 @@ public class DateUtil {
         return DATE_FORMAT.format(new Date(ts));
     }
 
-    public static String formatDateFromTs(int daysToAdd, long ts){
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(ts);
-        calendar.add(Calendar.DAY_OF_MONTH, daysToAdd);
+    public static String formatDate(){
+        return formatDate(0);
+    }
 
-        return  DATE_FORMAT.format(new Date(calendar.getTimeInMillis()));
+    public static String formatDate(int daysToAdd){
+
+        Date date = new Date(getDate(daysToAdd));
+
+        return DATE_FORMAT.format(date);
+    }
+
+    public static String formatDateFromTs(int daysToAdd, long ts){
+
+        return  DATE_FORMAT.format(new Date(getDate(daysToAdd, ts)));
     }
 }

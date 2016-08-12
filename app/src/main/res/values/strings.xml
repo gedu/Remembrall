@@ -18,4 +18,8 @@
     <string name="product_title_form">Equipo</string>
     <string name="equip_number">N equipo</string>
     <string name="sign_title_form">Firma</string>
+    <string name="tester_number">Probador</string>
+    <string name="terminal_number">Num terminal</string>
+    <string name="price">Importe</string>
+    <string name="description">Obsevacion</string>
 </resources>

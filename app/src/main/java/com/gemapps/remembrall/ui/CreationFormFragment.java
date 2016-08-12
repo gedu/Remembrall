@@ -13,10 +13,18 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.gemapps.remembrall.R;
+import com.gemapps.remembrall.ui.model.RememberAlarm;
+import com.gemapps.remembrall.ui.model.Remembrall;
 import com.gemapps.remembrall.util.DateUtil;
+
+import org.json.JSONArray;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static com.gemapps.remembrall.ui.model.RememberAlarm.DEFAULT_ALARM_DESCRIPTION;
+import static com.gemapps.remembrall.ui.model.RememberAlarm.DEFAULT_ALARM_LABEL;
+import static com.gemapps.remembrall.ui.model.RememberAlarm.DEFAULT_ALARM_TYPE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -38,8 +46,18 @@ public class CreationFormFragment extends ButterFragment
     @BindView(R.id.form_start_day_text) TextView mStartDayText;
     @BindView(R.id.form_end_day_text) TextView mEndDayText;
 
+    @BindView(R.id.form_equip_label_edit) TextInputEditText mEquipLabelEdit;
+    @BindView(R.id.form_equip_num_edit) TextInputEditText mEquipNumEdit;
+    @BindView(R.id.form_tester_num_edit) TextInputEditText mTesterNumEdit;
+    @BindView(R.id.form_terminal_num_edit) TextInputEditText mTerminalNumEdit;
+    @BindView(R.id.form_price_edit) TextInputEditText mPriceNumEdit;
+    @BindView(R.id.form_description_edit) TextInputEditText mDescriptionEdit;
+
+    private long mStartDate;
+    private long mEndDate;
     //TODO: change the 30 to and get it from prefs
     private int mDaysToAdd = 30;
+    private JSONArray mAlarms;
 
     public CreationFormFragment() {
         // Required empty public constructor
@@ -62,6 +80,12 @@ public class CreationFormFragment extends ButterFragment
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mAlarms = new JSONArray();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
@@ -72,8 +96,11 @@ public class CreationFormFragment extends ButterFragment
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mStartDayText.setText("Fecha entrega equipo: "+ DateUtil.formatDate());
-        mEndDayText.setText("Fecha busqueda equipo: "+DateUtil.formatDate(mDaysToAdd));
+        mStartDate = DateUtil.getDate();
+        mEndDate = DateUtil.getDate(mDaysToAdd);
+
+        setStartDayText();
+        setEndDayText();
     }
 
     @Override
@@ -111,17 +138,50 @@ public class CreationFormFragment extends ButterFragment
         String email = mEmailEdit.getText().toString();
         String homePhone = mHomePhoneEdit.getText().toString();
         String mobilePhone = mMobilePhoneEdit.getText().toString();
+
+        String equipLabel = mEquipLabelEdit.getText().toString();
+        String equipNum = mEquipNumEdit.getText().toString();
+        String testerNum = mTesterNumEdit.getText().toString();
+        String terminalNum = mTerminalNumEdit.getText().toString();
+        String price = mPriceNumEdit.getText().toString();
+        String description = mDescriptionEdit.getText().toString();
+
+        RememberAlarm alarm = new RememberAlarm(DEFAULT_ALARM_LABEL,
+                DEFAULT_ALARM_DESCRIPTION, mStartDate, mEndDate, DEFAULT_ALARM_TYPE);
+        addAlarm(alarm);
+
+        Remembrall remembrall = new Remembrall(firstName, lastName, idCard, address, email,
+                homePhone, mobilePhone, mAlarms, equipLabel, equipNum, testerNum,
+                terminalNum, price, description);
+
+//        remembrall.save(getActivity());
+    }
+
+    private void addAlarm(RememberAlarm alarm){
+
+        mAlarms.put(alarm.convertTo());
+    }
+
+    private void setStartDayText(){
+        mStartDayText.setText("Fecha entrega equipo: "+ DateUtil.formatDateFromTs(mStartDate));
+    }
+
+    private void setEndDayText(){
+        mEndDayText.setText("Fecha busqueda equipo: "+DateUtil.formatDateFromTs(mEndDate));
     }
 
     @Override
     public void onStartDatePick(long ts) {
-        mStartDayText.setText("Fecha entrega equipo: "+ DateUtil.formatDateFromTs(ts));
 
-        mEndDayText.setText("Fecha busqueda equipo: "+DateUtil.formatDateFromTs(mDaysToAdd, ts));
+        mStartDate = ts;
+        mEndDate = DateUtil.getDate(mDaysToAdd, ts);
+        setStartDayText();
+        setEndDayText();
     }
 
     @Override
     public void onEndDatePick(long ts) {
-        mEndDayText.setText("Fecha busqueda equipo: "+DateUtil.formatDateFromTs(ts));
+        mEndDate = ts;
+        setEndDayText();
     }
 }

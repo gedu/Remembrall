@@ -25,6 +25,7 @@ public class RemembrallSqlHelper extends SQLiteOpenHelper {
         db.execSQL(RememberEntry.SQL_CREATE_TABLE);
         db.execSQL(ProductEntry.SQL_CREATE_TABLE);
         db.execSQL(ClientEntry.SQL_CREATE_TABLE);
+        db.execSQL(ClientProdRememEntry.SQL_CREATE_TABLE);
     }
 
     @Override
@@ -33,6 +34,7 @@ public class RemembrallSqlHelper extends SQLiteOpenHelper {
         db.execSQL(RememberEntry.SQL_DROP_TABLE);
         db.execSQL(ProductEntry.SQL_DROP_TABLE);
         db.execSQL(ClientEntry.SQL_DROP_TABLE);
+        db.execSQL(ClientProdRememEntry.SQL_DROP_TABLE);
 
         onCreate(db);
     }

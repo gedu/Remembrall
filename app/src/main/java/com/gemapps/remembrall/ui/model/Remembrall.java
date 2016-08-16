@@ -18,20 +18,11 @@ public class Remembrall {
     private static final String TAG = "Remembrall";
 
     private Client mClient;
-
-    //TODO: remove
-    public String firstName;
-    public String lastName;
-
-    private JSONArray rememberAlarms;
-    public long startDate;
-    public long endDate;
-
     private Product mProduct;
+    private JSONArray rememberAlarms;
 
     public Remembrall(String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+        mClient = new Client(firstName, lastName);
     }
 
     public Remembrall(String firstName, String lastName, String idCard, String address,
@@ -59,21 +50,24 @@ public class Remembrall {
     /**
      * Save the current obj in the db
      *
-     * @return
+     * @return true if the saving went ok, otherwise false
      */
-    public long save(Context context) {
-        long id = -1;
+    public boolean save(Context context) {
 
         RemembrallSqlHelper helper = new RemembrallSqlHelper(context);
         SQLiteDatabase db = helper.getWritableDatabase();
+
+        //Insert the client
+        long clientId = db.insert(RemembrallContract.ClientEntry.TABLE_NAME,
+                null, RemembrallContract.ClientEntry.buildContentValues(this));
 
         //Insert the product to the db
         long prodId = db.insert(RemembrallContract.ProductEntry.TABLE_NAME,
                 null, RemembrallContract.ProductEntry.buildContentValues(this));
 
         //Insert all the alarms
+        //Insert all the ids into the ClientProdRemem db
         ContentValues[] alarmContent = RemembrallContract.RememberEntry.buildContentValues(this);
-        JSONArray alarmIds = new JSONArray();
 
         db.beginTransaction();
         try {
@@ -81,22 +75,20 @@ public class Remembrall {
                 long rememberId = db.insert(RemembrallContract.RememberEntry.TABLE_NAME,
                         null, cv);
 
-                if (rememberId != -1) alarmIds.put(rememberId);
+                if (rememberId != -1) {
+                    ContentValues contentValues = RemembrallContract.ClientProdRememEntry
+                            .buildContentValues(clientId, prodId, rememberId);
+                    db.insert(RemembrallContract.ClientProdRememEntry.TABLE_NAME, null, contentValues);
+                }
             }
             db.setTransactionSuccessful();
         } finally {
             db.endTransaction();
         }
 
-        //Insert the client
-        id = db.insert(RemembrallContract.ClientEntry.TABLE_NAME,
-                null, RemembrallContract.ClientEntry.buildContentValues(this));
-
         //TODO: get from prefs the save client into contacts boolean
 
-        //Insert all the ids into the ClientProdRemem db
-
-
-        return id;
+        //TODO: I should check if any alarm fail and tell the user to try again
+        return (clientId != -1 && prodId != -1);
     }
 }

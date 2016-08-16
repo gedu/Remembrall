@@ -4,12 +4,11 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.test.AndroidTestCase;
+import android.util.Log;
 
 import com.gemapps.remembrall.TestUtil;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
+import java.util.Arrays;
 import java.util.HashSet;
 
 /**
@@ -18,6 +17,7 @@ import java.util.HashSet;
 
 public class TestDb extends AndroidTestCase {
 
+    private static final String TAG = "TestDb";
     @Override
     protected void setUp() throws Exception {
 
@@ -119,12 +119,7 @@ public class TestDb extends AndroidTestCase {
         RemembrallSqlHelper helper = new RemembrallSqlHelper(mContext);
         SQLiteDatabase db = helper.getWritableDatabase();
 
-        long productId = insertProduct(db);
-        long rememberId = insertRemember(db);
-
-        ContentValues contentValues = TestUtil.createClientValues(productId, rememberId);
-
-        long clientId = db.insert(RemembrallContract.ClientEntry.TABLE_NAME, null, contentValues);
+        long clientId = insertClient(db);
 
         if(clientId != -1){
 
@@ -151,55 +146,111 @@ public class TestDb extends AndroidTestCase {
         db.close();
     }
 
-    public void testClientTableManyAlarms(){
+    public void testClientProductAlarmsTable(){
 
         RemembrallSqlHelper helper = new RemembrallSqlHelper(mContext);
         SQLiteDatabase db = helper.getWritableDatabase();
 
-        JSONArray productIds = new JSONArray();
-
-        for (int i = 0; i < 10; i++) {
-
-            long productId = insertProduct(db);
-            productIds.put(productId);
-        }
+        long clientId = insertClient(db);
+        long productId = insertProduct(db);
         long rememberId = insertRemember(db);
 
-        ContentValues contentValues = TestUtil.createClientValues(productIds, rememberId);
+        if(clientId != -1 && productId != -1 && rememberId != -1){
 
-        long clientId = db.insert(RemembrallContract.ClientEntry.TABLE_NAME, null, contentValues);
+            long cliProdRemId = db.insert(RemembrallContract.ClientProdRememEntry.TABLE_NAME, null,
+                    RemembrallContract.ClientProdRememEntry.buildContentValues(clientId, productId, rememberId));
 
-        if(clientId != -1){
+            if(cliProdRemId != -1){
 
-            SQLiteDatabase readDb = helper.getReadableDatabase();
+                SQLiteDatabase readDb = helper.getReadableDatabase();
 
-            Cursor cursor = readDb.query(RemembrallContract.ClientEntry.TABLE_NAME,
-                    null,
-                    RemembrallContract.ClientEntry._ID+"= ?",
-                    new String[]{String.valueOf(clientId)},
-                    null, null, null);
+                Cursor cursor = readDb.query(RemembrallContract.ClientProdRememEntry.TABLE_NAME,
+                        null,
+                        RemembrallContract.ClientProdRememEntry._ID+"= ?",
+                        new String[]{String.valueOf(cliProdRemId)},
+                        null, null, null);
 
-            if(cursor != null){
-                cursor.moveToPosition(-1);
-                while(cursor.moveToNext()){
+                if(cursor != null){
+                    cursor.moveToPosition(-1);
+                    while(cursor.moveToNext()){
 
-                    String label = cursor.getString(cursor.getColumnIndex(RemembrallContract.ClientEntry.COLUMN_FIRST_NAME));
-                    String cProductIds = cursor.getString(cursor.getColumnIndex(RemembrallContract.ClientEntry.COLUMN_PRODUCT_ID));
+                        long cId = cursor.getLong(cursor.getColumnIndex(RemembrallContract.ClientProdRememEntry.COLUMN_CLIENT_ID));
+                        long pId = cursor.getLong(cursor.getColumnIndex(RemembrallContract.ClientProdRememEntry.COLUMN_PRODUCT_ID));
+                        long rId = cursor.getLong(cursor.getColumnIndex(RemembrallContract.ClientProdRememEntry.COLUMN_REMEMBER_ID));
 
-                    try {
-                        JSONArray pIds = new JSONArray(cProductIds);
-                        assertEquals(pIds.length(), 10);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                        assertEquals(clientId, cId);
+                        assertEquals(productId, pId);
+                        assertEquals(rememberId, rId);
+
+                        Cursor cursorCli = readDb.query(RemembrallContract.ClientEntry.TABLE_NAME,
+                                null,
+                                RemembrallContract.ClientEntry._ID + "= ?",
+                                new String[]{String.valueOf(cId)},
+                                null, null, null);
+
+                        if(cursorCli != null){
+                            cursorCli.moveToPosition(-1);
+                            while(cursorCli.moveToNext()){
+
+                                String firstName = cursorCli.getString(cursorCli.getColumnIndex(RemembrallContract.ClientEntry.COLUMN_FIRST_NAME));
+
+                                assertEquals("Foo", firstName);
+                            }
+                            cursorCli.close();
+                        }
                     }
 
-                    assertEquals(label, "Foo");
+                    cursor.close();
                 }
-                cursor.close();
+                readDb.close();
             }
-            readDb.close();
         }
+
         db.close();
+    }
+
+    public void testInnerJoinTables(){
+
+        RemembrallSqlHelper helper = new RemembrallSqlHelper(mContext);
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        long clientId = insertClient(db);
+        long productId = insertProduct(db);
+        long rememberId = insertRemember(db);
+
+        if(clientId != -1 && productId != -1 && rememberId != -1) {
+
+            long cliProdRemId = db.insert(RemembrallContract.ClientProdRememEntry.TABLE_NAME, null,
+                    RemembrallContract.ClientProdRememEntry.buildContentValues(clientId, productId, rememberId));
+
+            Cursor cursor = TestUtil.mClientProdAlarmQueryBuilder.query(helper.getReadableDatabase(),
+                    null,
+                    null,
+                    null, null, null, null);
+
+            assertNotNull(cursor);
+            if(cursor != null){
+                Log.d(TAG, "testInnerJoinTables:");
+                cursor.moveToPosition(-1);
+                while (cursor.moveToNext()){
+
+                    Log.d(TAG, "testInnerJoinTables: "+ Arrays.asList(cursor.getColumnNames()));
+                    String label = cursor.getString(cursor.getColumnIndex(RemembrallContract.ClientEntry.COLUMN_FIRST_NAME));
+                    long _id = cursor.getLong(cursor.getColumnIndex(RemembrallContract.RememberEntry._ID));
+
+                    Log.d(TAG, "testInnerJoinTables: "+label);
+                    Log.d(TAG, "testInnerJoinTables: "+_id);
+                }
+            }
+        }
+
+    }
+
+    private long insertClient(SQLiteDatabase db){
+
+        ContentValues contentValues = TestUtil.createClientValues();
+
+        return db.insert(RemembrallContract.ClientEntry.TABLE_NAME, null, contentValues);
     }
 
     private long insertProduct(SQLiteDatabase db){

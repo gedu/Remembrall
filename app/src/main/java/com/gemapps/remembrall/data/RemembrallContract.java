@@ -14,8 +14,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import static com.gemapps.remembrall.data.RemembrallContract.RememberEntry.COLUMN_REMEMBER_TYPE;
-
 /**
  * Created by edu on 7/21/16.
  */
@@ -160,8 +158,7 @@ public class RemembrallContract {
                 COLUMN_TESTER_NUM + " TEXT NOT NULL, " +
                 COLUMN_TERMINAL_NUM + " INTEGER NOT NULL, " +
                 COLUMN_PRICE + " INTEGER NOT NULL," +
-                COLUMN_DESCRIPTION + " INTEGER NOT NULL," +
-                COLUMN_REMEMBER_TYPE + " INTEGER NOT NULL); ";
+                COLUMN_DESCRIPTION + " INTEGER NOT NULL);";
 
         public static final String SQL_DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
 
@@ -206,9 +203,22 @@ public class RemembrallContract {
                 ProductEntry.TABLE_NAME + " (" + ProductEntry._ID + "), " +
 
                 " FOREIGN KEY (" + COLUMN_REMEMBER_ID + ") REFERENCES " +
-                RememberEntry.TABLE_NAME + " (" + RememberEntry._ID + "), " +
+                RememberEntry.TABLE_NAME + " (" + RememberEntry._ID + ") " +
 
                 ");";
+
+        public static final String SQL_DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
+
+        public static ContentValues buildContentValues(long clientId, long productId, long remAlarmId) {
+
+            ContentValues contentValues = new ContentValues();
+
+            contentValues.put(COLUMN_CLIENT_ID, clientId);
+            contentValues.put(COLUMN_PRODUCT_ID, productId);
+            contentValues.put(COLUMN_REMEMBER_ID, remAlarmId);
+
+            return contentValues;
+        }
     }
 
 }

@@ -14,6 +14,11 @@ public class Client {
     private String mHomePhone;
     private String mMobilePhone;
 
+    public Client(String firstName, String lastName) {
+        mFirstName = firstName;
+        mLastName = lastName;
+    }
+
     public Client(String firstName, String lastName, String idCard, String address,
                   String email, String homePhone, String mobilePhone) {
         mFirstName = firstName;

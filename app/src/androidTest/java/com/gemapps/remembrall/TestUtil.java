@@ -21,24 +21,43 @@ public class TestUtil {
         // AND product INNER JOIN clientProdRem ON product.location_id = clientProdRem._id
         mClientProdAlarmQueryBuilder.setTables(
                 RemembrallContract.ClientEntry.TABLE_NAME + " INNER JOIN " +
-                        RemembrallContract.ClientProdRememEntry.TABLE_NAME +
+                        RemembrallContract.ClientProdEntry.TABLE_NAME +
                         " ON " + RemembrallContract.ClientEntry.TABLE_NAME +
                         "." + RemembrallContract.ClientEntry._ID +
-                        " = " + RemembrallContract.ClientProdRememEntry.TABLE_NAME +
-                        "." + RemembrallContract.ClientProdRememEntry.COLUMN_CLIENT_ID +
+                        " = " + RemembrallContract.ClientProdEntry.TABLE_NAME +
+                        "." + RemembrallContract.ClientProdEntry.COLUMN_CLIENT_ID +
                         " INNER JOIN " +
                         RemembrallContract.ProductEntry.TABLE_NAME  +
                         " ON " + RemembrallContract.ProductEntry.TABLE_NAME +
                         "." + RemembrallContract.ProductEntry._ID +
-                        " = " + RemembrallContract.ClientProdRememEntry.TABLE_NAME +
-                        "." + RemembrallContract.ClientProdRememEntry.COLUMN_PRODUCT_ID
+                        " = " + RemembrallContract.ClientProdEntry.TABLE_NAME +
+                        "." + RemembrallContract.ClientProdEntry.COLUMN_PRODUCT_ID
         );
     }
 
-    public static ContentValues createProductValues(){
+    public static final SQLiteQueryBuilder mCompleteQueryBuilder;
+    static{
+        mCompleteQueryBuilder = new SQLiteQueryBuilder();
+
+        mCompleteQueryBuilder.setTables(
+                RemembrallContract.AlarmEntry.TABLE_NAME + " INNER JOIN " +
+                        RemembrallContract.ClientProdEntry.TABLE_NAME +
+                        " ON " + RemembrallContract.AlarmEntry.ALARM_ID +
+                        " = " + RemembrallContract.ClientProdEntry.CLI_PRO_ID + " INNER JOIN " +
+                        RemembrallContract.ClientEntry.TABLE_NAME +
+                        " ON " + RemembrallContract.ClientEntry.CLIENT_ID +
+                        " = " + RemembrallContract.ClientProdEntry.COLUMN_CLIENT_ID + " INNER JOIN " +
+                        RemembrallContract.ProductEntry.TABLE_NAME +
+                        " ON " + RemembrallContract.ProductEntry.PRODUCT_ID +
+                        " = " + RemembrallContract.ClientProdEntry.COLUMN_PRODUCT_ID
+
+        );
+    }
+
+    public static ContentValues createProductValues(String label){
         ContentValues contentValues = new ContentValues();
 
-        contentValues.put(RemembrallContract.ProductEntry.COLUMN_LABEL, "Envolvente");
+        contentValues.put(RemembrallContract.ProductEntry.COLUMN_LABEL, label);
         contentValues.put(RemembrallContract.ProductEntry.COLUMN_PRODUCT_NUM, "00000000");
         contentValues.put(RemembrallContract.ProductEntry.COLUMN_TESTER_NUM, "11111111");
         contentValues.put(RemembrallContract.ProductEntry.COLUMN_TERMINAL_NUM, "00000000");
@@ -48,22 +67,23 @@ public class TestUtil {
         return contentValues;
     }
 
-    public static ContentValues createRememberValues(){
+    public static ContentValues createRememberValues(long clientProdId){
         ContentValues contentValues = new ContentValues();
 
-        contentValues.put(RemembrallContract.RememberEntry.COLUMN_LABEL, "Call client");
-        contentValues.put(RemembrallContract.RememberEntry.COLUMN_DESCRIPTION, "Call John again");
-        contentValues.put(RemembrallContract.RememberEntry.COLUMN_START_DATE, 12345678);
-        contentValues.put(RemembrallContract.RememberEntry.COLUMN_END_DATE, 22345678);
-        contentValues.put(RemembrallContract.RememberEntry.COLUMN_REMEMBER_TYPE, 1);
+        contentValues.put(RemembrallContract.AlarmEntry.COLUMN_LABEL, "Call client");
+        contentValues.put(RemembrallContract.AlarmEntry.COLUMN_DESCRIPTION, "Call John again");
+        contentValues.put(RemembrallContract.AlarmEntry.COLUMN_START_DATE, 12345678);
+        contentValues.put(RemembrallContract.AlarmEntry.COLUMN_END_DATE, 22345678);
+        contentValues.put(RemembrallContract.AlarmEntry.COLUMN_ALARM_TYPE, 1);
+        contentValues.put(RemembrallContract.AlarmEntry.COLUMN_CLIENT_PROD_ID, clientProdId);
 
         return contentValues;
     }
 
-    public static ContentValues createClientValues(){
+    public static ContentValues createClientValues(String firstName){
         ContentValues contentValues = new ContentValues();
 
-        contentValues.put(RemembrallContract.ClientEntry.COLUMN_FIRST_NAME, "Foo");
+        contentValues.put(RemembrallContract.ClientEntry.COLUMN_FIRST_NAME, firstName);
         contentValues.put(RemembrallContract.ClientEntry.COLUMN_LAST_NAME, "Bar");
         contentValues.put(RemembrallContract.ClientEntry.COLUMN_ADDRESS, "Fake Street 1234");
         contentValues.put(RemembrallContract.ClientEntry.COLUMN_ID_CARD, "2134432");

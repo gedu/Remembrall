@@ -22,19 +22,19 @@ public class RemembrallSqlHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        db.execSQL(RememberEntry.SQL_CREATE_TABLE);
+        db.execSQL(AlarmEntry.SQL_CREATE_TABLE);
         db.execSQL(ProductEntry.SQL_CREATE_TABLE);
         db.execSQL(ClientEntry.SQL_CREATE_TABLE);
-        db.execSQL(ClientProdRememEntry.SQL_CREATE_TABLE);
+        db.execSQL(ClientProdEntry.SQL_CREATE_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
-        db.execSQL(RememberEntry.SQL_DROP_TABLE);
+        db.execSQL(AlarmEntry.SQL_DROP_TABLE);
         db.execSQL(ProductEntry.SQL_DROP_TABLE);
         db.execSQL(ClientEntry.SQL_DROP_TABLE);
-        db.execSQL(ClientProdRememEntry.SQL_DROP_TABLE);
+        db.execSQL(ClientProdEntry.SQL_DROP_TABLE);
 
         onCreate(db);
     }

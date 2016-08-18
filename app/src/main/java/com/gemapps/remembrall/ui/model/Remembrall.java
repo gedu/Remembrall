@@ -67,18 +67,18 @@ public class Remembrall {
 
         //Insert all the alarms
         //Insert all the ids into the ClientProdRemem db
-        ContentValues[] alarmContent = RemembrallContract.RememberEntry.buildContentValues(this);
+        ContentValues[] alarmContent = RemembrallContract.AlarmEntry.buildContentValues(this);
 
         db.beginTransaction();
         try {
             for (ContentValues cv : alarmContent) {
-                long rememberId = db.insert(RemembrallContract.RememberEntry.TABLE_NAME,
+                long rememberId = db.insert(RemembrallContract.AlarmEntry.TABLE_NAME,
                         null, cv);
 
                 if (rememberId != -1) {
-                    ContentValues contentValues = RemembrallContract.ClientProdRememEntry
-                            .buildContentValues(clientId, prodId, rememberId);
-                    db.insert(RemembrallContract.ClientProdRememEntry.TABLE_NAME, null, contentValues);
+                    ContentValues contentValues = RemembrallContract.ClientProdEntry
+                            .buildContentValues(clientId, prodId);
+                    db.insert(RemembrallContract.ClientProdEntry.TABLE_NAME, null, contentValues);
                 }
             }
             db.setTransactionSuccessful();

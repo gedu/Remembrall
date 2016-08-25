@@ -1,7 +1,11 @@
 package com.gemapps.remembrall;
 
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,23 +14,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.gemapps.remembrall.data.RemembrallContract;
 import com.gemapps.remembrall.ui.ButterFragment;
-import com.gemapps.remembrall.ui.adapter.RememberListAdapter;
+import com.gemapps.remembrall.ui.adapter.RecyclerViewRemembrallAdapter;
 import com.gemapps.remembrall.ui.model.Remembrall;
 import com.gemapps.remembrall.util.Util;
-
-import java.util.Arrays;
 
 import butterknife.BindView;
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class RememberListActivityFragment extends ButterFragment {
+public class RememberListActivityFragment extends ButterFragment
+        implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final String TAG = "RememberListActivityFra";
     @BindView(R.id.recycler_view) RecyclerView mRecyclerView;
-    private RememberListAdapter mAdapter;
+    private RecyclerViewRemembrallAdapter mAdapter;
 
     public RememberListActivityFragment() {}
 
@@ -53,7 +57,8 @@ public class RememberListActivityFragment extends ButterFragment {
 
         Log.d(TAG, "is a large: "+ Util.isLargeTablet(getActivity()));
 
-        mAdapter = new RememberListAdapter(Arrays.asList(dummyArray), getActivity());
+//        mAdapter = new RememberListAdapter(Arrays.asList(dummyArray), getActivity());
+        mAdapter = new RecyclerViewRemembrallAdapter(getActivity());
     }
 
     @Override
@@ -74,4 +79,20 @@ public class RememberListActivityFragment extends ButterFragment {
         return rootView;
     }
 
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        return new CursorLoader(getActivity(),
+                RemembrallContract.AlarmEntry.CONTENT_URI,
+                null, null, null, null);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        mAdapter.swapCursor(data);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        mAdapter.swapCursor(null);
+    }
 }

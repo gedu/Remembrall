@@ -34,7 +34,7 @@ public class RememberListAdapter extends RecyclerView.Adapter<RememberListAdapte
     public RememberViewItem onCreateViewHolder(ViewGroup parent,
                                                int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.rememball_item_list, parent, false);
+                .inflate(R.layout.remembrall_item_list, parent, false);
         return new RememberViewItem(v);
     }
 

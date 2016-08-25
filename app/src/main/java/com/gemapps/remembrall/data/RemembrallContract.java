@@ -1,5 +1,6 @@
 package com.gemapps.remembrall.data;
 
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.net.Uri;
 import android.provider.BaseColumns;
@@ -27,7 +28,7 @@ public class RemembrallContract {
 
     //Possible paths
     public static final String PATH_CLIENT   = "client";
-    public static final String PATH_REMEMBER = "remember";
+    public static final String PATH_ALARM = "alarm";
     public static final String PATH_PRODUCT = "product";
     public static final String PATH_CLIENT_PROD_REMEM = "client_prod_remem";
 
@@ -99,7 +100,13 @@ public class RemembrallContract {
     public static final class AlarmEntry implements BaseColumns {
 
         public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon()
-                .appendPath(PATH_REMEMBER).build();
+                .appendPath(PATH_ALARM).build();
+
+        public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE +
+                "/" + CONTENT_AUTHORITY + "/" + PATH_ALARM;
+
+        public static final String CONTENT_TYPE_ITEM = ContentResolver.CURSOR_ITEM_BASE_TYPE +
+                "/" + CONTENT_AUTHORITY + "/" + PATH_ALARM;
 
         public static final String TABLE_NAME = "alarm";
 

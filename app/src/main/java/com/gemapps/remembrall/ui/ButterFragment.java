@@ -1,6 +1,7 @@
 package com.gemapps.remembrall.ui;
 
 import android.support.annotation.LayoutRes;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +28,13 @@ public class ButterFragment extends Fragment {
         ButterKnife.bind(this, rootView);
 
         return rootView;
+    }
 
+    public void fabAction(){
+        //inherited classes can override to perform an fab action
+    }
+
+    public void fabStyle(FloatingActionButton fab){
+        //inherited classes can override to style the fab button
     }
 }

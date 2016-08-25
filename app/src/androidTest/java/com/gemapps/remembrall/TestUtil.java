@@ -35,6 +35,7 @@ public class TestUtil {
         );
     }
 
+    //TODO: improve query, duplicates ids
     public static final SQLiteQueryBuilder mCompleteQueryBuilder;
     static{
         mCompleteQueryBuilder = new SQLiteQueryBuilder();

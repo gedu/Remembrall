@@ -129,6 +129,12 @@ public class CreationFormFragment extends ButterFragment
         startActivity(BaseCardActivity.getInstance(view, InkWritingActivity.class));
     }
 
+    @Override
+    public void fabAction() {
+
+        saveForm();
+    }
+
     public void saveForm(){
 
         String firstName = mFirstNameEdit.getText().toString();
@@ -154,7 +160,11 @@ public class CreationFormFragment extends ButterFragment
                 homePhone, mobilePhone, mAlarms, equipLabel, equipNum, testerNum,
                 terminalNum, price, description);
 
-//        remembrall.save(getActivity());
+        boolean saveSucceeded = remembrall.save(getActivity());
+
+        if(!saveSucceeded){
+            ((RemembrallCreationActivity) getActivity()).makeSnackbar(getString(R.string.save_error_msg));
+        }
     }
 
     private void addAlarm(RememberAlarm alarm){

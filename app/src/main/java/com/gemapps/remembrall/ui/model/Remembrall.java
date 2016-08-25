@@ -50,7 +50,7 @@ public class Remembrall {
     /**
      * Save the current obj in the db
      *
-     * @return true if the saving went ok, otherwise false
+     * @return true if all the values where saved, otherwise false
      */
     public boolean save(Context context) {
 
@@ -65,30 +65,29 @@ public class Remembrall {
         long prodId = db.insert(RemembrallContract.ProductEntry.TABLE_NAME,
                 null, RemembrallContract.ProductEntry.buildContentValues(this));
 
-        //Insert all the alarms
-        //Insert all the ids into the ClientProdRemem db
-        ContentValues[] alarmContent = RemembrallContract.AlarmEntry.buildContentValues(this);
+        //Insert the link between client and product
+        long clientProdId = db.insert(RemembrallContract.ClientProdEntry.TABLE_NAME,
+                null, RemembrallContract.ClientProdEntry.buildContentValues(clientId, prodId));
 
+        //Insert all the alarms with the clientProdId
+        ContentValues[] alarmContent = RemembrallContract.AlarmEntry.buildContentValues(this, clientProdId);
+
+        int alarmCount = 0;
         db.beginTransaction();
         try {
             for (ContentValues cv : alarmContent) {
                 long rememberId = db.insert(RemembrallContract.AlarmEntry.TABLE_NAME,
                         null, cv);
 
-                if (rememberId != -1) {
-                    ContentValues contentValues = RemembrallContract.ClientProdEntry
-                            .buildContentValues(clientId, prodId);
-                    db.insert(RemembrallContract.ClientProdEntry.TABLE_NAME, null, contentValues);
-                }
+                if(rememberId != -1) alarmCount++;
+
             }
             db.setTransactionSuccessful();
         } finally {
             db.endTransaction();
         }
 
-        //TODO: get from prefs the save client into contacts boolean
-
-        //TODO: I should check if any alarm fail and tell the user to try again
-        return (clientId != -1 && prodId != -1);
+        return (clientId != -1 && prodId != -1 &&
+                clientProdId != -1 && alarmCount == alarmContent.length);
     }
 }

@@ -42,6 +42,7 @@ public class RemembrallContract {
             ProductEntry.COLUMN_TERMINAL_NUM, ProductEntry.COLUMN_PRICE, ProductEntry.COLUMN_DESCRIPTION
     };
 
+    //TODO: set some values like UNIQUE with a CONSTRAINT
     public static final class ClientEntry implements BaseColumns {
 
         public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon()
@@ -128,7 +129,7 @@ public class RemembrallContract {
 
         public static final String SQL_DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
 
-        public static ContentValues[] buildContentValues(Remembrall remembrall) {
+        public static ContentValues[] buildContentValues(Remembrall remembrall, long clientProdId) {
 
             JSONArray rememberAlarms = remembrall.getRememberAlarms();
             int length = rememberAlarms.length();
@@ -145,6 +146,7 @@ public class RemembrallContract {
                     contentValues.put(COLUMN_START_DATE, obj.getLong(RememberAlarm.ALARM_START_DATE));
                     contentValues.put(COLUMN_END_DATE, obj.getLong(RememberAlarm.ALARM_END_DATE));
                     contentValues.put(COLUMN_ALARM_TYPE, obj.getInt(RememberAlarm.ALARM_TYPE));
+                    contentValues.put(COLUMN_CLIENT_PROD_ID, clientProdId);
 
                     contentAlarms[i] = contentValues;
 

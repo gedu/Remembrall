@@ -2,6 +2,7 @@ package com.gemapps.remembrall.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -37,6 +38,7 @@ public class RemembrallCreationActivity extends ButterActivity {
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private PickupDateListener mPickupDateListener;
 
+    @BindView(R.id.coordinator_layout) CoordinatorLayout mCoordinatorLayout;
     /**
      * The {@link ViewPager} that will host the section contents.
      */
@@ -79,6 +81,10 @@ public class RemembrallCreationActivity extends ButterActivity {
     public void onFabClicked(View view){
         Snackbar.make(view, "Save", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
+    }
+
+    public void makeSnackbar(String msg){
+        Snackbar.make(mCoordinatorLayout, msg, Snackbar.LENGTH_LONG).show();
     }
 
     /**

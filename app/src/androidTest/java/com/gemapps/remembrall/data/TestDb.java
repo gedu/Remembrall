@@ -10,6 +10,10 @@ import com.gemapps.remembrall.TestUtil;
 
 import java.util.HashSet;
 
+import static com.gemapps.remembrall.TestUtil.insertAlarm;
+import static com.gemapps.remembrall.TestUtil.insertClient;
+import static com.gemapps.remembrall.TestUtil.insertProduct;
+
 /**
  * Created by edu on 7/27/16.
  */
@@ -268,33 +272,5 @@ public class TestDb extends AndroidTestCase {
         ContentValues contentValues = RemembrallContract.ClientProdEntry.buildContentValues(clientId, productId);
 
         return db.insert(RemembrallContract.ClientProdEntry.TABLE_NAME, null, contentValues);
-    }
-
-    public void testInnerJoinTables(){
-
-        RemembrallSqlHelper helper = new RemembrallSqlHelper(mContext);
-        SQLiteDatabase db = helper.getWritableDatabase();
-
-
-    }
-
-    private long insertClient(SQLiteDatabase db, String firstName){
-
-        ContentValues contentValues = TestUtil.createClientValues(firstName);
-
-        return db.insert(RemembrallContract.ClientEntry.TABLE_NAME, null, contentValues);
-    }
-
-    private long insertProduct(SQLiteDatabase db, String label){
-
-        ContentValues contentValues = TestUtil.createProductValues(label);
-
-        return db.insert(RemembrallContract.ProductEntry.TABLE_NAME, null, contentValues);
-    }
-
-    private long insertAlarm(SQLiteDatabase db, long clientProdId){
-        ContentValues contentValues = TestUtil.createRememberValues(clientProdId);
-
-        return db.insert(RemembrallContract.AlarmEntry.TABLE_NAME, null, contentValues);
     }
 }

@@ -49,6 +49,9 @@ public class RemembrallContract {
         public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon()
                 .appendPath(PATH_CLIENT).build();
 
+        public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE +
+                "/" + CONTENT_AUTHORITY + "/" + PATH_CLIENT;
+
         public static final String TABLE_NAME = "client";
 
         public static final String CLIENT_ID = "cli_id";

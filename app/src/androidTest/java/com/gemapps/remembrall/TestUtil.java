@@ -1,6 +1,7 @@
 package com.gemapps.remembrall;
 
 import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 
 import com.gemapps.remembrall.data.RemembrallContract;
@@ -94,5 +95,25 @@ public class TestUtil {
         contentValues.put(RemembrallContract.ClientEntry.COLUMN_SIGN_IMAGE_PATH, "someplace/path");
 
         return contentValues;
+    }
+
+    public static long insertClient(SQLiteDatabase db, String firstName){
+
+        ContentValues contentValues = TestUtil.createClientValues(firstName);
+
+        return db.insert(RemembrallContract.ClientEntry.TABLE_NAME, null, contentValues);
+    }
+
+    public static long insertProduct(SQLiteDatabase db, String label){
+
+        ContentValues contentValues = TestUtil.createProductValues(label);
+
+        return db.insert(RemembrallContract.ProductEntry.TABLE_NAME, null, contentValues);
+    }
+
+    public static long insertAlarm(SQLiteDatabase db, long clientProdId){
+        ContentValues contentValues = TestUtil.createRememberValues(clientProdId);
+
+        return db.insert(RemembrallContract.AlarmEntry.TABLE_NAME, null, contentValues);
     }
 }

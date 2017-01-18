@@ -257,11 +257,11 @@ public class TestDb extends AndroidTestCase {
             Log.d(TAG, "testGetAllTableData: " +
                             "\nClient first name: " + clientFirstName +
                             "\nClient id: " + cliId + "("+clientId+")"+
-                            "\n\nProd label: " + prodLabel +
+                            "\n\nProd mLabel: " + prodLabel +
                             "\nProd id: " + proId + "("+productId+")"+
                             "\n\nClient Product Client Id: " + cliProdCliId +
                             "\nClient Product Product Id: " + cliProdProdId +
-                            "\n\nAlarm label: " + alarmLabel +
+                            "\n\nAlarm mLabel: " + alarmLabel +
                             "\nalarm id: " + alaId + "("+alarmId+")"
             );
         }

@@ -23,4 +23,5 @@
     <string name="price">Importe</string>
     <string name="description">Obsevacion</string>
     <string name="save_error_msg">Error al guardar, intentelo de nuevo.</string>
+    <string name="redo_desc">Rehacer firma</string>
 </resources>

@@ -1,37 +1,42 @@
 package com.gemapps.remembrall.ui.model;
 
-import android.content.ContentValues;
-import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
-import com.gemapps.remembrall.data.RemembrallContract;
-import com.gemapps.remembrall.data.RemembrallSqlHelper;
+import com.gemapps.remembrall.ui.model.bus.DbTransaction;
 
-import org.json.JSONArray;
+import org.greenrobot.eventbus.EventBus;
+
+import java.util.List;
+
+import io.realm.Realm;
+import io.realm.RealmList;
+import io.realm.RealmObject;
 
 /**
  * Created by edu on 7/19/16.
  */
 
-public class Remembrall {
+public class Remembrall extends RealmObject {
 
     private static final String TAG = "Remembrall";
 
     private Client mClient;
     private Product mProduct;
-    private JSONArray rememberAlarms;
+    private RealmList<RememberAlarm> mRememberAlarms;
+
+    public Remembrall() {}
 
     public Remembrall(String firstName, String lastName) {
         mClient = new Client(firstName, lastName);
     }
 
     public Remembrall(String firstName, String lastName, String idCard, String address,
-                      String email, String homePhone, String mobilePhone, JSONArray alarms,
+                      String email, String homePhone, String mobilePhone, RealmList<RememberAlarm> alarms,
                       String equipLabel, String equipNum, String testerNum, String terminalNum,
                       String price, String description) {
 
         this.mClient = new Client(firstName, lastName, idCard, address, email, homePhone, mobilePhone);
-        this.rememberAlarms = alarms;
+        this.mRememberAlarms = alarms;
         this.mProduct = new Product(equipLabel, equipNum, testerNum, terminalNum, price, description);
     }
 
@@ -43,51 +48,40 @@ public class Remembrall {
         return mClient;
     }
 
-    public JSONArray getRememberAlarms() {
-        return rememberAlarms;
+    public List<RememberAlarm> getRememberAlarms() {
+        return mRememberAlarms;
     }
 
     /**
-     * Save the current obj in the db
-     *
-     * @return true if all the values where saved, otherwise false
+     * Save the current obj in the Realm db
      */
-    public boolean save(Context context) {
+    public void save() {
+        Realm realm = Realm.getDefaultInstance();
 
-        RemembrallSqlHelper helper = new RemembrallSqlHelper(context);
-        SQLiteDatabase db = helper.getWritableDatabase();
-
-        //Insert the client
-        long clientId = db.insert(RemembrallContract.ClientEntry.TABLE_NAME,
-                null, RemembrallContract.ClientEntry.buildContentValues(this));
-
-        //Insert the product to the db
-        long prodId = db.insert(RemembrallContract.ProductEntry.TABLE_NAME,
-                null, RemembrallContract.ProductEntry.buildContentValues(this));
-
-        //Insert the link between client and product
-        long clientProdId = db.insert(RemembrallContract.ClientProdEntry.TABLE_NAME,
-                null, RemembrallContract.ClientProdEntry.buildContentValues(clientId, prodId));
-
-        //Insert all the alarms with the clientProdId
-        ContentValues[] alarmContent = RemembrallContract.AlarmEntry.buildContentValues(this, clientProdId);
-
-        int alarmCount = 0;
-        db.beginTransaction();
-        try {
-            for (ContentValues cv : alarmContent) {
-                long rememberId = db.insert(RemembrallContract.AlarmEntry.TABLE_NAME,
-                        null, cv);
-
-                if(rememberId != -1) alarmCount++;
-
+        realm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.copyToRealm(mClient);
+                realm.copyToRealm(mProduct);
+                realm.copyToRealm(mRememberAlarms);
+                realm.copyToRealm(Remembrall.this);
             }
-            db.setTransactionSuccessful();
-        } finally {
-            db.endTransaction();
-        }
+        }, new Realm.Transaction.OnSuccess() {
+            @Override
+            public void onSuccess() {
 
-        return (clientId != -1 && prodId != -1 &&
-                clientProdId != -1 && alarmCount == alarmContent.length);
+                Log.d(TAG, "onSuccess");
+                EventBus.getDefault().post(new DbTransaction(DbTransaction.SAVE));
+            }
+        }, new Realm.Transaction.OnError() {
+            @Override
+            public void onError(Throwable error) {
+                //TODO: add a try again
+                Log.w(TAG, "onError", error);
+                EventBus.getDefault().post(new DbTransaction(DbTransaction.ERROR));
+            }
+        });
+
+        realm.close();
     }
 }

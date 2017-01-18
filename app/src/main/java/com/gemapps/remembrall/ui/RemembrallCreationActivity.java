@@ -3,15 +3,15 @@ package com.gemapps.remembrall.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import com.gemapps.remembrall.R;
+import com.gemapps.remembrall.ui.widget.FloatingActionHelper;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -19,30 +19,29 @@ import butterknife.OnClick;
 public class RemembrallCreationActivity extends ButterActivity {
 
     private static final String TAG = "RemembrallCreationActiv";
-
+    private  static final String FRAGMENT_TAG = "remembrall.FRAGMENT_TAG";
     public interface PickupDateListener {
         void onStartDatePick(long ts);
+
         void onEndDatePick(long ts);
     }
 
+    public interface OnButtonClicked {
+        void onFabCliecked();
+    }
     public static final int REQUEST_START_DATE_RESULT = 1;
     public static final int REQUEST_END_DATE_RESULT = 2;
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
-     * fragments for each of the sections. We use a
-     * {@link FragmentPagerAdapter} derivative, which will keep every
-     * loaded fragment in memory. If this becomes too memory intensive, it
-     * may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
-    private SectionsPagerAdapter mSectionsPagerAdapter;
+
     private PickupDateListener mPickupDateListener;
 
-    @BindView(R.id.coordinator_layout) CoordinatorLayout mCoordinatorLayout;
-    /**
-     * The {@link ViewPager} that will host the section contents.
-     */
-    @BindView(R.id.view_pager) ViewPager mViewPager;
+    @BindView(R.id.coordinator_layout)
+    CoordinatorLayout mCoordinatorLayout;
+    @BindView(R.id.fab)
+    FloatingActionButton mFab;
+
+    public OnButtonClicked mButtonListener;
+
+    private ButterFragment mCreationFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,40 +49,56 @@ public class RemembrallCreationActivity extends ButterActivity {
         setContentView(R.layout.activity_rembrall_creation);
 
         setUpButton();
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        setupFragmentChecking(savedInstanceState);
+    }
 
-        mViewPager.setAdapter(mSectionsPagerAdapter);
+    private void setupFragmentChecking(Bundle savedInstanceState){
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(mViewPager);
+        if(savedInstanceState == null){
+            mCreationFragment = CreationFormFragment.newInstance();
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.fragment_container, mCreationFragment, FRAGMENT_TAG)
+                    .commit();
+        }else{
+            mCreationFragment = (ButterFragment) getSupportFragmentManager()
+                    .findFragmentByTag(FRAGMENT_TAG);
+        }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(resultCode == RESULT_CANCELED) return;
+        if (resultCode == RESULT_CANCELED) return;
 
-        if(requestCode == REQUEST_START_DATE_RESULT ) {
+        if (requestCode == REQUEST_START_DATE_RESULT) {
             mPickupDateListener.onStartDatePick(data.getLongExtra(DatePickerActivity.DATA_RESULT_KEY, -1));
-        }else if(requestCode == REQUEST_END_DATE_RESULT){
+        } else if (requestCode == REQUEST_END_DATE_RESULT) {
             mPickupDateListener.onEndDatePick(data.getLongExtra(DatePickerActivity.DATA_RESULT_KEY, -1));
         }
     }
 
-    public void addListener(PickupDateListener listener){
+    @Override
+    protected void onResume() {
+        super.onResume();
+        FloatingActionHelper.getInstance().animateToValid(mFab);
+    }
+
+    public void addListener(PickupDateListener listener) {
         mPickupDateListener = listener;
     }
 
     @OnClick(R.id.fab)
-    public void onFabClicked(View view){
-        Snackbar.make(view, "Save", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show();
+    public void onFabClicked(View view) {
+        if(mButtonListener != null) {
+            mButtonListener.onFabCliecked();
+            Snackbar.make(view, "Save", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+        }
     }
 
-    public void makeSnackbar(String msg){
+    public void makeSnackbar(String msg) {
         Snackbar.make(mCoordinatorLayout, msg, Snackbar.LENGTH_LONG).show();
     }
 
@@ -100,9 +115,9 @@ public class RemembrallCreationActivity extends ButterActivity {
         @Override
         public Fragment getItem(int position) {
 
-            if(position == 0){
+            if (position == 0) {
                 return CreationFormFragment.newInstance();
-            }else{
+            } else {
                 return CreationAlarmFragment.newInstance();
             }
         }

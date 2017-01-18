@@ -1,6 +1,5 @@
 package com.gemapps.remembrall.ui.adapter;
 
-import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -18,7 +17,4 @@ public abstract class CursorViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
         ButterKnife.bind(this, itemView);
     }
-
-    public abstract void bindCursor(Cursor cursor);
-
 }

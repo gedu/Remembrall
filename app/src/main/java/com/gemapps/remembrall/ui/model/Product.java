@@ -1,10 +1,12 @@
 package com.gemapps.remembrall.ui.model;
 
+import io.realm.RealmObject;
+
 /**
  * Created by edu on 8/11/16.
  */
 
-public class Product {
+public class Product extends RealmObject {
 
     private String mEquipLabel;
     private String mEquipNum;
@@ -12,6 +14,8 @@ public class Product {
     private String mTerminalNum;
     private String mPrice;
     private String mDescription;
+
+    public Product() {}
 
     public Product(String equipLabel, String equipNum, String testerNum, String terminalNum,
                    String price, String description) {

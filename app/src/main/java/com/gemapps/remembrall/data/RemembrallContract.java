@@ -4,16 +4,10 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.net.Uri;
 import android.provider.BaseColumns;
-import android.util.Log;
 
 import com.gemapps.remembrall.ui.model.Client;
 import com.gemapps.remembrall.ui.model.Product;
-import com.gemapps.remembrall.ui.model.RememberAlarm;
 import com.gemapps.remembrall.ui.model.Remembrall;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * Created by edu on 7/21/16.
@@ -57,13 +51,13 @@ public class RemembrallContract {
         public static final String CLIENT_ID = "cli_id";
         public static final String _ID_AS = TABLE_NAME+"."+_ID + " AS " + CLIENT_ID;
 
-        public static final String COLUMN_FIRST_NAME = "first_name";
-        public static final String COLUMN_LAST_NAME = "last_name";
-        public static final String COLUMN_ID_CARD = "id_card";
-        public static final String COLUMN_ADDRESS = "address";
-        public static final String COLUMN_EMAIL = "email";
-        public static final String COLUMN_HOME_PHONE = "home_phone";
-        public static final String COLUMN_MOBILE_PHONE = "mobile_phone";
+        public static final String COLUMN_FIRST_NAME = "mFirstName";
+        public static final String COLUMN_LAST_NAME = "mLastName";
+        public static final String COLUMN_ID_CARD = "mIdCard";
+        public static final String COLUMN_ADDRESS = "mAddress";
+        public static final String COLUMN_EMAIL = "mEmail";
+        public static final String COLUMN_HOME_PHONE = "mHomePhone";
+        public static final String COLUMN_MOBILE_PHONE = "mMobilePhone";
         public static final String COLUMN_SIGN_IMAGE_PATH = "sign_image_path";
 
         public static final String SQL_CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (" +
@@ -116,11 +110,11 @@ public class RemembrallContract {
         public static final String ALARM_ID = "al_id";
         public static final String _ID_AS = TABLE_NAME+"."+_ID + " AS " + ALARM_ID;
 
-        public static final String COLUMN_LABEL = "alarm_label";
-        public static final String COLUMN_DESCRIPTION = "alarm_description";
-        public static final String COLUMN_START_DATE = "start_date";
-        public static final String COLUMN_END_DATE = "end_date";
-        public static final String COLUMN_ALARM_TYPE = "alarm_type";
+        public static final String COLUMN_LABEL = "mLabel";
+        public static final String COLUMN_DESCRIPTION = "mDescription";
+        public static final String COLUMN_START_DATE = "mStartDate";
+        public static final String COLUMN_END_DATE = "mEndDate";
+        public static final String COLUMN_ALARM_TYPE = "mAlarmType";
         public static final String COLUMN_CLIENT_PROD_ID = "client_prod_id";
 
         public static final String SQL_CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (" +
@@ -138,35 +132,6 @@ public class RemembrallContract {
                 "); ";
 
         public static final String SQL_DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
-
-        public static ContentValues[] buildContentValues(Remembrall remembrall, long clientProdId) {
-
-            JSONArray rememberAlarms = remembrall.getRememberAlarms();
-            int length = rememberAlarms.length();
-            ContentValues[] contentAlarms = new ContentValues[length];
-
-            for (int i = 0; i < length; i++) {
-
-                try {
-                    JSONObject obj = rememberAlarms.getJSONObject(i);
-                    ContentValues contentValues = new ContentValues();
-
-                    contentValues.put(COLUMN_LABEL, obj.getString(RememberAlarm.ALARM_LABEL));
-                    contentValues.put(COLUMN_DESCRIPTION, obj.getString(RememberAlarm.ALARM_DESCRIPTION));
-                    contentValues.put(COLUMN_START_DATE, obj.getLong(RememberAlarm.ALARM_START_DATE));
-                    contentValues.put(COLUMN_END_DATE, obj.getLong(RememberAlarm.ALARM_END_DATE));
-                    contentValues.put(COLUMN_ALARM_TYPE, obj.getInt(RememberAlarm.ALARM_TYPE));
-                    contentValues.put(COLUMN_CLIENT_PROD_ID, clientProdId);
-
-                    contentAlarms[i] = contentValues;
-
-                } catch (JSONException e) {
-                    Log.e(TAG, "ERROR adding obj num "+i);
-                }
-            }
-
-            return contentAlarms;
-        }
     }
 
     public static final class ProductEntry implements BaseColumns {
@@ -178,12 +143,12 @@ public class RemembrallContract {
         public static final String PRODUCT_ID = "pro_id";
         public static final String _ID_AS = TABLE_NAME+"."+_ID + " AS " + PRODUCT_ID;
 
-        public static final String COLUMN_LABEL = "prod_label";
-        public static final String COLUMN_PRODUCT_NUM = "product_num";
-        public static final String COLUMN_TESTER_NUM = "tester_num";
-        public static final String COLUMN_TERMINAL_NUM = "terminal_num";
-        public static final String COLUMN_PRICE = "price";
-        public static final String COLUMN_DESCRIPTION = "prod_description";
+        public static final String COLUMN_LABEL = "mEquipLabel";
+        public static final String COLUMN_PRODUCT_NUM = "mEquipNum";
+        public static final String COLUMN_TESTER_NUM = "mTesterNum";
+        public static final String COLUMN_TERMINAL_NUM = "mTerminalNum";
+        public static final String COLUMN_PRICE = "mPrice";
+        public static final String COLUMN_DESCRIPTION = "mDescription";
 
         public static final String SQL_CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (" +
 
@@ -223,8 +188,8 @@ public class RemembrallContract {
         public static final String CLI_PRO_ID = "cli_pro_id";
         public static final String _ID_AS = TABLE_NAME+"."+_ID + " AS " + CLI_PRO_ID;
 
-        public static final String COLUMN_CLIENT_ID = "client_id";
-        public static final String COLUMN_PRODUCT_ID = "product_id";
+        public static final String COLUMN_CLIENT_ID = "mClient";
+        public static final String COLUMN_PRODUCT_ID = "mProduct";
 
         public static final String SQL_CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (" +
 

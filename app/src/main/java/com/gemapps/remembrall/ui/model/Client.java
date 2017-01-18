@@ -1,10 +1,12 @@
 package com.gemapps.remembrall.ui.model;
 
+import io.realm.RealmObject;
+
 /**
  * Created by edu on 8/10/16.
  */
 
-public class Client {
+public class Client extends RealmObject {
 
     private String mFirstName;
     private String mLastName;
@@ -13,6 +15,8 @@ public class Client {
     private String mEmail;
     private String mHomePhone;
     private String mMobilePhone;
+
+    public Client() {}
 
     public Client(String firstName, String lastName) {
         mFirstName = firstName;
@@ -56,5 +60,33 @@ public class Client {
 
     public String getMobilePhone() {
         return mMobilePhone;
+    }
+
+    public void setFirstName(String firstName) {
+        mFirstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        mLastName = lastName;
+    }
+
+    public void setIdCard(String idCard) {
+        mIdCard = idCard;
+    }
+
+    public void setAddress(String address) {
+        mAddress = address;
+    }
+
+    public void setEmail(String email) {
+        mEmail = email;
+    }
+
+    public void setHomePhone(String homePhone) {
+        mHomePhone = homePhone;
+    }
+
+    public void setMobilePhone(String mobilePhone) {
+        mMobilePhone = mobilePhone;
     }
 }

@@ -1,41 +1,57 @@
 package com.gemapps.remembrall.ui.adapter;
 
 import android.content.Context;
-import android.database.Cursor;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.gemapps.remembrall.R;
-import com.gemapps.remembrall.data.RemembrallContract;
+import com.gemapps.remembrall.ui.model.Remembrall;
 
 import butterknife.BindView;
+import io.realm.OrderedRealmCollection;
+import io.realm.RealmRecyclerViewAdapter;
 
 /**
  * Created by edu on 8/25/16.
  */
-public class RecyclerViewRemembrallAdapter extends RecyclerViewCursorAdapter<RecyclerViewRemembrallAdapter.RemembrallViewHolder> {
+public class RecyclerViewRemembrallAdapter
+        extends RealmRecyclerViewAdapter<Remembrall, RecyclerViewRemembrallAdapter.RemembrallViewHolder> {
 
-    public RecyclerViewRemembrallAdapter(Context context) {
-        super(context);
-
-        setCursorAdapter(null, 0, R.layout.remembrall_item_list, false);
+    private static final String TAG = "RecyclerViewRemembrallA";
+    public RecyclerViewRemembrallAdapter(Context context, OrderedRealmCollection<Remembrall> data) {
+        super(context, data, true);
+        Log.d(TAG, "RecyclerViewRemembrallAdapter: "+data.size());
     }
 
     @Override
     public RemembrallViewHolder onCreateViewHolder(ViewGroup parent,
                                                    int viewType) {
-//        View v = LayoutInflater.from(parent.getContext())
-//                .inflate(R.layout.remembrall_item_list, parent, false);
-        return new RemembrallViewHolder(mCursorAdapter.newView(mContext, mCursorAdapter.getCursor(), parent));
+        View v = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.remembrall_item_list, parent, false);
+        return new RemembrallViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(RemembrallViewHolder holder, int position) {
 
-        mCursorAdapter.getCursor().moveToPosition(position);
-        setViewHolder(holder);
-        mCursorAdapter.bindView(null, mContext, mCursorAdapter.getCursor());
+        try {
+            setupViewUsing(holder, getContentAt(position));
+        }catch (NullPointerException e){
+            Log.w(TAG, "Failed to get OBJ at position: "+position, e);
+        }
+    }
+
+    private Remembrall getContentAt(int position) throws NullPointerException {
+        return getData().get(position);
+    }
+
+    private void setupViewUsing(RemembrallViewHolder holder, Remembrall remembrall){
+
+        holder.mContactNameView.setText(remembrall.getClient().getFirstName());
+        holder.mContactAddressView.setText(remembrall.getClient().getAddress());
     }
 
     public class RemembrallViewHolder extends CursorViewHolder {
@@ -45,13 +61,6 @@ public class RecyclerViewRemembrallAdapter extends RecyclerViewCursorAdapter<Rec
 
         public RemembrallViewHolder(View view) {
             super(view);
-        }
-
-        @Override
-        public void bindCursor(Cursor cursor) {
-
-            mContactNameView.setText(cursor.getString(cursor.getColumnIndex(RemembrallContract.ClientEntry.COLUMN_FIRST_NAME)));
-            mContactAddressView.setText(cursor.getString(cursor.getColumnIndex(RemembrallContract.ClientEntry.COLUMN_LAST_NAME)));
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.gemapps.remembrall.ui;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,12 +16,13 @@ import android.widget.TextView;
 import com.gemapps.remembrall.R;
 import com.gemapps.remembrall.ui.model.RememberAlarm;
 import com.gemapps.remembrall.ui.model.Remembrall;
+import com.gemapps.remembrall.ui.widget.InkWritingWrapper;
+import com.gemapps.remembrall.ui.widget.LockNestedScrollView;
 import com.gemapps.remembrall.util.DateUtil;
-
-import org.json.JSONArray;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.realm.RealmList;
 
 import static com.gemapps.remembrall.ui.model.RememberAlarm.DEFAULT_ALARM_DESCRIPTION;
 import static com.gemapps.remembrall.ui.model.RememberAlarm.DEFAULT_ALARM_LABEL;
@@ -33,39 +35,62 @@ import static com.gemapps.remembrall.ui.model.RememberAlarm.DEFAULT_ALARM_TYPE;
  */
 @SuppressWarnings("private-access")
 public class CreationFormFragment extends ButterFragment
-        implements RemembrallCreationActivity.PickupDateListener {
+        implements RemembrallCreationActivity.PickupDateListener,
+        RemembrallCreationActivity.OnButtonClicked {
+    private static final String TAG = "CreationFormFragment";
 
-    @BindView(R.id.form_first_name_edit) TextInputEditText mFirstNameEdit;
-    @BindView(R.id.form_last_name_edit) TextInputEditText mLastNameEdit;
-    @BindView(R.id.form_id_card_edit) TextInputEditText mIdCardEdit;
-    @BindView(R.id.form_address_edit) TextInputEditText mAddressEdit;
-    @BindView(R.id.form_email_edit) TextInputEditText mEmailEdit;
-    @BindView(R.id.form_home_phone_edit) TextInputEditText mHomePhoneEdit;
-    @BindView(R.id.form_mobile_phone_edit) TextInputEditText mMobilePhoneEdit;
+    @BindView(R.id.nested_scroll)
+    LockNestedScrollView mNestedScroll;
+    @BindView(R.id.form_first_name_edit)
+    TextInputEditText mFirstNameEdit;
+    @BindView(R.id.form_last_name_edit)
+    TextInputEditText mLastNameEdit;
+    @BindView(R.id.form_id_card_edit)
+    TextInputEditText mIdCardEdit;
+    @BindView(R.id.form_address_edit)
+    TextInputEditText mAddressEdit;
+    @BindView(R.id.form_email_edit)
+    TextInputEditText mEmailEdit;
+    @BindView(R.id.form_home_phone_edit)
+    TextInputEditText mHomePhoneEdit;
+    @BindView(R.id.form_mobile_phone_edit)
+    TextInputEditText mMobilePhoneEdit;
 
-    @BindView(R.id.form_start_day_text) TextView mStartDayText;
-    @BindView(R.id.form_end_day_text) TextView mEndDayText;
+    @BindView(R.id.form_start_day_text)
+    TextView mStartDayText;
+    @BindView(R.id.form_end_day_text)
+    TextView mEndDayText;
 
-    @BindView(R.id.form_equip_label_edit) TextInputEditText mEquipLabelEdit;
-    @BindView(R.id.form_equip_num_edit) TextInputEditText mEquipNumEdit;
-    @BindView(R.id.form_tester_num_edit) TextInputEditText mTesterNumEdit;
-    @BindView(R.id.form_terminal_num_edit) TextInputEditText mTerminalNumEdit;
-    @BindView(R.id.form_price_edit) TextInputEditText mPriceNumEdit;
-    @BindView(R.id.form_description_edit) TextInputEditText mDescriptionEdit;
+    @BindView(R.id.form_equip_label_edit)
+    TextInputEditText mEquipLabelEdit;
+    @BindView(R.id.form_equip_num_edit)
+    TextInputEditText mEquipNumEdit;
+    @BindView(R.id.form_tester_num_edit)
+    TextInputEditText mTesterNumEdit;
+    @BindView(R.id.form_terminal_num_edit)
+    TextInputEditText mTerminalNumEdit;
+    @BindView(R.id.form_price_edit)
+    TextInputEditText mPriceNumEdit;
+    @BindView(R.id.form_description_edit)
+    TextInputEditText mDescriptionEdit;
+
+    @BindView(R.id.ink_view)
+    InkWritingWrapper mInkView;
 
     private long mStartDate;
     private long mEndDate;
     //TODO: change the 30 to and get it from prefs
     private int mDaysToAdd = 30;
-    private JSONArray mAlarms;
+    private boolean isSigning = false;
+    private RealmList<RememberAlarm> mAlarms;
 
     public CreationFormFragment() {
-        // Required empty public constructor
     }
 
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
+     *
      * @return A new instance of fragment CreationFormFragment.
      */
     public static CreationFormFragment newInstance() {
@@ -76,13 +101,13 @@ public class CreationFormFragment extends ButterFragment
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        ((RemembrallCreationActivity)getActivity()).addListener(this);
+        ((RemembrallCreationActivity) getActivity()).addListener(this);
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAlarms = new JSONArray();
+        mAlarms = new RealmList<>();
     }
 
     @Override
@@ -98,7 +123,7 @@ public class CreationFormFragment extends ButterFragment
 
         mStartDate = DateUtil.getDate();
         mEndDate = DateUtil.getDate(mDaysToAdd);
-
+        mInkView.setLockNestedScrollView(mNestedScroll);
         setStartDayText();
         setEndDayText();
     }
@@ -106,26 +131,30 @@ public class CreationFormFragment extends ButterFragment
     @Override
     public void onDetach() {
         super.onDetach();
-        ((RemembrallCreationActivity)getActivity()).addListener(null);
+        ((RemembrallCreationActivity) getActivity()).addListener(null);
     }
 
     @OnClick(R.id.form_select_start_day_button)
-    public void onPickStartDayClicked(){
+    public void onPickStartDayClicked() {
 
         getActivity().startActivityForResult(new Intent(getActivity(), DatePickerActivity.class),
                 RemembrallCreationActivity.REQUEST_START_DATE_RESULT);
     }
 
     @OnClick(R.id.form_select_end_day_button)
-    public void onPickEndDayClicked(){
+    public void onPickEndDayClicked() {
         Intent intent = new Intent(getActivity(), DatePickerActivity.class);
 
         intent.putExtra(DatePickerActivity.INTENT_EXTRA_DAYS_KEY, mDaysToAdd);
         getActivity().startActivityForResult(intent, RemembrallCreationActivity.REQUEST_END_DATE_RESULT);
     }
 
-    @OnClick(R.id.form_sign)
-    public void onSignClicked(View view){
+    @OnClick(R.id.redo_button)
+    public void onRedoInkSign(){
+        mInkView.clear();
+    }
+
+    public void onSignClicked(View view) {
         startActivity(BaseCardActivity.getInstance(view, InkWritingActivity.class));
     }
 
@@ -135,7 +164,7 @@ public class CreationFormFragment extends ButterFragment
         saveForm();
     }
 
-    public void saveForm(){
+    public void saveForm() {
 
         String firstName = mFirstNameEdit.getText().toString();
         String lastName = mLastNameEdit.getText().toString();
@@ -160,24 +189,26 @@ public class CreationFormFragment extends ButterFragment
                 homePhone, mobilePhone, mAlarms, equipLabel, equipNum, testerNum,
                 terminalNum, price, description);
 
-        boolean saveSucceeded = remembrall.save(getActivity());
-
-        if(!saveSucceeded){
-            ((RemembrallCreationActivity) getActivity()).makeSnackbar(getString(R.string.save_error_msg));
-        }
+        remembrall.save();
     }
 
-    private void addAlarm(RememberAlarm alarm){
-
-        mAlarms.put(alarm.convertTo());
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        ((RemembrallCreationActivity) activity).mButtonListener = this;
     }
 
-    private void setStartDayText(){
-        mStartDayText.setText("Fecha entrega equipo: "+ DateUtil.formatDateFromTs(mStartDate));
+    private void addAlarm(RememberAlarm alarm) {
+
+        mAlarms.add(alarm);
     }
 
-    private void setEndDayText(){
-        mEndDayText.setText("Fecha busqueda equipo: "+DateUtil.formatDateFromTs(mEndDate));
+    private void setStartDayText() {
+        mStartDayText.setText("Fecha entrega equipo: " + DateUtil.formatDateFromTs(mStartDate));
+    }
+
+    private void setEndDayText() {
+        mEndDayText.setText("Fecha busqueda equipo: " + DateUtil.formatDateFromTs(mEndDate));
     }
 
     @Override
@@ -193,5 +224,10 @@ public class CreationFormFragment extends ButterFragment
     public void onEndDatePick(long ts) {
         mEndDate = ts;
         setEndDayText();
+    }
+
+    @Override
+    public void onFabCliecked() {
+        saveForm();
     }
 }

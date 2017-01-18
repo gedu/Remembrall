@@ -20,6 +20,17 @@ public class InkWritingActivity extends BaseCardActivity {
 
         doEntryAnimation();
         overrideTrans();
+        mInkView.addInkListener(new InkView.InkListener() {
+            @Override
+            public void onInkClear() {
+
+            }
+
+            @Override
+            public void onInkDraw() {
+
+            }
+        });
     }
 
     @OnClick(R.id.redo_button)

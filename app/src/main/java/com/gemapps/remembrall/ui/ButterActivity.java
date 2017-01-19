@@ -16,6 +16,7 @@ import butterknife.ButterKnife;
 
 public class ButterActivity extends AppCompatActivity {
 
+    private static final String TAG = "ButterActivity";
     @Nullable @BindView(R.id.toolbar) protected Toolbar mToolbar;
 
     @Override
@@ -23,14 +24,19 @@ public class ButterActivity extends AppCompatActivity {
         super.setContentView(layoutResID);
         ButterKnife.bind(this);
 
-        if(mToolbar != null) setSupportActionBar(mToolbar);
+        setToolbar(mToolbar);
     }
 
     /**
      * Set the Home/Up button in the Toolbar
      */
-    protected void setUpButton(){
+    public void setUpButton(){
         if(getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    public void setToolbar(@Nullable Toolbar toolbar){
+        mToolbar = toolbar;
+        if(mToolbar != null) setSupportActionBar(mToolbar);
     }
 }

@@ -15,6 +15,7 @@ public class Client extends RealmObject {
     private String mEmail;
     private String mHomePhone;
     private String mMobilePhone;
+    private byte[] mSignImage;
 
     public Client() {}
 
@@ -24,7 +25,7 @@ public class Client extends RealmObject {
     }
 
     public Client(String firstName, String lastName, String idCard, String address,
-                  String email, String homePhone, String mobilePhone) {
+                  String email, String homePhone, String mobilePhone, byte[] signImage) {
         mFirstName = firstName;
         mLastName = lastName;
         mIdCard = idCard;
@@ -32,6 +33,7 @@ public class Client extends RealmObject {
         mEmail = email;
         mHomePhone = homePhone;
         mMobilePhone = mobilePhone;
+        mSignImage = signImage;
     }
 
     public String getFirstName() {
@@ -89,4 +91,14 @@ public class Client extends RealmObject {
     public void setMobilePhone(String mobilePhone) {
         mMobilePhone = mobilePhone;
     }
+
+    public byte[] getSignImage() {
+        return mSignImage;
+    }
+
+    public void setSignImage(byte[] signImage) {
+        mSignImage = signImage;
+    }
+
+
 }

@@ -28,12 +28,12 @@ public class FloatingActionHelper {
 
     public void animateToWarning(FloatingActionButton fab){
         setColors(fab.getContext());
-        startAnimationFor(fab, mValidColor, mWarningColor);
+        startAnimationFor(fab, mValidColor, mWarningColor, R.drawable.ic_warning_white_24px);
     }
 
     public void animateToValid(FloatingActionButton fab){
         setColors(fab.getContext());
-        startAnimationFor(fab, mWarningColor, mValidColor);
+        startAnimationFor(fab, mWarningColor, mValidColor, R.drawable.ic_done_white_24px);
     }
 
     private void setColors(Context context){
@@ -41,8 +41,13 @@ public class FloatingActionHelper {
         mWarningColor = context.getResources().getColor(R.color.warningAccent);
     }
 
-    private void startAnimationFor(final FloatingActionButton fab, int fromColor, int toColor){
+    private void startAnimationFor(final FloatingActionButton fab, int fromColor, int toColor, int icon){
 
+        colorAnimation(fab, fromColor, toColor);
+        iconAnimation(fab, icon);
+    }
+
+    private void colorAnimation(final FloatingActionButton fab, int fromColor, int toColor){
         ObjectAnimator colorAnimator = ObjectAnimator.ofInt(fab,
                 "backgroundTint", fromColor, toColor);
 
@@ -56,5 +61,9 @@ public class FloatingActionHelper {
             }
         });
         colorAnimator.start();
+    }
+
+    private void iconAnimation(final FloatingActionButton fab, int icon){
+        fab.setImageResource(icon);
     }
 }

@@ -3,12 +3,12 @@
           package="com.gemapps.remembrall">
 
     <application
+        android:name=".RemembrallApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:name=".RemembrallApplication"
-        android:supportsRtl="true"
         android:resizeableActivity="false"
+        android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
             android:name=".RememberListActivity"
@@ -28,16 +28,29 @@
                 android:value="com.gemapps.remembrall.RememberListActivity"/>
         </activity>
         <activity
+            android:name=".ui.RemembrallDetailActivity"
+            android:label=""
+            android:parentActivityName=".RememberListActivity">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".RememberListActivity"/>
+        </activity>
+        <activity
             android:name=".ui.InkWritingActivity"
             android:theme="@style/AppTheme.Dialog">
         </activity>
-        <activity android:name=".ui.DatePickerActivity"
-                  android:theme="@style/AppTheme.Dialog">
+        <activity
+            android:name=".ui.DatePickerActivity"
+            android:theme="@style/AppTheme.Dialog">
         </activity>
+
         <provider
-            android:authorities="com.gemapps.remembrall.data"
             android:name=".data.RemembrallProvider"
+            android:authorities="com.gemapps.remembrall.data"
             android:exported="false"/>
+
+
     </application>
 
 </manifest>

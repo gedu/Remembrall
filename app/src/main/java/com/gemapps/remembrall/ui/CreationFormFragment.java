@@ -1,7 +1,6 @@
 package com.gemapps.remembrall.ui;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,6 +18,7 @@ import com.gemapps.remembrall.ui.model.Remembrall;
 import com.gemapps.remembrall.ui.widget.InkWritingWrapper;
 import com.gemapps.remembrall.ui.widget.LockNestedScrollView;
 import com.gemapps.remembrall.util.DateUtil;
+import com.gemapps.remembrall.util.ImageUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -35,8 +35,7 @@ import static com.gemapps.remembrall.ui.model.RememberAlarm.DEFAULT_ALARM_TYPE;
  */
 @SuppressWarnings("private-access")
 public class CreationFormFragment extends ButterFragment
-        implements RemembrallCreationActivity.PickupDateListener,
-        RemembrallCreationActivity.OnButtonClicked {
+        implements RemembrallCreationActivity.PickupDateListener {
     private static final String TAG = "CreationFormFragment";
 
     @BindView(R.id.nested_scroll)
@@ -187,15 +186,9 @@ public class CreationFormFragment extends ButterFragment
 
         Remembrall remembrall = new Remembrall(firstName, lastName, idCard, address, email,
                 homePhone, mobilePhone, mAlarms, equipLabel, equipNum, testerNum,
-                terminalNum, price, description);
+                terminalNum, price, description, ImageUtil.convertBitmapToByte(mInkView.getBitmap()));
 
         remembrall.save();
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        ((RemembrallCreationActivity) activity).mButtonListener = this;
     }
 
     private void addAlarm(RememberAlarm alarm) {
@@ -224,10 +217,5 @@ public class CreationFormFragment extends ButterFragment
     public void onEndDatePick(long ts) {
         mEndDate = ts;
         setEndDayText();
-    }
-
-    @Override
-    public void onFabCliecked() {
-        saveForm();
     }
 }

@@ -24,4 +24,7 @@
     <string name="description">Obsevacion</string>
     <string name="save_error_msg">Error al guardar, intentelo de nuevo.</string>
     <string name="redo_desc">Rehacer firma</string>
+    <string name="error_empty_text">No puede quedar vacio</string>
+    <string name="error_email_pattern">No parece ser un mail</string>
+    <string name="client_sign">Firma del cliente</string>
 </resources>

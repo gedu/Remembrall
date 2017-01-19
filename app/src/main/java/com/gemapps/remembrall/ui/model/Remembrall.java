@@ -33,9 +33,9 @@ public class Remembrall extends RealmObject {
     public Remembrall(String firstName, String lastName, String idCard, String address,
                       String email, String homePhone, String mobilePhone, RealmList<RememberAlarm> alarms,
                       String equipLabel, String equipNum, String testerNum, String terminalNum,
-                      String price, String description) {
+                      String price, String description, byte[] signImage) {
 
-        this.mClient = new Client(firstName, lastName, idCard, address, email, homePhone, mobilePhone);
+        this.mClient = new Client(firstName, lastName, idCard, address, email, homePhone, mobilePhone, signImage);
         this.mRememberAlarms = alarms;
         this.mProduct = new Product(equipLabel, equipNum, testerNum, terminalNum, price, description);
     }

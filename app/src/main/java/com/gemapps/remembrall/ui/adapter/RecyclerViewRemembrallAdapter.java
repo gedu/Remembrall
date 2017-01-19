@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.gemapps.remembrall.R;
+import com.gemapps.remembrall.ui.RemembrallDetailActivity;
 import com.gemapps.remembrall.ui.model.Remembrall;
 
 import butterknife.BindView;
@@ -48,14 +49,24 @@ public class RecyclerViewRemembrallAdapter
         return getData().get(position);
     }
 
-    private void setupViewUsing(RemembrallViewHolder holder, Remembrall remembrall){
+    private void setupViewUsing(RemembrallViewHolder holder, final Remembrall remembrall){
 
         holder.mContactNameView.setText(remembrall.getClient().getFirstName());
         holder.mContactAddressView.setText(remembrall.getClient().getAddress());
+
+        holder.mContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                v.getContext().startActivity(RemembrallDetailActivity
+                        .getInstance(v.getContext(), remembrall.getClient().getIdCard()));
+            }
+        });
     }
 
     public class RemembrallViewHolder extends CursorViewHolder {
 
+        @BindView(R.id.item_container) View mContainer;
         @BindView(R.id.contact_name_text) TextView mContactNameView;
         @BindView(R.id.contact_address_text) TextView mContactAddressView;
 

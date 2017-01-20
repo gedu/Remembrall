@@ -12,6 +12,7 @@ import java.util.List;
 import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by edu on 7/19/16.
@@ -21,21 +22,20 @@ public class Remembrall extends RealmObject {
 
     private static final String TAG = "Remembrall";
 
+    @PrimaryKey
+    private String mId;
     private Client mClient;
     private Product mProduct;
     private RealmList<RememberAlarm> mRememberAlarms;
 
     public Remembrall() {}
 
-    public Remembrall(String firstName, String lastName) {
-        mClient = new Client(firstName, lastName);
-    }
-
     public Remembrall(FormUIHandler form, RealmList<RememberAlarm> alarms){
 
         this.mClient = form.buildClient();
         this.mRememberAlarms = alarms;
         this.mProduct = form.buildProduct();
+        setPrimaryKey();
     }
 
     public Remembrall(String firstName, String lastName, String idCard, String address,
@@ -46,6 +46,11 @@ public class Remembrall extends RealmObject {
         this.mClient = new Client(firstName, lastName, idCard, address, email, homePhone, mobilePhone, signImage);
         this.mRememberAlarms = alarms;
         this.mProduct = new Product(equipLabel, equipNum, testerNum, terminalNum, price, description);
+        setPrimaryKey();
+    }
+
+    private void setPrimaryKey(){
+        if(mClient != null) mId = mClient.getIdCard();
     }
 
     public Product getProduct() {
@@ -54,6 +59,10 @@ public class Remembrall extends RealmObject {
 
     public Client getClient() {
         return mClient;
+    }
+
+    public String getId(){
+        return mId;
     }
 
     public List<RememberAlarm> getRememberAlarms() {

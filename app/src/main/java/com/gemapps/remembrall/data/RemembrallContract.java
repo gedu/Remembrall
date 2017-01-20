@@ -188,6 +188,7 @@ public class RemembrallContract {
         public static final String CLI_PRO_ID = "cli_pro_id";
         public static final String _ID_AS = TABLE_NAME+"."+_ID + " AS " + CLI_PRO_ID;
 
+        public static final String COLUMN_ID = "mId";
         public static final String COLUMN_CLIENT_ID = "mClient";
         public static final String COLUMN_PRODUCT_ID = "mProduct";
 

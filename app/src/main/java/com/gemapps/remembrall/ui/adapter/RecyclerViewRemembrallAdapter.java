@@ -59,7 +59,7 @@ public class RecyclerViewRemembrallAdapter
             public void onClick(View v) {
 
                 v.getContext().startActivity(RemembrallDetailActivity
-                        .getInstance(v.getContext(), remembrall.getClient().getIdCard()));
+                        .getInstance(v.getContext(), remembrall.getId()));
             }
         });
     }

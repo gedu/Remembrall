@@ -1,5 +1,6 @@
 package com.gemapps.remembrall.ui.widget;
 
+import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.view.View;
 import android.widget.TextView;
@@ -11,6 +12,7 @@ import com.gemapps.remembrall.util.ImageUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.realm.Realm;
 
 /**
  * Created by edu on 1/20/17.
@@ -53,7 +55,7 @@ public class FormUIHandler {
     @BindView(R.id.form_description_edit)
     TextInputEditText mDescriptionEdit;
 
-    @BindView(R.id.ink_view)
+    @Nullable @BindView(R.id.ink_view)
     InkWritingWrapper mInkView;
 
     public FormUIHandler(View rootView) {
@@ -61,11 +63,15 @@ public class FormUIHandler {
     }
 
     public void setLockScrollListener(){
-        mInkView.setLockNestedScrollView(mNestedScroll);
+        if(inkViewExist()) mInkView.setLockNestedScrollView(mNestedScroll);
     }
 
     public void clearSignView(){
-        mInkView.clear();
+        if(inkViewExist()) mInkView.clear();
+    }
+
+    private boolean inkViewExist(){
+        return mInkView != null;
     }
 
     public void setStartDayText(String dateText){
@@ -74,6 +80,44 @@ public class FormUIHandler {
 
     public void setEndDayText(String dateText) {
         mEndDayText.setText(dateText);
+    }
+
+    public void fillClientUI(Client client){
+
+        mFirstNameEdit.setText(client.getFirstName());
+        mLastNameEdit.setText(client.getLastName());
+        mIdCardEdit.setText(client.getIdCard());
+        mAddressEdit.setText(client.getAddress());
+        mEmailEdit.setText(client.getEmail());
+        mHomePhoneEdit.setText(client.getHomePhone());
+        mMobilePhoneEdit.setText(client.getMobilePhone());
+    }
+
+    public void fillProductUI(Product product){
+
+        mEquipLabelEdit.setText(product.getEquipLabel());
+        mEquipNumEdit.setText(product.getEquipNum());
+        mTesterNumEdit.setText(product.getTesterNum());
+        mTerminalNumEdit.setText(product.getTerminalNum());
+        mPriceNumEdit.setText(product.getPrice());
+        mDescriptionEdit.setText(product.getDescription());
+    }
+
+    public void updateClient(final Client client){
+        Realm realm = Realm.getDefaultInstance();
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+
+                client.setFirstName(mFirstNameEdit.getText().toString());
+                client.setLastName(mLastNameEdit.getText().toString());
+                client.setIdCard(mIdCardEdit.getText().toString());
+                client.setAddress(mAddressEdit.getText().toString());
+                client.setEmail(mEmailEdit.getText().toString());
+                client.setHomePhone(mHomePhoneEdit.getText().toString());
+                client.setMobilePhone(mMobilePhoneEdit.getText().toString());
+            }
+        });
     }
 
     public Client buildClient(){

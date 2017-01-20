@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +36,6 @@ public class ButterFragment extends Fragment {
         View rootView = inflater.inflate(layoutId, container, false);
         ButterKnife.bind(this, rootView);
 
-        Log.d(TAG, "TOOLBAR: "+mToolbar);
         if(mToolbar != null && activityIsButterActivity())
             getButterActivity().setToolbar(mToolbar);
         return rootView;
@@ -48,7 +46,6 @@ public class ButterFragment extends Fragment {
     }
 
     protected void setUpButton(){
-        Log.d(TAG, "setUpButton: is BUtter: "+activityIsButterActivity());
         if(activityIsButterActivity()) getButterActivity().setUpButton();
     }
 

@@ -12,11 +12,15 @@ import android.widget.TextView;
 
 import com.gemapps.remembrall.R;
 import com.gemapps.remembrall.data.RemembrallContract;
-import com.gemapps.remembrall.ui.model.Client;
+import com.gemapps.remembrall.ui.model.Remembrall;
+import com.gemapps.remembrall.ui.widget.FormUIHandler;
 import com.gemapps.remembrall.util.ImageUtil;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import io.realm.Realm;
+import io.realm.RealmChangeListener;
+import io.realm.RealmModel;
 
 public class RemembrallDetailFragment extends ButterFragment {
 
@@ -31,6 +35,8 @@ public class RemembrallDetailFragment extends ButterFragment {
     TextView mClientNameText;
 
     private Realm mRealm;
+    private FormUIHandler mForm;
+    private Remembrall mRemembrall;
 
     public static RemembrallDetailFragment getInstance(String id){
         Bundle bundle = new Bundle();
@@ -44,30 +50,67 @@ public class RemembrallDetailFragment extends ButterFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return createView(inflater, container, R.layout.fragment_remembrall_detail);
+        View rootView = createView(inflater, container, R.layout.fragment_remembrall_detail);
+        mForm = new FormUIHandler(rootView);
+        return rootView;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        setUpButton();
         mRealm = Realm.getDefaultInstance();
+        setupUI();
+    }
 
+    private void setupUI(){
+        setUpButton();
+        findRemembrallItem();
         setupClientInfo();
+        setupProductInfo();
+    }
+
+    private void findRemembrallItem(){
+        mRemembrall = mRealm.where(Remembrall.class)
+                .equalTo(RemembrallContract.ClientProdEntry.COLUMN_ID,
+                        getArguments().getString(ID_ARGS)).findFirst();
+
+        mRemembrall.addChangeListener(new RealmChangeListener<RealmModel>() {
+            @Override
+            public void onChange(RealmModel element) {
+                setupClientInfo();
+            }
+        });
     }
 
     private void setupClientInfo() {
 
-        Client client = mRealm.where(Client.class)
-                .equalTo(RemembrallContract.ClientEntry.COLUMN_ID_CARD,
-                        getArguments().getString(ID_ARGS)).findFirst();
+        mForm.fillClientUI(mRemembrall.getClient());
+        setupImageHeader();
+        setupNameHeader();
+    }
 
-        if(client != null){
-            Bitmap bitmap = ImageUtil.convertByteToBitmap(client.getSignImage());
-            ImageUtil.changeBlackLinesToWhite(bitmap);
-            if(bitmap != null)mImageView.setImageBitmap(bitmap);
-            mClientNameText.setText(client.getFirstName() + " "+ client.getLastName());
-        }
+    private void setupImageHeader(){
+
+        Bitmap bitmap = ImageUtil.convertByteToBitmap(mRemembrall.getClient().getSignImage());
+        ImageUtil.changeBlackLinesToWhite(bitmap);
+        if(bitmap != null)mImageView.setImageBitmap(bitmap);
+    }
+
+    private void setupNameHeader(){
+        mClientNameText.setText(mRemembrall.getClient().getFirstName() +
+                " "+ mRemembrall.getClient().getLastName());
+    }
+
+    private void setupProductInfo(){
+        mForm.fillProductUI(mRemembrall.getProduct());
+    }
+
+    @OnClick(R.id.fab)
+    public void onFabClicked(){
+        update();
+    }
+
+    private void update(){
+        mForm.updateClient(mRemembrall.getClient());
     }
 }

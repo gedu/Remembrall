@@ -1,10 +1,8 @@
 <com.gemapps.remembrall.ui.widget.LockNestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nested_scroll"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.gemapps.remembrall.ui.CreationFormFragment">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"

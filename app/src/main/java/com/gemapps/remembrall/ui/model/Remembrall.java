@@ -3,6 +3,7 @@ package com.gemapps.remembrall.ui.model;
 import android.util.Log;
 
 import com.gemapps.remembrall.ui.model.bus.DbTransaction;
+import com.gemapps.remembrall.ui.widget.FormUIHandler;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -28,6 +29,13 @@ public class Remembrall extends RealmObject {
 
     public Remembrall(String firstName, String lastName) {
         mClient = new Client(firstName, lastName);
+    }
+
+    public Remembrall(FormUIHandler form, RealmList<RememberAlarm> alarms){
+
+        this.mClient = form.buildClient();
+        this.mRememberAlarms = alarms;
+        this.mProduct = form.buildProduct();
     }
 
     public Remembrall(String firstName, String lastName, String idCard, String address,

@@ -5,22 +5,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.gemapps.remembrall.R;
 import com.gemapps.remembrall.ui.model.RememberAlarm;
 import com.gemapps.remembrall.ui.model.Remembrall;
-import com.gemapps.remembrall.ui.widget.InkWritingWrapper;
-import com.gemapps.remembrall.ui.widget.LockNestedScrollView;
+import com.gemapps.remembrall.ui.widget.FormUIHandler;
 import com.gemapps.remembrall.util.DateUtil;
-import com.gemapps.remembrall.util.ImageUtil;
 
-import butterknife.BindView;
 import butterknife.OnClick;
 import io.realm.RealmList;
 
@@ -38,50 +33,11 @@ public class CreationFormFragment extends ButterFragment
         implements RemembrallCreationActivity.PickupDateListener {
     private static final String TAG = "CreationFormFragment";
 
-    @BindView(R.id.nested_scroll)
-    LockNestedScrollView mNestedScroll;
-    @BindView(R.id.form_first_name_edit)
-    TextInputEditText mFirstNameEdit;
-    @BindView(R.id.form_last_name_edit)
-    TextInputEditText mLastNameEdit;
-    @BindView(R.id.form_id_card_edit)
-    TextInputEditText mIdCardEdit;
-    @BindView(R.id.form_address_edit)
-    TextInputEditText mAddressEdit;
-    @BindView(R.id.form_email_edit)
-    TextInputEditText mEmailEdit;
-    @BindView(R.id.form_home_phone_edit)
-    TextInputEditText mHomePhoneEdit;
-    @BindView(R.id.form_mobile_phone_edit)
-    TextInputEditText mMobilePhoneEdit;
-
-    @BindView(R.id.form_start_day_text)
-    TextView mStartDayText;
-    @BindView(R.id.form_end_day_text)
-    TextView mEndDayText;
-
-    @BindView(R.id.form_equip_label_edit)
-    TextInputEditText mEquipLabelEdit;
-    @BindView(R.id.form_equip_num_edit)
-    TextInputEditText mEquipNumEdit;
-    @BindView(R.id.form_tester_num_edit)
-    TextInputEditText mTesterNumEdit;
-    @BindView(R.id.form_terminal_num_edit)
-    TextInputEditText mTerminalNumEdit;
-    @BindView(R.id.form_price_edit)
-    TextInputEditText mPriceNumEdit;
-    @BindView(R.id.form_description_edit)
-    TextInputEditText mDescriptionEdit;
-
-    @BindView(R.id.ink_view)
-    InkWritingWrapper mInkView;
-
     private long mStartDate;
     private long mEndDate;
-    //TODO: change the 30 to and get it from prefs
-    private int mDaysToAdd = 30;
-    private boolean isSigning = false;
+    private int mDaysToAdd = 30;//TODO: change the 30 to and get it from prefs
     private RealmList<RememberAlarm> mAlarms;
+    private FormUIHandler mForm;
 
     public CreationFormFragment() {
     }
@@ -93,7 +49,6 @@ public class CreationFormFragment extends ButterFragment
      * @return A new instance of fragment CreationFormFragment.
      */
     public static CreationFormFragment newInstance() {
-
         return new CreationFormFragment();
     }
 
@@ -113,7 +68,9 @@ public class CreationFormFragment extends ButterFragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        return createView(inflater, container, R.layout.fragment_creation_form);
+        View rootView = createView(inflater, container, R.layout.fragment_creation_form);
+        mForm = new FormUIHandler(rootView);
+        return rootView;
     }
 
     @Override
@@ -122,7 +79,7 @@ public class CreationFormFragment extends ButterFragment
 
         mStartDate = DateUtil.getDate();
         mEndDate = DateUtil.getDate(mDaysToAdd);
-        mInkView.setLockNestedScrollView(mNestedScroll);
+        mForm.setLockScrollListener();
         setStartDayText();
         setEndDayText();
     }
@@ -150,11 +107,7 @@ public class CreationFormFragment extends ButterFragment
 
     @OnClick(R.id.redo_button)
     public void onRedoInkSign(){
-        mInkView.clear();
-    }
-
-    public void onSignClicked(View view) {
-        startActivity(BaseCardActivity.getInstance(view, InkWritingActivity.class));
+        mForm.clearSignView();
     }
 
     @Override
@@ -165,30 +118,14 @@ public class CreationFormFragment extends ButterFragment
 
     public void saveForm() {
 
-        String firstName = mFirstNameEdit.getText().toString();
-        String lastName = mLastNameEdit.getText().toString();
-        String idCard = mIdCardEdit.getText().toString();
-        String address = mAddressEdit.getText().toString();
-        String email = mEmailEdit.getText().toString();
-        String homePhone = mHomePhoneEdit.getText().toString();
-        String mobilePhone = mMobilePhoneEdit.getText().toString();
-
-        String equipLabel = mEquipLabelEdit.getText().toString();
-        String equipNum = mEquipNumEdit.getText().toString();
-        String testerNum = mTesterNumEdit.getText().toString();
-        String terminalNum = mTerminalNumEdit.getText().toString();
-        String price = mPriceNumEdit.getText().toString();
-        String description = mDescriptionEdit.getText().toString();
-
-        RememberAlarm alarm = new RememberAlarm(DEFAULT_ALARM_LABEL,
-                DEFAULT_ALARM_DESCRIPTION, mStartDate, mEndDate, DEFAULT_ALARM_TYPE);
-        addAlarm(alarm);
-
-        Remembrall remembrall = new Remembrall(firstName, lastName, idCard, address, email,
-                homePhone, mobilePhone, mAlarms, equipLabel, equipNum, testerNum,
-                terminalNum, price, description, ImageUtil.convertBitmapToByte(mInkView.getBitmap()));
-
+        addDefaultAlarm();
+        Remembrall remembrall = new Remembrall(mForm, mAlarms);
         remembrall.save();
+    }
+
+    private void addDefaultAlarm(){
+        addAlarm(new RememberAlarm(DEFAULT_ALARM_LABEL,
+                DEFAULT_ALARM_DESCRIPTION, mStartDate, mEndDate, DEFAULT_ALARM_TYPE));
     }
 
     private void addAlarm(RememberAlarm alarm) {
@@ -197,11 +134,11 @@ public class CreationFormFragment extends ButterFragment
     }
 
     private void setStartDayText() {
-        mStartDayText.setText("Fecha entrega equipo: " + DateUtil.formatDateFromTs(mStartDate));
+        mForm.setStartDayText("Fecha entrega equipo: " + DateUtil.formatDateFromTs(mStartDate));
     }
 
     private void setEndDayText() {
-        mEndDayText.setText("Fecha busqueda equipo: " + DateUtil.formatDateFromTs(mEndDate));
+        mForm.setEndDayText("Fecha busqueda equipo: " + DateUtil.formatDateFromTs(mEndDate));
     }
 
     @Override

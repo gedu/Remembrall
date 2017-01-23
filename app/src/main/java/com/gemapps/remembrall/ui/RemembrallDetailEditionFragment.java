@@ -25,7 +25,6 @@ import io.realm.RealmModel;
 public class RemembrallDetailEditionFragment extends ButterFragment {
 
     private static final String TAG = "RemembrallDetailFragmen";
-    private static final String ID_ARGS = "remembrall.ID_ARGS";
 
     public RemembrallDetailEditionFragment() {}
 

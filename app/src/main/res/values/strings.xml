@@ -27,4 +27,5 @@
     <string name="error_empty_text">No puede quedar vacio</string>
     <string name="error_email_pattern">No parece ser un mail</string>
     <string name="client_sign">Firma del cliente</string>
+    <string name="add_delivery">Agregar pedido</string>
 </resources>

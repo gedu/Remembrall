@@ -17,6 +17,7 @@ import butterknife.ButterKnife;
 public class ButterActivity extends AppCompatActivity {
 
     private static final String TAG = "ButterActivity";
+    protected static final String ID_ARGS = "remembrall.ID_ARGS";
     @Nullable @BindView(R.id.toolbar) protected Toolbar mToolbar;
 
     @Override

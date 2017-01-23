@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.gemapps.remembrall.R;
+import com.gemapps.remembrall.ui.model.Delivery;
 import com.gemapps.remembrall.ui.model.RememberAlarm;
 import com.gemapps.remembrall.ui.model.Remembrall;
 import com.gemapps.remembrall.ui.widget.FormUIHandler;
@@ -36,7 +37,7 @@ public class CreationFormFragment extends ButterFragment
     private long mStartDate;
     private long mEndDate;
     private int mDaysToAdd = 30;//TODO: change the 30 to and get it from prefs
-    private RealmList<RememberAlarm> mAlarms;
+    private RealmList<Delivery> mDeliveries;
     private FormUIHandler mForm;
 
     public CreationFormFragment() {
@@ -61,7 +62,7 @@ public class CreationFormFragment extends ButterFragment
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAlarms = new RealmList<>();
+        mDeliveries = new RealmList<>();
     }
 
     @Override
@@ -119,18 +120,21 @@ public class CreationFormFragment extends ButterFragment
     public void saveForm() {
 
         addDefaultAlarm();
-        Remembrall remembrall = new Remembrall(mForm, mAlarms);
+        Remembrall remembrall = new Remembrall(mForm, mDeliveries);
         remembrall.save();
     }
 
     private void addDefaultAlarm(){
-        addAlarm(new RememberAlarm(DEFAULT_ALARM_LABEL,
-                DEFAULT_ALARM_DESCRIPTION, mStartDate, mEndDate, DEFAULT_ALARM_TYPE));
+        // TODO: 1/23/17 : Change for a value got from preference
+        final float price = 900;
+        RememberAlarm alarm = new RememberAlarm(DEFAULT_ALARM_LABEL,
+                DEFAULT_ALARM_DESCRIPTION, mStartDate, mEndDate, DEFAULT_ALARM_TYPE);
+        addAlarm(new Delivery(alarm, price));
     }
 
-    private void addAlarm(RememberAlarm alarm) {
+    private void addAlarm(Delivery delivery) {
 
-        mAlarms.add(alarm);
+        mDeliveries.add(delivery);
     }
 
     private void setStartDayText() {

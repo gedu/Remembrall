@@ -26,25 +26,25 @@ public class Remembrall extends RealmObject {
     private String mId;
     private Client mClient;
     private Product mProduct;
-    private RealmList<RememberAlarm> mRememberAlarms;
+    private RealmList<Delivery> mDeliveries;
 
     public Remembrall() {}
 
-    public Remembrall(FormUIHandler form, RealmList<RememberAlarm> alarms){
+    public Remembrall(FormUIHandler form, RealmList<Delivery> deliveries){
 
         this.mClient = form.buildClient();
-        this.mRememberAlarms = alarms;
+        this.mDeliveries = deliveries;
         this.mProduct = form.buildProduct();
         setPrimaryKey();
     }
 
     public Remembrall(String firstName, String lastName, String idCard, String address,
-                      String email, String homePhone, String mobilePhone, RealmList<RememberAlarm> alarms,
+                      String email, String homePhone, String mobilePhone, RealmList<Delivery> deliveries,
                       String equipLabel, String equipNum, String testerNum, String terminalNum,
                       String price, String description, byte[] signImage) {
 
         this.mClient = new Client(firstName, lastName, idCard, address, email, homePhone, mobilePhone, signImage);
-        this.mRememberAlarms = alarms;
+        this.mDeliveries = deliveries;
         this.mProduct = new Product(equipLabel, equipNum, testerNum, terminalNum, price, description);
         setPrimaryKey();
     }
@@ -65,8 +65,8 @@ public class Remembrall extends RealmObject {
         return mId;
     }
 
-    public List<RememberAlarm> getRememberAlarms() {
-        return mRememberAlarms;
+    public List<Delivery> getDeliveries() {
+        return mDeliveries;
     }
 
     /**
@@ -80,7 +80,6 @@ public class Remembrall extends RealmObject {
             public void execute(Realm realm) {
                 realm.copyToRealm(mClient);
                 realm.copyToRealm(mProduct);
-                realm.copyToRealm(mRememberAlarms);
                 realm.copyToRealm(Remembrall.this);
             }
         }, new Realm.Transaction.OnSuccess() {

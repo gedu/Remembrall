@@ -21,6 +21,7 @@ import butterknife.ButterKnife;
 public class ButterFragment extends Fragment {
 
     private static final String TAG = "ButterFragment";
+    protected static final String ID_ARGS = "remembrall.ID_ARGS";
     @Nullable @BindView(R.id.toolbar)
     protected Toolbar mToolbar;
 

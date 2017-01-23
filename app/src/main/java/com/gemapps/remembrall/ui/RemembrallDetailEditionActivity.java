@@ -9,7 +9,6 @@ import com.gemapps.remembrall.R;
 public class RemembrallDetailEditionActivity extends ButterActivity {
 
     private static final String FRAGMENT_TAG = "remembrall.DETAIL_TAG";
-    private static final String ID_ARGS = "remembrall.ID_ARGS";
 
     public static Intent getInstance(Context context, String id){
         Intent intent = new Intent(context, RemembrallDetailEditionActivity.class);

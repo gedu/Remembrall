@@ -31,7 +31,6 @@
             android:name=".ui.RemembrallDetailEditionActivity"
             android:label=""
             android:parentActivityName=".RememberListActivity">
-
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".RememberListActivity"/>
@@ -50,7 +49,8 @@
             android:authorities="com.gemapps.remembrall.data"
             android:exported="false"/>
 
-
+        <activity android:name=".ui.DetailActivity">
+        </activity>
     </application>
 
 </manifest>

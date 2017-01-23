@@ -28,7 +28,7 @@
                 android:value="com.gemapps.remembrall.RememberListActivity"/>
         </activity>
         <activity
-            android:name=".ui.RemembrallDetailActivity"
+            android:name=".ui.RemembrallDetailEditionActivity"
             android:label=""
             android:parentActivityName=".RememberListActivity">
 

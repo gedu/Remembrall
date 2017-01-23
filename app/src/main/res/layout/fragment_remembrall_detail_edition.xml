@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.gemapps.remembrall.ui.RemembrallDetailFragment">
+    tools:context="com.gemapps.remembrall.ui.RemembrallDetailEditionFragment">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"

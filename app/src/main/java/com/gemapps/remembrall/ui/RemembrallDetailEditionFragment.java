@@ -22,12 +22,12 @@ import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmModel;
 
-public class RemembrallDetailFragment extends ButterFragment {
+public class RemembrallDetailEditionFragment extends ButterFragment {
 
     private static final String TAG = "RemembrallDetailFragmen";
     private static final String ID_ARGS = "remembrall.ID_ARGS";
 
-    public RemembrallDetailFragment() {}
+    public RemembrallDetailEditionFragment() {}
 
     @BindView(R.id.client_sign_image)
     ImageView mImageView;
@@ -38,10 +38,10 @@ public class RemembrallDetailFragment extends ButterFragment {
     private FormUIHandler mForm;
     private Remembrall mRemembrall;
 
-    public static RemembrallDetailFragment getInstance(String id){
+    public static RemembrallDetailEditionFragment getInstance(String id){
         Bundle bundle = new Bundle();
         bundle.putString(ID_ARGS, id);
-        RemembrallDetailFragment detailFragment = new RemembrallDetailFragment();
+        RemembrallDetailEditionFragment detailFragment = new RemembrallDetailEditionFragment();
         detailFragment.setArguments(bundle);
         return detailFragment;
     }
@@ -50,7 +50,7 @@ public class RemembrallDetailFragment extends ButterFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = createView(inflater, container, R.layout.fragment_remembrall_detail);
+        View rootView = createView(inflater, container, R.layout.fragment_remembrall_detail_edition);
         mForm = new FormUIHandler(rootView);
         return rootView;
     }
@@ -112,5 +112,11 @@ public class RemembrallDetailFragment extends ButterFragment {
 
     private void update(){
         mForm.updateClient(mRemembrall.getClient());
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mRealm.close();
     }
 }

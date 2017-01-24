@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.gemapps.remembrall.ui.RemembrallDetailEditionFragment">
+    tools:context="com.gemapps.remembrall.ui.DetailEditionFragment">
 
     <include layout="@layout/detail_header"/>
 

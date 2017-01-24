@@ -27,14 +27,22 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.gemapps.remembrall.RememberListActivity"/>
         </activity>
+        <activity android:name=".ui.DetailActivity"
+                  android:label=""
+                  android:parentActivityName=".RememberListActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".RememberListActivity"/>
+        </activity>
         <activity
-            android:name=".ui.RemembrallDetailEditionActivity"
+            android:name=".ui.DetailEditionActivity"
             android:label=""
             android:parentActivityName=".RememberListActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".RememberListActivity"/>
         </activity>
+
         <activity
             android:name=".ui.InkWritingActivity"
             android:theme="@style/AppTheme.Dialog">
@@ -49,8 +57,7 @@
             android:authorities="com.gemapps.remembrall.data"
             android:exported="false"/>
 
-        <activity android:name=".ui.DetailActivity">
-        </activity>
+
     </application>
 
 </manifest>

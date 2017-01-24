@@ -1,10 +1,5 @@
 package com.gemapps.remembrall.ui.model;
 
-import android.util.Log;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import io.realm.RealmObject;
 
 /**
@@ -20,18 +15,11 @@ public class RememberAlarm extends RealmObject {
             "la fecha de devolucion del equipo";
     public static final int DEFAULT_ALARM_TYPE = 0;
 
-    public static final String ALARM_LABEL = "mLabel";
-    public static final String ALARM_DESCRIPTION = "mDescription";
-    public static final String ALARM_START_DATE = "start_date";
-    public static final String ALARM_END_DATE = "end_date";
-    public static final String ALARM_TYPE = "type";
-
-
-    public String mLabel;
-    public String mDescription;
-    public long mStartDate;
-    public long mEndDate;
-    public int mAlarmType;
+    private String mLabel;
+    private String mDescription;
+    private long mStartDate;
+    private long mEndDate;
+    private int mAlarmType;
 
     public RememberAlarm() {}
 
@@ -44,19 +32,43 @@ public class RememberAlarm extends RealmObject {
         this.mAlarmType = alarmType;
     }
 
-    public JSONObject convertTo() {
-        JSONObject obj = new JSONObject();
+    public String getLabel() {
+        return mLabel;
+    }
 
-        try {
-            obj.put(ALARM_LABEL, mLabel);
-            obj.put(ALARM_DESCRIPTION, mDescription);
-            obj.put(ALARM_START_DATE, mStartDate);
-            obj.put(ALARM_END_DATE, mEndDate);
-            obj.put(ALARM_TYPE, mAlarmType);
-        } catch (JSONException e) {
-            Log.e(TAG, "JSON error for " + mLabel);
-        }
+    public void setLabel(String label) {
+        mLabel = label;
+    }
 
-        return obj;
+    public String getDescription() {
+        return mDescription;
+    }
+
+    public void setDescription(String description) {
+        mDescription = description;
+    }
+
+    public long getStartDate() {
+        return mStartDate;
+    }
+
+    public void setStartDate(long startDate) {
+        mStartDate = startDate;
+    }
+
+    public long getEndDate() {
+        return mEndDate;
+    }
+
+    public void setEndDate(long endDate) {
+        mEndDate = endDate;
+    }
+
+    public int getAlarmType() {
+        return mAlarmType;
+    }
+
+    public void setAlarmType(int alarmType) {
+        mAlarmType = alarmType;
     }
 }

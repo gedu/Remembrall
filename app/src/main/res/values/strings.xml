@@ -28,4 +28,7 @@
     <string name="error_email_pattern">No parece ser un mail</string>
     <string name="client_sign">Firma del cliente</string>
     <string name="add_delivery">Agregar pedido</string>
+    <string name="total">Total</string>
+    <string name="cancel">Cancelar</string>
+    <string name="accept">Aceptar</string>
 </resources>

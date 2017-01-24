@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.gemapps.remembrall.R;
-import com.gemapps.remembrall.ui.RemembrallDetailEditionActivity;
+import com.gemapps.remembrall.ui.DetailActivity;
 import com.gemapps.remembrall.ui.model.Remembrall;
 
 import butterknife.BindView;
@@ -58,7 +58,7 @@ public class RecyclerViewRemembrallAdapter
             @Override
             public void onClick(View v) {
 
-                v.getContext().startActivity(RemembrallDetailEditionActivity
+                v.getContext().startActivity(DetailActivity
                         .getInstance(v.getContext(), remembrall.getId()));
             }
         });

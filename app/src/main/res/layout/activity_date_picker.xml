@@ -23,7 +23,8 @@
 
             <DatePicker
                 android:id="@+id/date_picker"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
                 android:layout_height="0dp"
                 android:layout_weight="1"/>
 
@@ -32,7 +33,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="right|end"
+                android:gravity="end"
                 android:orientation="horizontal">
 
                 <Button
@@ -40,14 +41,15 @@
                     style="?attr/buttonBarNegativeButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Cancel"/>
+                    android:text="@string/cancel"/>
 
                 <Button
                     android:id="@+id/accept_button"
                     style="?attr/buttonBarPositiveButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Accept"/>
+                    android:textColor="@color/validAccent"
+                    android:text="@string/accept"/>
 
             </LinearLayout>
         </LinearLayout>

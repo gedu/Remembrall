@@ -50,6 +50,7 @@ public class DatePickerActivity extends BaseCardActivity {
 
         mDatePicked = getTime(mDatePicker.getYear(),
                 mDatePicker.getMonth(), mDatePicker.getDayOfMonth());
+
     }
 
     private void setupDatePicker(int daysToAdd, long ts){
@@ -70,6 +71,7 @@ public class DatePickerActivity extends BaseCardActivity {
                         mDatePicked = getTime(year, monthOfYear, dayOfMonth);
                     }
                 });
+
     }
 
     private long getTime(int year, int month, int day){

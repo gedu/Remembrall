@@ -3,13 +3,10 @@ package com.gemapps.remembrall.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.DatePicker;
 
 import com.gemapps.remembrall.R;
+import com.gemapps.remembrall.ui.widget.DatePickerHandler;
 
-import java.util.Calendar;
-
-import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
@@ -24,9 +21,7 @@ public class DatePickerActivity extends BaseCardActivity {
 
     public static final String DATA_RESULT_KEY = "date_picked";
 
-    @BindView(R.id.date_picker) DatePicker mDatePicker;
-
-    private long mDatePicked;
+    private DatePickerHandler mDatePickerHandler;
     private boolean mSendResult = false;
 
     @Override
@@ -36,50 +31,11 @@ public class DatePickerActivity extends BaseCardActivity {
 
         int daysToAdd = getIntent().getIntExtra(INTENT_EXTRA_DAYS_KEY, 0);
         long ts = getIntent().getLongExtra(INTENT_EXTRA_SET_TS, -1);
-
+        mDatePickerHandler = new DatePickerHandler(findViewById(R.id.view_content), daysToAdd, ts);
         setResult(RESULT_CANCELED);
-        setupDatePicker(daysToAdd, ts);
 
         doEntryAnimation();
         overrideTrans();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        mDatePicked = getTime(mDatePicker.getYear(),
-                mDatePicker.getMonth(), mDatePicker.getDayOfMonth());
-
-    }
-
-    private void setupDatePicker(int daysToAdd, long ts){
-        Log.d(TAG, "setupDatePicker() called with: daysToAdd = [" + daysToAdd + "]");
-
-        Calendar calendar = Calendar.getInstance();
-        if(ts != -1) calendar.setTimeInMillis(ts);
-        calendar.add(Calendar.DAY_OF_MONTH, daysToAdd);
-
-        mDatePicker.init(calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH),
-
-                calendar.get(Calendar.DAY_OF_MONTH),
-                new DatePicker.OnDateChangedListener() {
-                    @Override
-                    public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-
-                        mDatePicked = getTime(year, monthOfYear, dayOfMonth);
-                    }
-                });
-
-    }
-
-    private long getTime(int year, int month, int day){
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(year, month, day);
-
-        return calendar.getTimeInMillis();
     }
 
     @OnClick(R.id.cancel_button)
@@ -90,6 +46,7 @@ public class DatePickerActivity extends BaseCardActivity {
 
     @OnClick(R.id.accept_button)
     public void onAcceptClicked(){
+        Log.d(TAG, "onAcceptClicked");
         mSendResult = true;
         dismiss(null);
     }
@@ -98,9 +55,10 @@ public class DatePickerActivity extends BaseCardActivity {
     public void finish() {
 
         if(mSendResult) {
-            Log.d(TAG, "finish: time: "+mDatePicked);
+            long pickedDate = mDatePickerHandler.getPickedDate();
+            Log.d(TAG, "finish: time: "+pickedDate);
             Intent data = new Intent();
-            data.putExtra(DATA_RESULT_KEY, mDatePicked);
+            data.putExtra(DATA_RESULT_KEY, pickedDate);
             setResult(RESULT_OK, data);
         }
 

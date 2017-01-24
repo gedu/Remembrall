@@ -246,6 +246,15 @@
     </item>
     <item
         is-multidex="false"
+        jar="/Users/angeles/GithubProjects/Remembrall/app/build/intermediates/exploded-aar/com.android.support.test.espresso/espresso-intents/2.2.2/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.2"
+        sha1="efc9e293447db1929eb3853a3f83e8f46a957436">
+        <dex dex="/Users/angeles/GithubProjects/Remembrall/app/build/intermediates/pre-dexed/androidTest/debug/com.android.support.test.espresso-espresso-intents-2.2.2_28d669a294b868b50d9de887daca3e322b2fb948.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="/Users/angeles/GithubProjects/Remembrall/app/build/intermediates/exploded-aar/com.android.support.test.espresso/espresso-core/2.2.2/jars/classes.jar"
         jumboMode="false"
         optimize="true"

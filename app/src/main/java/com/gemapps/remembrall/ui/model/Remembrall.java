@@ -65,6 +65,9 @@ public class Remembrall extends RealmObject {
         return mId;
     }
 
+    public void addDelivery(Delivery delivery){
+        mDeliveries.add(delivery);
+    }
     public List<Delivery> getDeliveries() {
         return mDeliveries;
     }

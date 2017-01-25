@@ -24,12 +24,12 @@ public class RememberAlarm extends RealmObject {
     public RememberAlarm() {}
 
     public RememberAlarm(String label, String description, long startDate,
-                         long endDate, int alarmType) {
+                         long endDate) {
         this.mLabel = label;
         this.mDescription = description;
         this.mStartDate = startDate;
         this.mEndDate = endDate;
-        this.mAlarmType = alarmType;
+        this.mAlarmType = DEFAULT_ALARM_TYPE;
     }
 
     public String getLabel() {

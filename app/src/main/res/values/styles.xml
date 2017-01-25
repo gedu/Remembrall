@@ -17,9 +17,13 @@
         <item name="android:windowIsTranslucent">true</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
 
     <style name="MarginCenter">
 
@@ -27,4 +31,12 @@
         <item name="android:layout_height">@dimen/wrap_content</item>
         
     </style>
+
+    <style name="MarginCenter.SignCard">
+
+        <item name="android:layout_width">@dimen/match_parent</item>
+        <item name="android:layout_height">@dimen/wrap_content</item>
+
+    </style>
+
 </resources>

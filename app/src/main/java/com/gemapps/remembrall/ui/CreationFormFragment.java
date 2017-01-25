@@ -22,7 +22,6 @@ import io.realm.RealmList;
 
 import static com.gemapps.remembrall.ui.model.RememberAlarm.DEFAULT_ALARM_DESCRIPTION;
 import static com.gemapps.remembrall.ui.model.RememberAlarm.DEFAULT_ALARM_LABEL;
-import static com.gemapps.remembrall.ui.model.RememberAlarm.DEFAULT_ALARM_TYPE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -128,7 +127,7 @@ public class CreationFormFragment extends ButterFragment
         // TODO: 1/23/17 : Change for a value got from preference
         final float price = 900;
         RememberAlarm alarm = new RememberAlarm(DEFAULT_ALARM_LABEL,
-                DEFAULT_ALARM_DESCRIPTION, mStartDate, mEndDate, DEFAULT_ALARM_TYPE);
+                DEFAULT_ALARM_DESCRIPTION, mStartDate, mEndDate);
         addAlarm(new Delivery(alarm, price));
     }
 

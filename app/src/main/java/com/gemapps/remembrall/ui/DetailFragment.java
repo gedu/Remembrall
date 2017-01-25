@@ -31,6 +31,7 @@ import io.realm.RealmModel;
 public class DetailFragment extends ButterFragment {
 
     private static final String BOTTOM_SHEET_FRAGMENT_TAG = "remembrall.BOTTOM_SHEET_FRAGMENT_TAG";
+
     @BindView(R.id.total_price_text)
     TextView mTotalPriceText;
     @BindView(R.id.client_mobile_text)

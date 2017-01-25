@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/appbar"
+    android:transitionName="appbar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:theme="@style/AppTheme.AppBarOverlay">
@@ -14,9 +15,11 @@
         app:popupTheme="@style/AppTheme.PopupOverlay"
         android:layout_width="match_parent"
         android:layout_height="156dp"
+
         android:minHeight="?attr/actionBarSize">
 
         <LinearLayout
+            android:id="@+id/linear_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"

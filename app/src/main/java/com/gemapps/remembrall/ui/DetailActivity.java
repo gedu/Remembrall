@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Pair;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,6 +25,7 @@ public class DetailActivity extends ButterActivity {
 
     private static final String FRAGMENT_TAG = "remembrall.DETAIL_TAG";
 
+    // TODO: 1/26/17 Create a HeaderUIHelper to move this views to there
     @BindView(R.id.client_sign_image)
     ImageView mImageView;
     @BindView(R.id.client_name_text)
@@ -48,6 +51,12 @@ public class DetailActivity extends ButterActivity {
         setRemembrall();
         setupHeader();
         setupDetailFragment(savedInstanceState);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        // TODO: 1/26/17 save the client id to recover it later
+        super.onSaveInstanceState(outState);
     }
 
     private void setClientId(){
@@ -90,14 +99,22 @@ public class DetailActivity extends ButterActivity {
     }
 
     @OnClick(R.id.fab)
-    public void onFabClicked(){
+    public void onFabClicked(final View fab){
 
+        Intent editionIntent = DetailEditionActivity.getInstance(DetailActivity.this, mClientId);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            ActivityOptions options = ActivityOptions
-                    .makeSceneTransitionAnimation(this, findViewById(R.id.appbar), "appbar");
 
-            startActivity(DetailEditionActivity.getInstance(DetailActivity.this, mClientId),
-                    options.toBundle());
+            Pair<View, String> appbarPair = new Pair<>(findViewById(R.id.appbar), "appbar");
+            Pair<View, String> fabPair = new Pair<>(fab, "fab");
+            ActivityOptions options = ActivityOptions
+                    .makeSceneTransitionAnimation(this, appbarPair, fabPair);
+
+            startActivity(editionIntent, options.toBundle());
+        }else{
+            startActivity(editionIntent);
         }
     }
+
+
+
 }

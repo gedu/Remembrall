@@ -5,6 +5,6 @@
     android:id="@+id/activity_remembrall_detail"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.gemapps.remembrall.ui.DetailEditionActivity">
+    tools:context="com.gemapps.remembrall.ui.edition.DetailEditionActivity">
 
 </FrameLayout>

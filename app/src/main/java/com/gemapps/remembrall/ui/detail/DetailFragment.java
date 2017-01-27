@@ -1,4 +1,4 @@
-package com.gemapps.remembrall.ui;
+package com.gemapps.remembrall.ui.detail;
 
 
 import android.os.Bundle;
@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.gemapps.remembrall.R;
 import com.gemapps.remembrall.data.RemembrallContract;
+import com.gemapps.remembrall.ui.ButterFragment;
 import com.gemapps.remembrall.ui.adapter.DeliveriesAdapter;
 import com.gemapps.remembrall.ui.model.Client;
 import com.gemapps.remembrall.ui.model.Delivery;

@@ -5,7 +5,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 
-import com.gemapps.remembrall.ui.DetailActivity;
+import com.gemapps.remembrall.ui.detail.DetailActivity;
 import com.gemapps.remembrall.ui.model.Delivery;
 import com.gemapps.remembrall.ui.model.RememberAlarm;
 

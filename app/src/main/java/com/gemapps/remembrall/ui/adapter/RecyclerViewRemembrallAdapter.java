@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.gemapps.remembrall.R;
-import com.gemapps.remembrall.ui.DetailActivity;
+import com.gemapps.remembrall.ui.detail.DetailActivity;
 import com.gemapps.remembrall.ui.model.Remembrall;
 
 import butterknife.BindView;

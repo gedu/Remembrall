@@ -1,4 +1,4 @@
-package com.gemapps.remembrall.ui;
+package com.gemapps.remembrall.ui.detail;
 
 import android.app.ActivityOptions;
 import android.content.Context;
@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import com.gemapps.remembrall.R;
 import com.gemapps.remembrall.data.RemembrallContract;
+import com.gemapps.remembrall.ui.ButterActivity;
+import com.gemapps.remembrall.ui.edition.DetailEditionActivity;
 import com.gemapps.remembrall.ui.model.Remembrall;
 import com.gemapps.remembrall.util.ActivityTransitionUtil;
 import com.gemapps.remembrall.util.ImageUtil;

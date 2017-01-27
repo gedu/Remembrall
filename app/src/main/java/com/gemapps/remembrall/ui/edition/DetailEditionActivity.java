@@ -1,10 +1,11 @@
-package com.gemapps.remembrall.ui;
+package com.gemapps.remembrall.ui.edition;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
 import com.gemapps.remembrall.R;
+import com.gemapps.remembrall.ui.ButterActivity;
 
 public class DetailEditionActivity extends ButterActivity {
 

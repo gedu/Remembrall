@@ -1,4 +1,4 @@
-package com.gemapps.remembrall.ui;
+package com.gemapps.remembrall.ui.edition;
 
 
 import android.graphics.Bitmap;
@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.gemapps.remembrall.R;
 import com.gemapps.remembrall.data.RemembrallContract;
+import com.gemapps.remembrall.ui.ButterFragment;
 import com.gemapps.remembrall.ui.model.Remembrall;
 import com.gemapps.remembrall.ui.widget.FormUIHandler;
 import com.gemapps.remembrall.util.ImageUtil;

@@ -27,7 +27,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.gemapps.remembrall.RememberListActivity"/>
         </activity>
-        <activity android:name=".ui.DetailActivity"
+        <activity android:name=".ui.detail.DetailActivity"
                   android:label=""
                   android:parentActivityName=".RememberListActivity">
             <meta-data
@@ -35,7 +35,7 @@
                 android:value=".RememberListActivity"/>
         </activity>
         <activity
-            android:name=".ui.DetailEditionActivity"
+            android:name=".ui.edition.DetailEditionActivity"
             android:label=""
             android:parentActivityName=".RememberListActivity">
             <meta-data

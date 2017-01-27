@@ -1,5 +1,10 @@
 package com.gemapps.remembrall.ui.model;
 
+import android.support.annotation.IntDef;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 import io.realm.RealmObject;
 
 /**
@@ -13,13 +18,18 @@ public class RememberAlarm extends RealmObject {
     public static final String DEFAULT_ALARM_LABEL = "Recordatorio";
     public static final String DEFAULT_ALARM_DESCRIPTION = "Avisar al cliente que se acerca " +
             "la fecha de devolucion del equipo";
-    public static final int DEFAULT_ALARM_TYPE = 0;
+
+    @IntDef(flag=true, value={ON_GOING, FIRED})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface AlarmStates{}
+    public static final int ON_GOING = 0;
+    public static final int FIRED = 1<<1;
 
     private String mLabel;
     private String mDescription;
     private long mStartDate;
     private long mEndDate;
-    private int mAlarmType;
+    private int mAlarmState;
 
     public RememberAlarm() {}
 
@@ -29,7 +39,7 @@ public class RememberAlarm extends RealmObject {
         this.mDescription = description;
         this.mStartDate = startDate;
         this.mEndDate = endDate;
-        this.mAlarmType = DEFAULT_ALARM_TYPE;
+        this.mAlarmState = ON_GOING;
     }
 
     public String getLabel() {
@@ -64,11 +74,11 @@ public class RememberAlarm extends RealmObject {
         mEndDate = endDate;
     }
 
-    public int getAlarmType() {
-        return mAlarmType;
+    public int getAlarmState() {
+        return mAlarmState;
     }
 
-    public void setAlarmType(int alarmType) {
-        mAlarmType = alarmType;
+    public void setAlarmState(@AlarmStates int alarmState) {
+        mAlarmState = alarmState;
     }
 }

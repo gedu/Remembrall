@@ -1,15 +1,9 @@
 package com.gemapps.remembrall.ui.model;
 
-import android.util.Log;
-
-import com.gemapps.remembrall.ui.model.bus.DbTransaction;
 import com.gemapps.remembrall.ui.widget.FormUIHandler;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
-import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
@@ -70,37 +64,5 @@ public class Remembrall extends RealmObject {
     }
     public List<Delivery> getDeliveries() {
         return mDeliveries;
-    }
-
-    /**
-     * Save the current obj in the Realm db
-     */
-    public void save() {
-        Realm realm = Realm.getDefaultInstance();
-
-        realm.executeTransactionAsync(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                realm.copyToRealm(mClient);
-                realm.copyToRealm(mProduct);
-                realm.copyToRealm(Remembrall.this);
-            }
-        }, new Realm.Transaction.OnSuccess() {
-            @Override
-            public void onSuccess() {
-
-                Log.d(TAG, "onSuccess");
-                EventBus.getDefault().post(new DbTransaction(DbTransaction.SAVE));
-            }
-        }, new Realm.Transaction.OnError() {
-            @Override
-            public void onError(Throwable error) {
-                //TODO: add a try again
-                Log.w(TAG, "onError", error);
-                EventBus.getDefault().post(new DbTransaction(DbTransaction.ERROR));
-            }
-        });
-
-        realm.close();
     }
 }

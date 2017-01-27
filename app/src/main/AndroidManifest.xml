@@ -20,7 +20,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.RemembrallCreationActivity"
+            android:name=".ui.creation.CreationActivity"
             android:label="@string/title_activity_rembrall_creation"
             android:parentActivityName=".RememberListActivity">
             <meta-data

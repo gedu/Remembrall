@@ -2,20 +2,55 @@ package com.gemapps.remembrall;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.BaseTransientBottomBar;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.gemapps.remembrall.ui.ButterActivity;
-import com.gemapps.remembrall.ui.RemembrallCreationActivity;
+import com.gemapps.remembrall.ui.creation.CreationActivity;
+import com.gemapps.remembrall.ui.model.bus.DbTransaction;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import butterknife.BindView;
 import butterknife.OnClick;
 
 public class RememberListActivity extends ButterActivity {
+
+    @BindView(R.id.coordinator_layout)
+    CoordinatorLayout mCoordinatorLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_remember_list);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onDataBaseMessageEvent(DbTransaction dbTransaction){
+
+        if(dbTransaction.getType() == DbTransaction.SAVE){
+            Snackbar.make(mCoordinatorLayout,
+                    R.string.save_success_msg,
+                    BaseTransientBottomBar.LENGTH_LONG)
+                    .show();
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
     }
 
     @Override
@@ -41,6 +76,6 @@ public class RememberListActivity extends ButterActivity {
 
     @OnClick(R.id.fab)
     public void onFabClicked(){
-        startActivity(new Intent(this, RemembrallCreationActivity.class));
+        startActivity(new Intent(this, CreationActivity.class));
     }
 }

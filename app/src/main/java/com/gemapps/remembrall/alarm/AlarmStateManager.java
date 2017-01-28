@@ -46,8 +46,8 @@ public class AlarmStateManager {
     }
 
     private PendingIntent createPendingIntent(Context context){
-        return PendingIntent.getActivity(context, 0,
-                new Intent(context, DetailActivity.class),
+        return PendingIntent.getBroadcast(context, 0,
+                new Intent(context, AlarmNotificationReceiver.class),
                 PendingIntent.FLAG_UPDATE_CURRENT);
     }
 }

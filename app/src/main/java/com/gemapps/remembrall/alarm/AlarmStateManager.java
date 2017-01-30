@@ -3,9 +3,7 @@ package com.gemapps.remembrall.alarm;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 
-import com.gemapps.remembrall.ui.detail.DetailActivity;
 import com.gemapps.remembrall.ui.model.Delivery;
 import com.gemapps.remembrall.ui.model.RememberAlarm;
 
@@ -21,22 +19,21 @@ public class AlarmStateManager {
 
     public static AlarmStateManager getInstance(){
         if(mInstance == null) mInstance = new AlarmStateManager();
-
         return mInstance;
     }
 
-    public void registerAlarm(Context context, List<Delivery> deliveries){
+    public void registerAlarm(Context context, String clientId,  List<Delivery> deliveries){
 
+        PendingIntent pending = createPendingIntent(context, clientId);
         for (Delivery delivery : deliveries) {
-            updateAlarm(context, delivery.getAlarm());
+            updateAlarm(context, pending, delivery.getAlarm());
         }
     }
 
-    private void updateAlarm(Context context, RememberAlarm alarm){
+    private void updateAlarm(Context context, PendingIntent pendingIntent, RememberAlarm alarm){
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
         long fireDate = alarm.getEndDate();
-        PendingIntent pendingIntent = createPendingIntent(context);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             AlarmManager.AlarmClockInfo clockInfo = new AlarmManager.AlarmClockInfo(fireDate, pendingIntent);
             alarmManager.setAlarmClock(clockInfo, pendingIntent);
@@ -45,9 +42,9 @@ public class AlarmStateManager {
         }
     }
 
-    private PendingIntent createPendingIntent(Context context){
+    private PendingIntent createPendingIntent(Context context, String clientId){
         return PendingIntent.getBroadcast(context, 0,
-                new Intent(context, AlarmNotificationReceiver.class),
+                AlarmNotificationReceiver.createIntent(context, clientId),
                 PendingIntent.FLAG_UPDATE_CURRENT);
     }
 }

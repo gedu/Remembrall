@@ -40,7 +40,8 @@ public class AlarmUpdateHandler {
             public void onSuccess() {
 
                 Log.d(TAG, "onSuccess");
-                AlarmStateManager.getInstance().registerAlarm(mContext, remembrall.getDeliveries());
+                AlarmStateManager.getInstance()
+                        .registerAlarm(mContext, remembrall.getId(), remembrall.getDeliveries());
                 EventBus.getDefault().post(new DbTransaction(DbTransaction.SAVE));
             }
         }, new Realm.Transaction.OnError() {

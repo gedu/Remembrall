@@ -10,8 +10,8 @@ import android.widget.EditText;
 
 import com.gemapps.remembrall.R;
 import com.gemapps.remembrall.ui.model.Delivery;
+import com.gemapps.remembrall.ui.model.Job;
 import com.gemapps.remembrall.ui.model.RememberAlarm;
-import com.gemapps.remembrall.ui.model.Remembrall;
 
 import java.util.Calendar;
 
@@ -71,19 +71,19 @@ public class CreateDeliverySheet extends BottomSheetDialogFragment {
 
     private void saveDelivery(){
         Realm realm = Realm.getDefaultInstance();
-        final Remembrall remembrall = realm.where(Remembrall.class).findFirst();
+        final Job job = realm.where(Job.class).findFirst();
 
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                RememberAlarm oldAlarm = remembrall.getDeliveries().get(0).getAlarm();
+                RememberAlarm oldAlarm = job.getDeliveries().get(0).getAlarm();
                 RememberAlarm alarm = new RememberAlarm(oldAlarm.getLabel(),
                         oldAlarm.getDescription(),
                         Calendar.getInstance().getTimeInMillis(),
                         mDatePickerHandler.getPickedDate());
                 Delivery delivery = new Delivery(alarm,
                         Float.valueOf(mPriceText.getText().toString()));
-                remembrall.addDelivery(delivery);
+                job.addDelivery(delivery);
             }
         });
 

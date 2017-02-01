@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.gemapps.remembrall.R;
-import com.gemapps.remembrall.ui.model.Remembrall;
+import com.gemapps.remembrall.ui.model.Job;
 import com.gemapps.remembrall.util.DateUtil;
 
 import butterknife.BindView;
@@ -20,7 +20,7 @@ import io.realm.RealmRecyclerViewAdapter;
  * Created by edu on 8/25/16.
  */
 public class RecyclerViewRemembrallAdapter
-        extends RealmRecyclerViewAdapter<Remembrall, RecyclerViewRemembrallAdapter.RemembrallViewHolder> {
+        extends RealmRecyclerViewAdapter<Job, RecyclerViewRemembrallAdapter.RemembrallViewHolder> {
 
     public interface RemembrallItemsListener {
         void onItemClicked(int position);
@@ -32,7 +32,7 @@ public class RecyclerViewRemembrallAdapter
     private RemembrallItemsListener mListener;
 
     public RecyclerViewRemembrallAdapter(Context context, RemembrallItemsListener listener,
-                                         OrderedRealmCollection<Remembrall> data) {
+                                         OrderedRealmCollection<Job> data) {
         super(context, data, true);
         Log.d(TAG, "RecyclerViewRemembrallAdapter: "+data.size());
         mListener = listener;
@@ -56,16 +56,16 @@ public class RecyclerViewRemembrallAdapter
         }
     }
 
-    private Remembrall getContentAt(int position) throws NullPointerException {
+    private Job getContentAt(int position) throws NullPointerException {
         return getData().get(position);
     }
 
-    private void setupViewUsing(RemembrallViewHolder holder, final Remembrall remembrall){
+    private void setupViewUsing(RemembrallViewHolder holder, final Job job){
 
         holder.mDateView.setText(DateUtil
-                .formatDayMonthFrom(remembrall.getDeliveries().get(0).getAlarm().getEndDate()));
-        holder.mContactNameView.setText(remembrall.getClient().getFirstName());
-        holder.mContactAddressView.setText(remembrall.getClient().getAddress());
+                .formatDayMonthFrom(job.getDeliveries().get(0).getAlarm().getEndDate()));
+        holder.mContactNameView.setText(job.getClient().getFirstName());
+        holder.mContactAddressView.setText(job.getClient().getAddress());
     }
 
     public class RemembrallViewHolder extends CursorViewHolder

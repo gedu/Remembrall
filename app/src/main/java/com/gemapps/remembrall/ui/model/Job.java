@@ -12,9 +12,9 @@ import io.realm.annotations.PrimaryKey;
  * Created by edu on 7/19/16.
  */
 
-public class Remembrall extends RealmObject {
+public class Job extends RealmObject {
 
-    private static final String TAG = "Remembrall";
+    private static final String TAG = "Job";
 
     @PrimaryKey
     private String mId;
@@ -22,9 +22,9 @@ public class Remembrall extends RealmObject {
     private Product mProduct;
     private RealmList<Delivery> mDeliveries;
 
-    public Remembrall() {}
+    public Job() {}
 
-    public Remembrall(FormUIHandler form, RealmList<Delivery> deliveries){
+    public Job(FormUIHandler form, RealmList<Delivery> deliveries){
 
         this.mClient = form.buildClient();
         this.mDeliveries = deliveries;
@@ -32,10 +32,10 @@ public class Remembrall extends RealmObject {
         setPrimaryKey();
     }
 
-    public Remembrall(String firstName, String lastName, String idCard, String address,
-                      String email, String homePhone, String mobilePhone, RealmList<Delivery> deliveries,
-                      String equipLabel, String equipNum, String testerNum, String terminalNum,
-                      String price, String description, byte[] signImage) {
+    public Job(String firstName, String lastName, String idCard, String address,
+               String email, String homePhone, String mobilePhone, RealmList<Delivery> deliveries,
+               String equipLabel, String equipNum, String testerNum, String terminalNum,
+               String price, String description, byte[] signImage) {
 
         this.mClient = new Client(firstName, lastName, idCard, address, email, homePhone, mobilePhone, signImage);
         this.mDeliveries = deliveries;

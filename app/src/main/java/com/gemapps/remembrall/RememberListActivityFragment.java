@@ -15,7 +15,7 @@ import android.widget.Toast;
 import com.gemapps.remembrall.ui.ButterFragment;
 import com.gemapps.remembrall.ui.adapter.RecyclerViewRemembrallAdapter;
 import com.gemapps.remembrall.ui.detail.DetailActivity;
-import com.gemapps.remembrall.ui.model.Remembrall;
+import com.gemapps.remembrall.ui.model.Job;
 import com.gemapps.remembrall.util.RealmUtil;
 import com.gemapps.remembrall.util.Util;
 
@@ -35,7 +35,7 @@ public class RememberListActivityFragment extends ButterFragment
     @BindView(R.id.recycler_view) RecyclerView mRecyclerView;
     private Realm mRealm;
     private RecyclerViewRemembrallAdapter mAdapter;
-    private RealmResults<Remembrall> mRemembralls;
+    private RealmResults<Job> mJobs;
 
     public RememberListActivityFragment() {}
 
@@ -47,9 +47,9 @@ public class RememberListActivityFragment extends ButterFragment
 
         Log.d(TAG, "is a large: "+ Util.isLargeTablet(getActivity()));
 
-        mRemembralls = mRealm.where(Remembrall.class).findAllAsync();
+        mJobs = mRealm.where(Job.class).findAllAsync();
         // TODO: 1/16/17 : should be sorted by date, endDate at the top
-        mAdapter = new RecyclerViewRemembrallAdapter(getActivity(), this, mRemembralls);
+        mAdapter = new RecyclerViewRemembrallAdapter(getActivity(), this, mJobs);
         mRealm.addChangeListener(new RealmChangeListener<Realm>() {
             @Override
             public void onChange(Realm element) {
@@ -85,19 +85,19 @@ public class RememberListActivityFragment extends ButterFragment
 
     @Override
     public void onItemClicked(int position) {
-        Remembrall remembrall = mRemembralls.get(position);
-        startActivity(DetailActivity.getInstance(getContext(), remembrall.getId()));
+        Job job = mJobs.get(position);
+        startActivity(DetailActivity.getInstance(getContext(), job.getId()));
     }
 
     @Override
     public void onDeleteClicked(final int position) {
 
         final String clientId = getClientIdFrom(position);
-        RealmUtil.deleteRemembralls(mRealm, clientId);
+        RealmUtil.deleteJobs(mRealm, clientId);
     }
 
     private String getClientIdFrom(int position){
-        Remembrall currentRem = mRemembralls.get(position);
+        Job currentRem = mJobs.get(position);
         return currentRem.getId();
     }
 

@@ -17,7 +17,7 @@ import com.gemapps.remembrall.ui.ButterFragment;
 import com.gemapps.remembrall.ui.adapter.DeliveriesAdapter;
 import com.gemapps.remembrall.ui.model.Client;
 import com.gemapps.remembrall.ui.model.Delivery;
-import com.gemapps.remembrall.ui.model.Remembrall;
+import com.gemapps.remembrall.ui.model.Job;
 import com.gemapps.remembrall.ui.widget.CreateDeliverySheet;
 
 import butterknife.BindView;
@@ -44,7 +44,7 @@ public class DetailFragment extends ButterFragment {
 
     private Realm mRealm;
     private String mClientId;
-    private Remembrall mRemembrall;
+    private Job mJob;
     private DeliveriesAdapter mAdapter;
     private CreateDeliverySheet mCreateDeliverySheet;
 
@@ -81,10 +81,10 @@ public class DetailFragment extends ButterFragment {
     }
 
     private void findRemembrallItem(){
-        mRemembrall = mRealm.where(Remembrall.class)
-                .equalTo(RemembrallContract.ClientProdEntry.COLUMN_ID, mClientId).findFirst();
+        mJob = mRealm.where(Job.class)
+                .equalTo(RemembrallContract.JobEntry.COLUMN_ID, mClientId).findFirst();
 
-        mRemembrall.addChangeListener(new RealmChangeListener<RealmModel>() {
+        mJob.addChangeListener(new RealmChangeListener<RealmModel>() {
             @Override
             public void onChange(RealmModel element) {
                 updateListAndTotal();
@@ -101,7 +101,7 @@ public class DetailFragment extends ButterFragment {
 
     private void setupTotalPriceUI(){
         float total = 0;
-        for (Delivery delivery : mRemembrall.getDeliveries()){
+        for (Delivery delivery : mJob.getDeliveries()){
             total += delivery.getPrice();
         }
 
@@ -109,7 +109,7 @@ public class DetailFragment extends ButterFragment {
     }
 
     private void setupClientUI(){
-        Client client = mRemembrall.getClient();
+        Client client = mJob.getClient();
 
         mMobileText.setText(client.getMobilePhone());
         mAddressText.setText(client.getAddress());
@@ -117,7 +117,7 @@ public class DetailFragment extends ButterFragment {
 
     private void setupDeliveryList(){
 
-        mAdapter = new DeliveriesAdapter(getActivity(), mRemembrall.getDeliveries());
+        mAdapter = new DeliveriesAdapter(getActivity(), mJob.getDeliveries());
         mDeliveryList.setAdapter(mAdapter);
     }
 

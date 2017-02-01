@@ -63,7 +63,7 @@
 
         <provider
             android:name=".data.RemembrallProvider"
-            android:authorities="com.gemapps.remembrall.data"
+            android:authorities="com.gemapps.job.data"
             android:exported="false"/>
 
         <receiver

@@ -15,7 +15,7 @@ import com.gemapps.remembrall.R;
 import com.gemapps.remembrall.data.RemembrallContract;
 import com.gemapps.remembrall.ui.ButterActivity;
 import com.gemapps.remembrall.ui.edition.DetailEditionActivity;
-import com.gemapps.remembrall.ui.model.Remembrall;
+import com.gemapps.remembrall.ui.model.Job;
 import com.gemapps.remembrall.util.ActivityTransitionUtil;
 import com.gemapps.remembrall.util.ImageUtil;
 
@@ -33,7 +33,7 @@ public class DetailActivity extends ButterActivity {
     @BindView(R.id.client_name_text)
     TextView mClientNameText;
     private String mClientId = "";
-    private Remembrall mRemembrall;
+    private Job mJob;
 
     public static Intent getInstance(Context context, String id){
         Intent intent = new Intent(context, DetailActivity.class);
@@ -78,8 +78,8 @@ public class DetailActivity extends ButterActivity {
 
     private void setRemembrall(){
         Realm realm = Realm.getDefaultInstance();
-        mRemembrall = realm.where(Remembrall.class)
-                .equalTo(RemembrallContract.ClientProdEntry.COLUMN_ID, mClientId)
+        mJob = realm.where(Job.class)
+                .equalTo(RemembrallContract.JobEntry.COLUMN_ID, mClientId)
                 .findFirst();
     }
 
@@ -90,14 +90,14 @@ public class DetailActivity extends ButterActivity {
 
     private void setupImageHeader(){
 
-        Bitmap bitmap = ImageUtil.convertByteToBitmap(mRemembrall.getClient().getSignImage());
+        Bitmap bitmap = ImageUtil.convertByteToBitmap(mJob.getClient().getSignImage());
         ImageUtil.changeBlackLinesToWhite(bitmap);
         if(bitmap != null) mImageView.setImageBitmap(bitmap);
     }
 
     private void setupNameHeader(){
-        mClientNameText.setText(mRemembrall.getClient().getFirstName() +
-                " "+ mRemembrall.getClient().getLastName());
+        mClientNameText.setText(mJob.getClient().getFirstName() +
+                " "+ mJob.getClient().getLastName());
     }
 
     @OnClick(R.id.fab)

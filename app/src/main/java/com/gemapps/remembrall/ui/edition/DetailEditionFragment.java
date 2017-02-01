@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.gemapps.remembrall.R;
 import com.gemapps.remembrall.data.RemembrallContract;
 import com.gemapps.remembrall.ui.ButterFragment;
-import com.gemapps.remembrall.ui.model.Remembrall;
+import com.gemapps.remembrall.ui.model.Job;
 import com.gemapps.remembrall.ui.widget.FormUIHandler;
 import com.gemapps.remembrall.util.ImageUtil;
 
@@ -36,7 +36,7 @@ public class DetailEditionFragment extends ButterFragment {
 
     private Realm mRealm;
     private FormUIHandler mForm;
-    private Remembrall mRemembrall;
+    private Job mJob;
 
     public static DetailEditionFragment getInstance(String id){
         Bundle bundle = new Bundle();
@@ -70,11 +70,11 @@ public class DetailEditionFragment extends ButterFragment {
     }
 
     private void findRemembrallItem(){
-        mRemembrall = mRealm.where(Remembrall.class)
-                .equalTo(RemembrallContract.ClientProdEntry.COLUMN_ID,
+        mJob = mRealm.where(Job.class)
+                .equalTo(RemembrallContract.JobEntry.COLUMN_ID,
                         getArguments().getString(ID_ARGS)).findFirst();
 
-        mRemembrall.addChangeListener(new RealmChangeListener<RealmModel>() {
+        mJob.addChangeListener(new RealmChangeListener<RealmModel>() {
             @Override
             public void onChange(RealmModel element) {
                 setupClientInfo();
@@ -84,25 +84,25 @@ public class DetailEditionFragment extends ButterFragment {
 
     private void setupClientInfo() {
 
-        mForm.fillClientUI(mRemembrall.getClient());
+        mForm.fillClientUI(mJob.getClient());
         setupImageHeader();
         setupNameHeader();
     }
 
     private void setupImageHeader(){
 
-        Bitmap bitmap = ImageUtil.convertByteToBitmap(mRemembrall.getClient().getSignImage());
+        Bitmap bitmap = ImageUtil.convertByteToBitmap(mJob.getClient().getSignImage());
         ImageUtil.changeBlackLinesToWhite(bitmap);
         if(bitmap != null)mImageView.setImageBitmap(bitmap);
     }
 
     private void setupNameHeader(){
-        mClientNameText.setText(mRemembrall.getClient().getFirstName() +
-                " "+ mRemembrall.getClient().getLastName());
+        mClientNameText.setText(mJob.getClient().getFirstName() +
+                " "+ mJob.getClient().getLastName());
     }
 
     private void setupProductInfo(){
-        mForm.fillProductUI(mRemembrall.getProduct());
+        mForm.fillProductUI(mJob.getProduct());
     }
 
     @OnClick(R.id.fab)
@@ -111,7 +111,7 @@ public class DetailEditionFragment extends ButterFragment {
     }
 
     private void update(){
-        mForm.updateClient(mRemembrall.getClient());
+        mForm.updateClient(mJob.getClient());
     }
 
     @Override

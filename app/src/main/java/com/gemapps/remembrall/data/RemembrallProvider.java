@@ -4,7 +4,6 @@ import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 
@@ -28,26 +27,6 @@ public class RemembrallProvider extends ContentProvider {
         mUriMatcher.addURI(authority, RemembrallContract.PATH_ALARM + "/*", ALARM_WITH_CLIENT_AND_PROD);
         mUriMatcher.addURI(authority, RemembrallContract.PATH_CLIENT, CLIENT);
         mUriMatcher.addURI(authority, RemembrallContract.PATH_PRODUCT, PRODUCT);
-    }
-
-    //TODO: improve query, duplicates ids
-    static final SQLiteQueryBuilder mCompleteQueryBuilder;
-    static{
-        mCompleteQueryBuilder = new SQLiteQueryBuilder();
-
-        mCompleteQueryBuilder.setTables(
-                RemembrallContract.AlarmEntry.TABLE_NAME + " INNER JOIN " +
-                        RemembrallContract.ClientProdEntry.TABLE_NAME +
-                        " ON " + RemembrallContract.AlarmEntry.ALARM_ID +
-                        " = " + RemembrallContract.ClientProdEntry.CLI_PRO_ID + " INNER JOIN " +
-                        RemembrallContract.ClientEntry.TABLE_NAME +
-                        " ON " + RemembrallContract.ClientEntry.CLIENT_ID +
-                        " = " + RemembrallContract.ClientProdEntry.COLUMN_CLIENT_ID + " INNER JOIN " +
-                        RemembrallContract.ProductEntry.TABLE_NAME +
-                        " ON " + RemembrallContract.ProductEntry.PRODUCT_ID +
-                        " = " + RemembrallContract.ClientProdEntry.COLUMN_PRODUCT_ID
-
-        );
     }
 
     private RemembrallSqlHelper mSqlHelper;
@@ -98,11 +77,12 @@ public class RemembrallProvider extends ContentProvider {
 
     private Cursor getAllByAlarm(Uri uri, String[] projection, String sortOrder) {
 
-        return mCompleteQueryBuilder.query(mSqlHelper.getReadableDatabase(),
-                projection,
-                null, null,
-                null, null,
-                sortOrder);
+//        return mCompleteQueryBuilder.query(mSqlHelper.getReadableDatabase(),
+//                projection,
+//                null, null,
+//                null, null,
+//                sortOrder);
+        return null;
     }
 
     @Nullable

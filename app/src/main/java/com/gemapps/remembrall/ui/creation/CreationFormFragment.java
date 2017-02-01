@@ -15,8 +15,8 @@ import com.gemapps.remembrall.alarm.AlarmUpdateHandler;
 import com.gemapps.remembrall.ui.ButterFragment;
 import com.gemapps.remembrall.ui.DatePickerActivity;
 import com.gemapps.remembrall.ui.model.Delivery;
+import com.gemapps.remembrall.ui.model.Job;
 import com.gemapps.remembrall.ui.model.RememberAlarm;
-import com.gemapps.remembrall.ui.model.Remembrall;
 import com.gemapps.remembrall.ui.widget.FormUIHandler;
 import com.gemapps.remembrall.util.DateUtil;
 
@@ -122,9 +122,9 @@ public class CreationFormFragment extends ButterFragment
     public void saveForm() {
 
         addDefaultAlarm();
-        Remembrall remembrall = new Remembrall(mForm, mDeliveries);
+        Job job = new Job(mForm, mDeliveries);
         AlarmUpdateHandler alarmUpdateHandler = new AlarmUpdateHandler(getActivity());
-        alarmUpdateHandler.addAlarmAsync(remembrall);
+        alarmUpdateHandler.addAlarmAsync(job);
     }
 
     private void addDefaultAlarm(){

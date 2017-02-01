@@ -3,7 +3,7 @@ package com.gemapps.remembrall.alarm;
 import android.content.Context;
 import android.util.Log;
 
-import com.gemapps.remembrall.ui.model.Remembrall;
+import com.gemapps.remembrall.ui.model.Job;
 import com.gemapps.remembrall.ui.model.bus.DbTransaction;
 
 import org.greenrobot.eventbus.EventBus;
@@ -24,14 +24,14 @@ public class AlarmUpdateHandler {
         mContext = context;
     }
 
-    public void addAlarmAsync(final Remembrall remembrall){
+    public void addAlarmAsync(final Job job){
 
         Realm realm = Realm.getDefaultInstance();
 
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                realm.copyToRealm(remembrall);
+                realm.copyToRealm(job);
             }
         }, new Realm.Transaction.OnSuccess() {
             @Override
@@ -39,7 +39,7 @@ public class AlarmUpdateHandler {
 
                 Log.d(TAG, "onSuccess");
                 AlarmStateManager.getInstance()
-                        .registerAlarm(mContext, remembrall.getId(), remembrall.getDeliveries());
+                        .registerAlarm(mContext, job.getId(), job.getDeliveries());
                 EventBus.getDefault().post(new DbTransaction(DbTransaction.SAVE));
             }
         }, new Realm.Transaction.OnError() {

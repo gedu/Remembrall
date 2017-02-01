@@ -5,9 +5,8 @@ import android.content.ContentValues;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
-import com.gemapps.remembrall.ui.model.Client;
 import com.gemapps.remembrall.ui.model.Product;
-import com.gemapps.remembrall.ui.model.Remembrall;
+import com.gemapps.remembrall.ui.model.Job;
 
 /**
  * Created by edu on 7/21/16.
@@ -24,20 +23,8 @@ public class RemembrallContract {
     public static final String PATH_CLIENT   = "client";
     public static final String PATH_ALARM = "alarm";
     public static final String PATH_PRODUCT = "product";
-    public static final String PATH_CLIENT_PROD_REMEM = "client_prod_remem";
+    public static final String PATH_JOB = "job";
 
-    public static final String[] PROJECTION_ALL = new String[]{
-        AlarmEntry._ID_AS, ClientProdEntry._ID_AS,
-            AlarmEntry.COLUMN_ALARM_TYPE, AlarmEntry.COLUMN_DESCRIPTION, AlarmEntry.COLUMN_END_DATE,
-            AlarmEntry.COLUMN_LABEL, AlarmEntry.COLUMN_START_DATE, ClientProdEntry.COLUMN_CLIENT_ID,
-            ClientProdEntry.COLUMN_PRODUCT_ID, ClientEntry._ID_AS, ClientEntry.COLUMN_FIRST_NAME,
-            ClientEntry.COLUMN_LAST_NAME, ClientEntry.COLUMN_ID_CARD, ClientEntry.COLUMN_ADDRESS,
-            ClientEntry.COLUMN_EMAIL, ClientEntry.COLUMN_HOME_PHONE, ClientEntry.COLUMN_MOBILE_PHONE,
-            ProductEntry._ID_AS, ProductEntry.COLUMN_LABEL, ProductEntry.COLUMN_TESTER_NUM,
-            ProductEntry.COLUMN_TERMINAL_NUM, ProductEntry.COLUMN_PRICE, ProductEntry.COLUMN_DESCRIPTION
-    };
-
-    //TODO: set some values like UNIQUE with a CONSTRAINT
     public static final class ClientEntry implements BaseColumns {
 
         public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon()
@@ -59,39 +46,6 @@ public class RemembrallContract {
         public static final String COLUMN_HOME_PHONE = "mHomePhone";
         public static final String COLUMN_MOBILE_PHONE = "mMobilePhone";
         public static final String COLUMN_SIGN_IMAGE_PATH = "sign_image_path";
-
-        public static final String SQL_CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (" +
-
-                _ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-
-                COLUMN_FIRST_NAME + " TEXT NOT NULL, " +
-                COLUMN_LAST_NAME + " TEXT NOT NULL, " +
-                COLUMN_ID_CARD + " TEXT NOT NULL, " +
-                COLUMN_ADDRESS + " TEXT NOT NULL," +
-                COLUMN_EMAIL + " TEXT DEFAULT '', " +
-                COLUMN_HOME_PHONE + " TEXT, " +
-                COLUMN_MOBILE_PHONE + " TEXT, " +
-                COLUMN_SIGN_IMAGE_PATH + " TEXT);";
-
-        public static final String SQL_DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
-
-        public static ContentValues buildContentValues(Remembrall remembrall){
-
-            Client client = remembrall.getClient();
-            ContentValues contentValues = new ContentValues();
-
-            contentValues.put(COLUMN_FIRST_NAME, client.getFirstName());
-            contentValues.put(COLUMN_LAST_NAME, client.getLastName());
-            contentValues.put(COLUMN_ID_CARD, client.getIdCard());
-            contentValues.put(COLUMN_ADDRESS, client.getAddress());
-            contentValues.put(COLUMN_EMAIL, client.getEmail());
-            contentValues.put(COLUMN_HOME_PHONE, client.getHomePhone());
-            contentValues.put(COLUMN_MOBILE_PHONE, client.getMobilePhone());
-            contentValues.put(COLUMN_SIGN_IMAGE_PATH, "");
-            contentValues.put(COLUMN_FIRST_NAME, client.getFirstName());
-
-            return contentValues;
-        }
     }
 
     public static final class AlarmEntry implements BaseColumns {
@@ -116,22 +70,6 @@ public class RemembrallContract {
         public static final String COLUMN_END_DATE = "mEndDate";
         public static final String COLUMN_ALARM_TYPE = "mAlarmType";
         public static final String COLUMN_CLIENT_PROD_ID = "client_prod_id";
-
-        public static final String SQL_CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (" +
-
-                _ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-
-                COLUMN_LABEL + " TEXT NOT NULL, " +
-                COLUMN_DESCRIPTION + " TEXT NOT NULL, " +
-                COLUMN_START_DATE + " INTEGER NOT NULL, " +
-                COLUMN_END_DATE + " INTEGER NOT NULL," +
-                COLUMN_ALARM_TYPE + " INTEGER NOT NULL," +
-                COLUMN_CLIENT_PROD_ID + " INTEGER NOT NULL," +
-                " FOREIGN KEY (" + COLUMN_CLIENT_PROD_ID + ") REFERENCES " +
-                ClientProdEntry.TABLE_NAME + " (" + ClientProdEntry._ID + ") " +
-                "); ";
-
-        public static final String SQL_DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
     }
 
     public static final class ProductEntry implements BaseColumns {
@@ -150,23 +88,10 @@ public class RemembrallContract {
         public static final String COLUMN_PRICE = "mPrice";
         public static final String COLUMN_DESCRIPTION = "mDescription";
 
-        public static final String SQL_CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (" +
-
-                _ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-
-                COLUMN_LABEL + " TEXT NOT NULL, " +
-                COLUMN_PRODUCT_NUM + " TEXT NOT NULL, " +
-                COLUMN_TESTER_NUM + " TEXT NOT NULL, " +
-                COLUMN_TERMINAL_NUM + " INTEGER NOT NULL, " +
-                COLUMN_PRICE + " INTEGER NOT NULL," +
-                COLUMN_DESCRIPTION + " INTEGER NOT NULL);";
-
-        public static final String SQL_DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
-
-        public static ContentValues buildContentValues(Remembrall remembrall) {
+        public static ContentValues buildContentValues(Job job) {
             ContentValues contentValues = new ContentValues();
 
-            Product product = remembrall.getProduct();
+            Product product = job.getProduct();
 
             contentValues.put(COLUMN_LABEL, product.getEquipLabel());
             contentValues.put(COLUMN_PRODUCT_NUM, product.getEquipNum());
@@ -179,44 +104,13 @@ public class RemembrallContract {
         }
     }
 
-    public static class ClientProdEntry implements BaseColumns {
+    public static class JobEntry implements BaseColumns {
 
         public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon()
-                .appendPath(PATH_CLIENT_PROD_REMEM).build();
-
-        public static final String TABLE_NAME = "client_prod";
-        public static final String CLI_PRO_ID = "cli_pro_id";
-        public static final String _ID_AS = TABLE_NAME+"."+_ID + " AS " + CLI_PRO_ID;
-
+                .appendPath(PATH_JOB).build();
         public static final String COLUMN_ID = "mId";
         public static final String COLUMN_CLIENT_ID = "mClient";
         public static final String COLUMN_PRODUCT_ID = "mProduct";
-
-        public static final String SQL_CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (" +
-
-                _ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                COLUMN_CLIENT_ID + " INTEGER NOT NULL, " +
-                COLUMN_PRODUCT_ID + " INTEGER NOT NULL, " +
-
-                " FOREIGN KEY (" + COLUMN_CLIENT_ID + ") REFERENCES " +
-                ClientEntry.TABLE_NAME + " (" + ClientEntry._ID + "), " +
-
-                " FOREIGN KEY (" + COLUMN_PRODUCT_ID + ") REFERENCES " +
-                ProductEntry.TABLE_NAME + " (" + ProductEntry._ID + ") " +
-
-                ");";
-
-        public static final String SQL_DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
-
-        public static ContentValues buildContentValues(long clientId, long productId) {
-
-            ContentValues contentValues = new ContentValues();
-
-            contentValues.put(COLUMN_CLIENT_ID, clientId);
-            contentValues.put(COLUMN_PRODUCT_ID, productId);
-
-            return contentValues;
-        }
     }
 
 }

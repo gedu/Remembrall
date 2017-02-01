@@ -11,7 +11,8 @@ import java.util.Locale;
 
 public class DateUtil {
 
-    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yy", Locale.US);
+    private static final SimpleDateFormat FULL_DATE_FORMAT = new SimpleDateFormat("dd/MM/yy", Locale.US);
+    private static final SimpleDateFormat DAY_MONTH_DATE_FORMAT = new SimpleDateFormat("dd MMM", Locale.US);
 
     public static long getDate(){
         return getDate(0);
@@ -30,9 +31,13 @@ public class DateUtil {
         return calendar.getTimeInMillis();
     }
 
+    public static String formatDayMonthFrom(long ts){
+        return DAY_MONTH_DATE_FORMAT.format(new Date(ts));
+    }
+
     public static String formatDateFromTs(long ts){
 
-        return DATE_FORMAT.format(new Date(ts));
+        return FULL_DATE_FORMAT.format(new Date(ts));
     }
 
     public static String formatDate(){
@@ -43,11 +48,11 @@ public class DateUtil {
 
         Date date = new Date(getDate(daysToAdd));
 
-        return DATE_FORMAT.format(date);
+        return FULL_DATE_FORMAT.format(date);
     }
 
     public static String formatDateFromTs(int daysToAdd, long ts){
 
-        return  DATE_FORMAT.format(new Date(getDate(daysToAdd, ts)));
+        return  FULL_DATE_FORMAT.format(new Date(getDate(daysToAdd, ts)));
     }
 }

@@ -31,8 +31,6 @@ public class AlarmUpdateHandler {
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                realm.copyToRealm(remembrall.getClient());
-                realm.copyToRealm(remembrall.getProduct());
                 realm.copyToRealm(remembrall);
             }
         }, new Realm.Transaction.OnSuccess() {

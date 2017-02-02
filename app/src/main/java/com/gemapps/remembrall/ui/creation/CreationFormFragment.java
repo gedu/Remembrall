@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -123,6 +124,7 @@ public class CreationFormFragment extends ButterFragment
 
         addDefaultAlarm();
         Job job = new Job(mForm, mDeliveries);
+        Log.d(TAG, "saveForm: PROD PRICE: "+job.getProduct().getPrice());
         AlarmUpdateHandler alarmUpdateHandler = new AlarmUpdateHandler(getActivity());
         alarmUpdateHandler.addAlarmAsync(job);
     }
@@ -161,5 +163,11 @@ public class CreationFormFragment extends ButterFragment
     public void onEndDatePick(long ts) {
         mEndDate = ts;
         setEndDayText();
+    }
+
+    @Override
+    public void onDestroy() {
+        mForm.onDestroy();
+        super.onDestroy();
     }
 }

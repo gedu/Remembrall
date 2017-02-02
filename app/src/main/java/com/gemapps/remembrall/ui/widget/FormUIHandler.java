@@ -2,23 +2,29 @@ package com.gemapps.remembrall.ui.widget;
 
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.gemapps.remembrall.R;
+import com.gemapps.remembrall.data.RemembrallContract;
 import com.gemapps.remembrall.ui.model.Client;
 import com.gemapps.remembrall.ui.model.Product;
+import com.gemapps.remembrall.ui.widget.searchtext.SearchPopupHelper;
 import com.gemapps.remembrall.util.ImageUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.Realm;
+import io.realm.RealmObject;
 
 /**
  * Created by edu on 1/20/17.
  * Main class to handle all the inputs from the creation form
  */
 public class FormUIHandler {
+
+    private static final String TAG = "FormUIHandler";
 
     @BindView(R.id.nested_scroll)
     LockNestedScrollView mNestedScroll;
@@ -58,9 +64,21 @@ public class FormUIHandler {
     @Nullable @BindView(R.id.ink_view)
     InkWritingWrapper mInkView;
 
+    private SearchPopupHelper mClientSeatchPopup;
+    private SearchPopupHelper mProductSearchPopup;
+
     public FormUIHandler(View rootView) {
         ButterKnife.bind(this, rootView);
+        setupSearchPopups();
     }
+
+    private void setupSearchPopups(){
+        mClientSeatchPopup = new SearchPopupHelper(mFirstNameEdit, Client.class,
+                RemembrallContract.ClientEntry.COLUMN_FIRST_NAME, mClientSearchListener);
+        mProductSearchPopup = new SearchPopupHelper(mEquipLabelEdit, Product.class,
+                RemembrallContract.ProductEntry.COLUMN_LABEL, mProductSearchListener);
+    }
+
 
     public void setLockScrollListener(){
         if(inkViewExist()) mInkView.setLockNestedScrollView(mNestedScroll);
@@ -83,8 +101,12 @@ public class FormUIHandler {
     }
 
     public void fillClientUI(Client client){
+        fillClientUI(client, true);
+    }
 
-        mFirstNameEdit.setText(client.getFirstName());
+    public void fillClientUI(Client client, boolean fillName){
+
+        if(fillName) mFirstNameEdit.setText(client.getFirstName());
         mLastNameEdit.setText(client.getLastName());
         mIdCardEdit.setText(client.getIdCard());
         mAddressEdit.setText(client.getAddress());
@@ -94,8 +116,12 @@ public class FormUIHandler {
     }
 
     public void fillProductUI(Product product){
+        fillProductUI(product, true);
+    }
 
-        mEquipLabelEdit.setText(product.getEquipLabel());
+    public void fillProductUI(Product product, boolean fillLabel){
+
+        if(fillLabel)mEquipLabelEdit.setText(product.getEquipLabel());
         mEquipNumEdit.setText(product.getEquipNum());
         mTesterNumEdit.setText(product.getTesterNum());
         mTerminalNumEdit.setText(product.getTerminalNum());
@@ -140,8 +166,29 @@ public class FormUIHandler {
         String testerNum = mTesterNumEdit.getText().toString();
         String terminalNum = mTerminalNumEdit.getText().toString();
         String price = mPriceNumEdit.getText().toString();
+        Log.d(TAG, "buildProduct: PRICE: "+price);
         String description = mDescriptionEdit.getText().toString();
 
         return new Product(equipLabel, equipNum, testerNum, terminalNum, price, description);
     }
+
+    public void onDestroy(){
+        mClientSeatchPopup.onDestroy();
+        mProductSearchPopup.onDestroy();
+    }
+
+    private SearchPopupHelper.SearchPopupListener mClientSearchListener = new SearchPopupHelper.SearchPopupListener() {
+        @Override
+        public void onItemClick(RealmObject selected) {
+
+            fillClientUI((Client) selected, false);
+        }
+    };
+
+    private SearchPopupHelper.SearchPopupListener mProductSearchListener = new SearchPopupHelper.SearchPopupListener() {
+        @Override
+        public void onItemClick(RealmObject selected) {
+            fillProductUI((Product) selected, false);
+        }
+    };
 }

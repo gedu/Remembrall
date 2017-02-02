@@ -1,12 +1,14 @@
 package com.gemapps.remembrall.ui.model;
 
+import com.gemapps.remembrall.ui.widget.searchtext.Searcheable;
+
 import io.realm.RealmObject;
 
 /**
  * Created by edu on 8/11/16.
  */
 
-public class Product extends RealmObject {
+public class Product extends RealmObject implements Searcheable {
 
     private String mEquipLabel;
     private String mEquipNum;
@@ -49,5 +51,10 @@ public class Product extends RealmObject {
 
     public String getDescription() {
         return mDescription;
+    }
+
+    @Override
+    public String getLabel() {
+        return null;
     }
 }

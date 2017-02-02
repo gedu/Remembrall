@@ -9,8 +9,8 @@ android {
         applicationId "com.gemapps.remembrall"
         minSdkVersion 18
         targetSdkVersion 25
-        versionCode 10002
-        versionName "1.0.2"
+        versionCode 10101
+        versionName "1.1.1"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }

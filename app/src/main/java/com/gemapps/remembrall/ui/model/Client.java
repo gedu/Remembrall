@@ -1,12 +1,14 @@
 package com.gemapps.remembrall.ui.model;
 
+import com.gemapps.remembrall.ui.widget.searchtext.Searcheable;
+
 import io.realm.RealmObject;
 
 /**
  * Created by edu on 8/10/16.
  */
 
-public class Client extends RealmObject {
+public class Client extends RealmObject implements Searcheable {
 
     private String mFirstName;
     private String mLastName;
@@ -101,4 +103,8 @@ public class Client extends RealmObject {
     }
 
 
+    @Override
+    public String getLabel() {
+        return mFirstName + " " + mLastName;
+    }
 }

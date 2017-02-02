@@ -36,6 +36,7 @@
                     android:id="@+id/form_equip_label_edit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:nextFocusDown="@+id/form_equip_num_edit"
                     android:hint="@string/first_name"/>
             </android.support.design.widget.TextInputLayout>
 
@@ -49,6 +50,7 @@
                     android:id="@+id/form_equip_num_edit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:nextFocusDown="@+id/form_tester_num_edit"
                     android:hint="@string/equip_number"/>
             </android.support.design.widget.TextInputLayout>
 
@@ -70,6 +72,7 @@
                     android:id="@+id/form_tester_num_edit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:nextFocusDown="@+id/form_terminal_num_edit"
                     android:hint="@string/tester_number"/>
             </android.support.design.widget.TextInputLayout>
 
@@ -98,6 +101,7 @@
                 android:id="@+id/form_description_edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:nextFocusDown="@+id/form_description_edit"
                 android:gravity="top"
                 android:hint="@string/description"/>
 

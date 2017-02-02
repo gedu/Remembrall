@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.gemapps.remembrall.ui.ButterFragment;
 import com.gemapps.remembrall.ui.adapter.RecyclerViewRemembrallAdapter;
@@ -21,7 +20,6 @@ import com.gemapps.remembrall.util.Util;
 
 import butterknife.BindView;
 import io.realm.Realm;
-import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 
 /**
@@ -50,12 +48,6 @@ public class RememberListActivityFragment extends ButterFragment
         mJobs = mRealm.where(Job.class).findAllAsync();
         // TODO: 1/16/17 : should be sorted by date, endDate at the top
         mAdapter = new RecyclerViewRemembrallAdapter(getActivity(), this, mJobs);
-        mRealm.addChangeListener(new RealmChangeListener<Realm>() {
-            @Override
-            public void onChange(Realm element) {
-                Toast.makeText(getContext(), "DELETED?", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     @Override

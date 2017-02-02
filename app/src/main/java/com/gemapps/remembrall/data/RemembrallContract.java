@@ -1,12 +1,8 @@
 package com.gemapps.remembrall.data;
 
 import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.net.Uri;
 import android.provider.BaseColumns;
-
-import com.gemapps.remembrall.ui.model.Product;
-import com.gemapps.remembrall.ui.model.Job;
 
 /**
  * Created by edu on 7/21/16.
@@ -87,21 +83,6 @@ public class RemembrallContract {
         public static final String COLUMN_TERMINAL_NUM = "mTerminalNum";
         public static final String COLUMN_PRICE = "mPrice";
         public static final String COLUMN_DESCRIPTION = "mDescription";
-
-        public static ContentValues buildContentValues(Job job) {
-            ContentValues contentValues = new ContentValues();
-
-            Product product = job.getProduct();
-
-            contentValues.put(COLUMN_LABEL, product.getEquipLabel());
-            contentValues.put(COLUMN_PRODUCT_NUM, product.getEquipNum());
-            contentValues.put(COLUMN_TESTER_NUM, product.getTesterNum());
-            contentValues.put(COLUMN_TERMINAL_NUM, product.getTerminalNum());
-            contentValues.put(COLUMN_PRICE, product.getPrice());
-            contentValues.put(COLUMN_DESCRIPTION, product.getDescription());
-
-            return contentValues;
-        }
     }
 
     public static class JobEntry implements BaseColumns {

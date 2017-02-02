@@ -14,18 +14,16 @@ public class Product extends RealmObject implements Searcheable {
     private String mEquipNum;
     private String mTesterNum;
     private String mTerminalNum;
-    private String mPrice;
     private String mDescription;
 
     public Product() {}
 
     public Product(String equipLabel, String equipNum, String testerNum, String terminalNum,
-                   String price, String description) {
+                   String description) {
         mEquipLabel = equipLabel;
         mEquipNum = equipNum;
         mTesterNum = testerNum;
         mTerminalNum = terminalNum;
-        mPrice = price;
         mDescription = description;
     }
 
@@ -43,10 +41,6 @@ public class Product extends RealmObject implements Searcheable {
 
     public String getTerminalNum() {
         return mTerminalNum;
-    }
-
-    public String getPrice() {
-        return mPrice;
     }
 
     public String getDescription() {

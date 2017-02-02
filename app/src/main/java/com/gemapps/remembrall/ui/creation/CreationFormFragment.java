@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,7 +72,7 @@ public class CreationFormFragment extends ButterFragment
                              Bundle savedInstanceState) {
 
         View rootView = createView(inflater, container, R.layout.fragment_creation_form);
-        mForm = new FormUIHandler(rootView);
+        mForm = new FormUIHandler(rootView, true);
         return rootView;
     }
 
@@ -124,14 +123,13 @@ public class CreationFormFragment extends ButterFragment
 
         addDefaultAlarm();
         Job job = new Job(mForm, mDeliveries);
-        Log.d(TAG, "saveForm: PROD PRICE: "+job.getProduct().getPrice());
         AlarmUpdateHandler alarmUpdateHandler = new AlarmUpdateHandler(getActivity());
         alarmUpdateHandler.addAlarmAsync(job);
     }
 
     private void addDefaultAlarm(){
-        // TODO: 1/23/17 : Change for a value got from preference
-        final float price = 900;
+
+        final float price = Float.valueOf(mForm.getPriceFromView());
         RememberAlarm alarm = new RememberAlarm(DEFAULT_ALARM_LABEL,
                 DEFAULT_ALARM_DESCRIPTION, mStartDate, mEndDate);
         addAlarm(new Delivery(alarm, price));

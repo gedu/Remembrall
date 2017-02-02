@@ -51,7 +51,7 @@ public class DetailEditionFragment extends ButterFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = createView(inflater, container, R.layout.fragment_remembrall_detail_edition);
-        mForm = new FormUIHandler(rootView);
+        mForm = new FormUIHandler(rootView, false);
         return rootView;
     }
 

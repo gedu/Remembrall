@@ -2,7 +2,6 @@ package com.gemapps.remembrall.ui.widget;
 
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -23,7 +22,7 @@ import io.realm.RealmObject;
  * Main class to handle all the inputs from the creation form
  */
 public class FormUIHandler {
-
+    // TODO: 2/2/17 Would be good to create a Builder for this
     private static final String TAG = "FormUIHandler";
 
     @BindView(R.id.nested_scroll)
@@ -43,11 +42,6 @@ public class FormUIHandler {
     @BindView(R.id.form_mobile_phone_edit)
     TextInputEditText mMobilePhoneEdit;
 
-    @BindView(R.id.form_start_day_text)
-    TextView mStartDayText;
-    @BindView(R.id.form_end_day_text)
-    TextView mEndDayText;
-
     @BindView(R.id.form_equip_label_edit)
     TextInputEditText mEquipLabelEdit;
     @BindView(R.id.form_equip_num_edit)
@@ -56,24 +50,29 @@ public class FormUIHandler {
     TextInputEditText mTesterNumEdit;
     @BindView(R.id.form_terminal_num_edit)
     TextInputEditText mTerminalNumEdit;
-    @BindView(R.id.form_price_edit)
-    TextInputEditText mPriceNumEdit;
     @BindView(R.id.form_description_edit)
     TextInputEditText mDescriptionEdit;
+
+    @Nullable @BindView(R.id.form_start_day_text)
+    TextView mStartDayText;
+    @Nullable @BindView(R.id.form_end_day_text)
+    TextView mEndDayText;
+    @Nullable @BindView(R.id.form_price_edit)
+    TextInputEditText mPriceNumEdit;
 
     @Nullable @BindView(R.id.ink_view)
     InkWritingWrapper mInkView;
 
-    private SearchPopupHelper mClientSeatchPopup;
+    private SearchPopupHelper mClientSearchPopup;
     private SearchPopupHelper mProductSearchPopup;
 
-    public FormUIHandler(View rootView) {
+    public FormUIHandler(View rootView, boolean withSearchPopups) {
         ButterKnife.bind(this, rootView);
-        setupSearchPopups();
+        if(withSearchPopups) setupSearchPopups();
     }
 
     private void setupSearchPopups(){
-        mClientSeatchPopup = new SearchPopupHelper(mFirstNameEdit, Client.class,
+        mClientSearchPopup = new SearchPopupHelper(mFirstNameEdit, Client.class,
                 RemembrallContract.ClientEntry.COLUMN_FIRST_NAME, mClientSearchListener);
         mProductSearchPopup = new SearchPopupHelper(mEquipLabelEdit, Product.class,
                 RemembrallContract.ProductEntry.COLUMN_LABEL, mProductSearchListener);
@@ -125,7 +124,6 @@ public class FormUIHandler {
         mEquipNumEdit.setText(product.getEquipNum());
         mTesterNumEdit.setText(product.getTesterNum());
         mTerminalNumEdit.setText(product.getTerminalNum());
-        mPriceNumEdit.setText(product.getPrice());
         mDescriptionEdit.setText(product.getDescription());
     }
 
@@ -165,15 +163,17 @@ public class FormUIHandler {
         String equipNum = mEquipNumEdit.getText().toString();
         String testerNum = mTesterNumEdit.getText().toString();
         String terminalNum = mTerminalNumEdit.getText().toString();
-        String price = mPriceNumEdit.getText().toString();
-        Log.d(TAG, "buildProduct: PRICE: "+price);
         String description = mDescriptionEdit.getText().toString();
 
-        return new Product(equipLabel, equipNum, testerNum, terminalNum, price, description);
+        return new Product(equipLabel, equipNum, testerNum, terminalNum, description);
+    }
+
+    public String getPriceFromView(){
+        return mPriceNumEdit.getText().toString();
     }
 
     public void onDestroy(){
-        mClientSeatchPopup.onDestroy();
+        mClientSearchPopup.onDestroy();
         mProductSearchPopup.onDestroy();
     }
 

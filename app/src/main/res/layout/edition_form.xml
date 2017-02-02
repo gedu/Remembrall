@@ -15,9 +15,9 @@
 
         <include layout="@layout/form_user_creation"/>
 
-        <include layout="@layout/form_alarm_creation"/>
-
         <include layout="@layout/form_device_creation"/>
+
+        <include layout="@layout/form_alarm_creation"/>
 
     </LinearLayout>
 

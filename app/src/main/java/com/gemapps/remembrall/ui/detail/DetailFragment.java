@@ -1,6 +1,8 @@
 package com.gemapps.remembrall.ui.detail;
 
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -31,6 +33,7 @@ import io.realm.RealmModel;
  */
 public class DetailFragment extends ButterFragment {
 
+    private static final String TAG = "DetailFragment";
     private static final String BOTTOM_SHEET_FRAGMENT_TAG = "remembrall.BOTTOM_SHEET_FRAGMENT_TAG";
 
     @BindView(R.id.total_price_text)
@@ -82,7 +85,8 @@ public class DetailFragment extends ButterFragment {
 
     private void findRemembrallItem(){
         mJob = mRealm.where(Job.class)
-                .equalTo(RemembrallContract.JobEntry.COLUMN_ID, mClientId).findFirst();
+                .equalTo(RemembrallContract.JobEntry.COLUMN_ID, mClientId)
+                .findFirst();
 
         mJob.addChangeListener(new RealmChangeListener<RealmModel>() {
             @Override
@@ -131,7 +135,29 @@ public class DetailFragment extends ButterFragment {
         mCreateDeliverySheet.show(getSupportFragmentManager(), BOTTOM_SHEET_FRAGMENT_TAG);
     }
 
+    @OnClick(R.id.client_address_text)
+    public void onAddressClicked(){
+
+        Uri gmmIntentUri = Uri.parse("geo:0,0?q="+mJob.getClient().getAddress());
+        Intent intent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.client_mobile_text)
+    public void onPhoneClicked(){
+        Uri uri = Uri.parse("smsto:" + mJob.getClient().getMobilePhone());
+        Intent intent = new Intent(Intent.ACTION_SENDTO, uri);
+        startActivity(intent);
+    }
+
     private FragmentManager getSupportFragmentManager(){
         return getActivity().getSupportFragmentManager();
+    }
+
+    @Override
+    public void onDestroy() {
+        mJob.removeChangeListeners();
+        mRealm.close();
+        super.onDestroy();
     }
 }

@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#F44336</color>
-    <color name="colorPrimaryDark">#D32F2F</color>
-    <color name="colorAccent">#FFD740</color>
+    <color name="colorPrimary">#3A506B</color>
+    <color name="colorPrimaryDark">#304258</color>
+    <color name="colorAccent">#5BC0BE</color>
 
     <color name="validAccent">#00E676</color>
     <color name="warningAccent">#FFEA00</color>
 
     <!--Black transparent bg-->
     <color name="dialog_background">#7f000000</color>
+    <color name="black_78">#c8000000</color>
 
     <color name="gray_divider">#1f000000</color>
     <color name="ic_filled_color">#8a000000</color>

@@ -20,8 +20,6 @@ import com.gemapps.remembrall.util.ImageUtil;
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.realm.Realm;
-import io.realm.RealmChangeListener;
-import io.realm.RealmModel;
 
 public class DetailEditionFragment extends ButterFragment {
 
@@ -73,13 +71,6 @@ public class DetailEditionFragment extends ButterFragment {
         mJob = mRealm.where(Job.class)
                 .equalTo(RemembrallContract.JobEntry.COLUMN_ID,
                         getArguments().getString(ID_ARGS)).findFirst();
-
-        mJob.addChangeListener(new RealmChangeListener<RealmModel>() {
-            @Override
-            public void onChange(RealmModel element) {
-                setupClientInfo();
-            }
-        });
     }
 
     private void setupClientInfo() {
@@ -111,7 +102,8 @@ public class DetailEditionFragment extends ButterFragment {
     }
 
     private void update(){
-        mForm.updateClient(mJob.getClient());
+        mForm.updateClient(mRealm, mJob.getClient());
+        getActivity().onBackPressed();
     }
 
     @Override

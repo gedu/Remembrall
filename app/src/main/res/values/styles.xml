@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -9,7 +9,7 @@
 
     </style>
 
-    <style name="AppTheme.EditText" parent="Widget.Design.TextInputLayout">
+    <style name="Widget.Design.TextInputLayout" parent="Widget.Design.TextInputLayout" tools:override="true">
         <item name="hintTextAppearance">@style/AppTheme.TextFloatLabelAppearance</item>
         <item name="counterTextAppearance">@style/TextAppearance.Design.Counter</item>
         <item name="counterOverflowTextAppearance">@style/TextAppearance.Design.Counter.Overflow</item>
@@ -17,7 +17,7 @@
 
     <style name="AppTheme.TextFloatLabelAppearance" parent="TextAppearance.Design.Hint">
         <!-- Floating label appearance here -->
-        <item name="android:textColor">@color/dialog_background</item>
+        <item name="android:textColor">@color/black_78</item>
     </style>
 
     <style name="AppTheme.NoActionBar" parent="AppTheme">

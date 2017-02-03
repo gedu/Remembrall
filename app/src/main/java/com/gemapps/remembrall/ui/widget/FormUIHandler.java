@@ -127,12 +127,11 @@ public class FormUIHandler {
         mDescriptionEdit.setText(product.getDescription());
     }
 
-    public void updateClient(final Client client){
-        Realm realm = Realm.getDefaultInstance();
+    public void updateClient(Realm realm, final Client client){
+
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-
                 client.setFirstName(mFirstNameEdit.getText().toString());
                 client.setLastName(mLastNameEdit.getText().toString());
                 client.setIdCard(mIdCardEdit.getText().toString());

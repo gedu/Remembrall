@@ -22,6 +22,8 @@ import com.gemapps.remembrall.util.ImageUtil;
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.realm.Realm;
+import io.realm.RealmChangeListener;
+import io.realm.RealmModel;
 
 public class DetailActivity extends ButterActivity {
 
@@ -57,7 +59,7 @@ public class DetailActivity extends ButterActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        // TODO: 1/26/17 save the client id to recover it later
+        // TODO: 1/26/17 save the client id to recover it later if needed
         super.onSaveInstanceState(outState);
     }
 
@@ -73,7 +75,6 @@ public class DetailActivity extends ButterActivity {
                     .add(R.id.fragment_container, detailFragment, FRAGMENT_TAG)
                     .commit();
         }
-
     }
 
     private void setRemembrall(){
@@ -81,6 +82,13 @@ public class DetailActivity extends ButterActivity {
         mJob = realm.where(Job.class)
                 .equalTo(RemembrallContract.JobEntry.COLUMN_ID, mClientId)
                 .findFirst();
+        mJob.addChangeListener(new RealmChangeListener<RealmModel>() {
+            @Override
+            public void onChange(RealmModel element) {
+                setupNameHeader();
+            }
+        });
+
     }
 
     private void setupHeader(){
@@ -117,6 +125,9 @@ public class DetailActivity extends ButterActivity {
         }
     }
 
-
-
+    @Override
+    protected void onDestroy() {
+        mJob.removeChangeListeners();
+        super.onDestroy();
+    }
 }

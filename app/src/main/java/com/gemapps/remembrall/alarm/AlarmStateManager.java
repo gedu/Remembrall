@@ -24,8 +24,8 @@ public class AlarmStateManager {
 
     public void registerAlarm(Context context, String clientId,  List<Delivery> deliveries){
 
-        PendingIntent pending = createPendingIntent(context, clientId);
         for (Delivery delivery : deliveries) {
+            PendingIntent pending = createPendingIntent(context, clientId, delivery.getId());
             updateAlarm(context, pending, delivery.getAlarm());
         }
     }
@@ -42,8 +42,8 @@ public class AlarmStateManager {
         }
     }
 
-    private PendingIntent createPendingIntent(Context context, String clientId){
-        return PendingIntent.getBroadcast(context, 0,
+    private PendingIntent createPendingIntent(Context context, String clientId, int id){
+        return PendingIntent.getBroadcast(context, id,
                 AlarmNotificationReceiver.createIntent(context, clientId),
                 PendingIntent.FLAG_UPDATE_CURRENT);
     }

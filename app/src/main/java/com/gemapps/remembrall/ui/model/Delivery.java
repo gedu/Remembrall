@@ -10,12 +10,14 @@ public class Delivery extends RealmObject {
 
     private RememberAlarm mAlarm;
     private float mPrice;
+    private int mId;
 
     public Delivery() {}
 
     public Delivery(RememberAlarm alarm, float price) {
         mAlarm = alarm;
         mPrice = price;
+        mId = (int) System.currentTimeMillis();
     }
 
     public RememberAlarm getAlarm() {
@@ -32,5 +34,13 @@ public class Delivery extends RealmObject {
 
     public void setPrice(float price) {
         mPrice = price;
+    }
+
+    public void setId(int id) {
+        mId = id;
+    }
+
+    public int getId() {
+        return mId;
     }
 }

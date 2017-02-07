@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.gemapps.remembrall.R;
 import com.gemapps.remembrall.data.RemembrallContract;
@@ -21,6 +20,7 @@ import com.gemapps.remembrall.ui.model.Client;
 import com.gemapps.remembrall.ui.model.Delivery;
 import com.gemapps.remembrall.ui.model.Job;
 import com.gemapps.remembrall.ui.widget.CreateDeliverySheet;
+import com.gemapps.remembrall.ui.widget.DetailHeaderHelper;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -36,12 +36,6 @@ public class DetailFragment extends ButterFragment {
     private static final String TAG = "DetailFragment";
     private static final String BOTTOM_SHEET_FRAGMENT_TAG = "remembrall.BOTTOM_SHEET_FRAGMENT_TAG";
 
-    @BindView(R.id.total_price_text)
-    TextView mTotalPriceText;
-    @BindView(R.id.client_mobile_text)
-    TextView mMobileText;
-    @BindView(R.id.client_address_text)
-    TextView mAddressText;
     @BindView(R.id.delivery_list)
     ListView mDeliveryList;
 
@@ -50,6 +44,7 @@ public class DetailFragment extends ButterFragment {
     private Job mJob;
     private DeliveriesAdapter mAdapter;
     private CreateDeliverySheet mCreateDeliverySheet;
+    private DetailHeaderHelper mHeader;
 
     public static DetailFragment getInstance(String id){
         Bundle bundle = new Bundle();
@@ -78,7 +73,7 @@ public class DetailFragment extends ButterFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        mHeader = new DetailHeaderHelper(view);
         findRemembrallItem();
         setupUI();
     }
@@ -109,14 +104,12 @@ public class DetailFragment extends ButterFragment {
             total += delivery.getPrice();
         }
 
-        mTotalPriceText.setText(String.valueOf(total));
+        mHeader.setTotalPrice(String.valueOf(total));
     }
 
     private void setupClientUI(){
         Client client = mJob.getClient();
-
-        mMobileText.setText(client.getMobilePhone());
-        mAddressText.setText(client.getAddress());
+        mHeader.setupViews(client);
     }
 
     private void setupDeliveryList(){
@@ -148,6 +141,25 @@ public class DetailFragment extends ButterFragment {
         Uri uri = Uri.parse("smsto:" + mJob.getClient().getMobilePhone());
         Intent intent = new Intent(Intent.ACTION_SENDTO, uri);
         startActivity(intent);
+    }
+
+    @OnClick(R.id.client_whatsapp_text)
+    public void onWhatsappClicked(){
+        Uri uri = Uri.parse("smsto:" + mJob.getClient().getMobilePhone());
+        Intent i = new Intent(Intent.ACTION_SENDTO, uri);
+        i.setPackage("com.whatsapp");
+        startActivity(i);
+    }
+
+    @OnClick(R.id.client_email_text)
+    public void onEmailClicked(){
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("message/rfc822");
+        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{mJob.getClient().getEmail()});
+        intent.putExtra(Intent.EXTRA_SUBJECT, "Contrato magneto");
+        intent.putExtra(Intent.EXTRA_TEXT, "I'm email body.");
+
+        startActivity(Intent.createChooser(intent, "Send Email"));
     }
 
     private FragmentManager getSupportFragmentManager(){

@@ -46,7 +46,6 @@ public class DatePickerActivity extends BaseCardActivity {
 
     @OnClick(R.id.accept_button)
     public void onAcceptClicked(){
-        Log.d(TAG, "onAcceptClicked");
         mSendResult = true;
         dismiss(null);
     }
@@ -56,7 +55,6 @@ public class DatePickerActivity extends BaseCardActivity {
 
         if(mSendResult) {
             long pickedDate = mDatePickerHandler.getPickedDate();
-            Log.d(TAG, "finish: time: "+pickedDate);
             Intent data = new Intent();
             data.putExtra(DATA_RESULT_KEY, pickedDate);
             setResult(RESULT_OK, data);

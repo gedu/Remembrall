@@ -5,9 +5,14 @@ import android.app.PendingIntent;
 import android.content.Context;
 
 import com.gemapps.remembrall.ui.model.Delivery;
+import com.gemapps.remembrall.ui.model.Job;
 import com.gemapps.remembrall.ui.model.RememberAlarm;
 
+import java.util.Calendar;
 import java.util.List;
+
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 /**
  * Created by edu on 1/27/17.
@@ -15,11 +20,20 @@ import java.util.List;
 
 public class AlarmStateManager {
 
+    private static final String TAG = "AlarmStateManager";
     private static AlarmStateManager mInstance;
 
     public static AlarmStateManager getInstance(){
         if(mInstance == null) mInstance = new AlarmStateManager();
         return mInstance;
+    }
+
+    public void loadFromDbAndRegister(Context context){
+        Realm realm = Realm.getDefaultInstance();
+        RealmResults<Job> jobs = realm.where(Job.class).findAll();
+        for (Job job : jobs) {
+            registerAlarm(context, job.getId(), job.getDeliveries());
+        }
     }
 
     public void registerAlarm(Context context, String clientId,  List<Delivery> deliveries){
@@ -28,6 +42,10 @@ public class AlarmStateManager {
             PendingIntent pending = createPendingIntent(context, clientId, delivery.getId());
             updateAlarm(context, pending, delivery.getAlarm());
         }
+    }
+
+    private boolean isValid(RememberAlarm alarm){
+        return Calendar.getInstance().getTimeInMillis() < alarm.getEndDate();
     }
 
     private void updateAlarm(Context context, PendingIntent pendingIntent, RememberAlarm alarm){

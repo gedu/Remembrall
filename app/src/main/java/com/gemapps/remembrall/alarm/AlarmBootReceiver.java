@@ -10,7 +10,7 @@ public class AlarmBootReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-
-        // TODO: 1/27/17 Loads all the alarms
+        
+        AlarmStateManager.getInstance().loadFromDbAndRegister(context);
     }
 }

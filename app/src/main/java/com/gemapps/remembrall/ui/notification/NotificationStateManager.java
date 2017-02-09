@@ -18,7 +18,7 @@ public class NotificationStateManager {
     public static void sendNotification(Context context, String message, PendingIntent pendingIntent){
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
 
-        builder.setSmallIcon(R.drawable.ic_warning_white_24px);
+        builder.setSmallIcon(R.drawable.ic_stat_av_timer);
         builder.setContentTitle(context.getString(R.string.app_name));
         builder.setContentText(message);
         builder.setContentIntent(pendingIntent);

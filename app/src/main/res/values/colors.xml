@@ -8,7 +8,7 @@
     <color name="warningAccent">#FFEA00</color>
 
     <!--Black transparent bg-->
-    <color name="dialog_background">#7f000000</color>
+    <color name="dialog_background">#78000000</color>
     <color name="black_78">#c8000000</color>
 
     <color name="gray_divider">#1f000000</color>

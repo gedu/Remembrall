@@ -2,8 +2,6 @@ package com.gemapps.remembrall.ui.model;
 
 import com.gemapps.remembrall.ui.widget.FormUIHandler;
 
-import java.util.List;
-
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
@@ -62,7 +60,7 @@ public class Job extends RealmObject {
     public void addDelivery(Delivery delivery){
         mDeliveries.add(delivery);
     }
-    public List<Delivery> getDeliveries() {
+    public RealmList<Delivery> getDeliveries() {
         return mDeliveries;
     }
 }

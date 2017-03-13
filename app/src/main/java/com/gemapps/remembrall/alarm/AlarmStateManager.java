@@ -40,7 +40,8 @@ public class AlarmStateManager {
 
         for (Delivery delivery : deliveries) {
             PendingIntent pending = createPendingIntent(context, clientId, delivery.getId());
-            updateAlarm(context, pending, delivery.getAlarm());
+            RememberAlarm alarm = delivery.getAlarm();
+            if(alarm.getAlarmState() != RememberAlarm.FIRED) updateAlarm(context, pending, alarm);
         }
     }
 

@@ -81,7 +81,7 @@ public class CreationFormFragment extends ButterFragment
         super.onViewCreated(view, savedInstanceState);
 
         mStartDate = DateUtil.getDate();
-        mEndDate = DateUtil.getDate(mDaysToAdd);
+        mEndDate = DateUtil.getDate(mDaysToAdd-1);
         mForm.setLockScrollListener();
         setStartDayText();
         setEndDayText();
@@ -152,7 +152,7 @@ public class CreationFormFragment extends ButterFragment
     public void onStartDatePick(long ts) {
 
         mStartDate = ts;
-        mEndDate = DateUtil.getDate(mDaysToAdd, ts);
+        mEndDate = DateUtil.getDate(mDaysToAdd-1, ts);
         setStartDayText();
         setEndDayText();
     }

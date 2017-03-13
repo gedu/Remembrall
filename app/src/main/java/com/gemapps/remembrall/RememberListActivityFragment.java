@@ -65,10 +65,14 @@ public class RememberListActivityFragment extends ButterFragment
     private void setupUI(){
         RecyclerView.LayoutManager layoutManager;
 
-        if(Util.isLargeTablet(getActivity()))
-            layoutManager = new GridLayoutManager(getActivity(), 2, LIST_ORIENTATION, false);
-        else
-            layoutManager = new LinearLayoutManager(getActivity(), LIST_ORIENTATION, false);
+        if(Util.isLargeTablet(getActivity())) {
+            layoutManager = new GridLayoutManager(getActivity(), 2, LIST_ORIENTATION, true);
+            ((GridLayoutManager)layoutManager).setStackFromEnd(true);
+        }else {
+            layoutManager = new LinearLayoutManager(getActivity(), LIST_ORIENTATION, true);
+            ((LinearLayoutManager)layoutManager).setStackFromEnd(true);
+        }
+
 
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LIST_ORIENTATION));

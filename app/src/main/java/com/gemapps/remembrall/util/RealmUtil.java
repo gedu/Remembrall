@@ -1,7 +1,6 @@
 package com.gemapps.remembrall.util;
 
 import com.gemapps.remembrall.data.RemembrallContract;
-import com.gemapps.remembrall.ui.model.Delivery;
 import com.gemapps.remembrall.ui.model.Job;
 
 import io.realm.Realm;
@@ -20,7 +19,8 @@ public class RealmUtil {
                 Job jobToDelete = realm.where(Job.class)
                         .equalTo(RemembrallContract.JobEntry.COLUMN_ID, id)
                         .findFirst();
-                for (Delivery d : jobToDelete.getDeliveries()) d.deleteFromRealm();
+
+                jobToDelete.getDeliveries().deleteAllFromRealm();
                 jobToDelete.deleteFromRealm();
             }
         });

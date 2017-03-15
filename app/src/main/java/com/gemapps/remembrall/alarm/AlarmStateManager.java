@@ -3,6 +3,7 @@ package com.gemapps.remembrall.alarm;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.util.Log;
 
 import com.gemapps.remembrall.ui.model.Delivery;
 import com.gemapps.remembrall.ui.model.Job;
@@ -50,6 +51,7 @@ public class AlarmStateManager {
     }
 
     private void updateAlarm(Context context, PendingIntent pendingIntent, RememberAlarm alarm){
+        Log.d(TAG, "updateAlarm");
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
         long fireDate = alarm.getEndDate();

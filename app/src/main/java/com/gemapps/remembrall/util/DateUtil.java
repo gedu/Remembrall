@@ -40,6 +40,13 @@ public class DateUtil {
         return FULL_DATE_FORMAT.format(new Date(ts));
     }
 
+    public static long deducOnedayFrom(long ts){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(ts);
+        calendar.add(Calendar.DATE, -1);
+        return calendar.getTimeInMillis();
+    }
+
     public static String formatDate(){
         return formatDate(0);
     }

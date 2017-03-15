@@ -38,7 +38,7 @@ public class CreationFormFragment extends ButterFragment
 
     private long mStartDate;
     private long mEndDate;
-    private int mDaysToAdd = 30;//TODO: change the 30 to and get it from prefs
+    private int mDaysToAdd = 29;//TODO: change the 30 to and get it from prefs
     private RealmList<Delivery> mDeliveries;
     private FormUIHandler mForm;
 
@@ -81,7 +81,7 @@ public class CreationFormFragment extends ButterFragment
         super.onViewCreated(view, savedInstanceState);
 
         mStartDate = DateUtil.getDate();
-        mEndDate = DateUtil.getDate(mDaysToAdd-1);
+        mEndDate = DateUtil.getDate(mDaysToAdd);
         mForm.setLockScrollListener();
         setStartDayText();
         setEndDayText();
@@ -150,16 +150,15 @@ public class CreationFormFragment extends ButterFragment
 
     @Override
     public void onStartDatePick(long ts) {
-
         mStartDate = ts;
-        mEndDate = DateUtil.getDate(mDaysToAdd-1, ts);
+        mEndDate = DateUtil.getDate(mDaysToAdd, ts);
         setStartDayText();
         setEndDayText();
     }
 
     @Override
     public void onEndDatePick(long ts) {
-        mEndDate = ts;
+        mEndDate = DateUtil.deducOnedayFrom(ts);
         setEndDayText();
     }
 

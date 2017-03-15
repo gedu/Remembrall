@@ -2,11 +2,14 @@ package com.gemapps.remembrall.ui.detail;
 
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.text.Html;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +24,8 @@ import com.gemapps.remembrall.ui.model.Delivery;
 import com.gemapps.remembrall.ui.model.Job;
 import com.gemapps.remembrall.ui.widget.CreateDeliverySheet;
 import com.gemapps.remembrall.ui.widget.DetailHeaderHelper;
+import com.gemapps.remembrall.util.DateUtil;
+import com.gemapps.remembrall.util.ImageUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -157,9 +162,31 @@ public class DetailFragment extends ButterFragment {
         intent.setType("message/rfc822");
         intent.putExtra(Intent.EXTRA_EMAIL, new String[]{mJob.getClient().getEmail()});
         intent.putExtra(Intent.EXTRA_SUBJECT, "Contrato magneto");
-        intent.putExtra(Intent.EXTRA_TEXT, "I'm email body.");
+        intent.putExtra(Intent.EXTRA_TEXT, formatEmail());
+        Uri imageUri = saveImage();
+        if(imageUri != null) intent.putExtra(Intent.EXTRA_STREAM, imageUri);
 
         startActivity(Intent.createChooser(intent, "Send Email"));
+    }
+
+    private Spanned formatEmail(){
+        //todo: send email from the selected contract
+        Delivery delivery = mJob.getDeliveries().get(0);
+        Client client = mJob.getClient();
+        return Html.fromHtml("<h2><b>Contrato</b></h2>" +
+                String.format("<p>Nombre y Apellido: %s %s</p>", client.getFirstName(), client.getLastName()) +
+                String.format("<p>DNI: %s</p>", client.getIdCard()) +
+                String.format("<p>Direccion: %s</p>", client.getAddress()) +
+                String.format("<p>Equipo alquilado: %s</p>", mJob.getProduct().getEquipLabel()) +
+                String.format("<p>Fecha de entrega: %s Fecha de busqueda: %s</p>", DateUtil.formatDateFromTs(delivery.getAlarm().getStartDate()),
+                        DateUtil.formatDateFromTs(delivery.getAlarm().getEndDate())) +
+                String.format("<p>Importe: %s</p>", delivery.getPrice()));
+    }
+
+    private Uri saveImage(){
+        Bitmap bitmap = ImageUtil.convertByteToBitmap(mJob.getClient().getSignImage());
+        ImageUtil.changeBlackLinesToWhite(bitmap);
+        return ImageUtil.saveImage(mJob.getClient(), bitmap);
     }
 
     private FragmentManager getSupportFragmentManager(){

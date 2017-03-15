@@ -6,6 +6,8 @@
 
     <color name="validAccent">#00E676</color>
     <color name="warningAccent">#FFEA00</color>
+    <color name="cancel_button">@color/red_500</color>
+    <color name="red_500">#F44336</color>
 
     <!--Black transparent bg-->
     <color name="dialog_background">#78000000</color>

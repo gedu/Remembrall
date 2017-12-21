@@ -34,7 +34,7 @@ public class RecyclerViewRemembrallAdapter
     public RecyclerViewRemembrallAdapter(Context context, RemembrallItemsListener listener,
                                          OrderedRealmCollection<Job> data) {
         super(context, data, true);
-        Log.d(TAG, "RecyclerViewRemembrallAdapter: "+data.size());
+
         mListener = listener;
     }
 

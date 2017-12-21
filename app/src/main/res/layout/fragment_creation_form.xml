@@ -17,7 +17,7 @@
 
         <include layout="@layout/form_device_creation"/>
 
-        <include layout="@layout/form_sign_creation"/>
+        <!--<include layout="@layout/form_sign_creation"/>-->
 
     </LinearLayout>
 

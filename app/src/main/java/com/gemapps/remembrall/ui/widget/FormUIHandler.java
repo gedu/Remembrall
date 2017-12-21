@@ -151,10 +151,10 @@ public class FormUIHandler {
         String email = mEmailEdit.getText().toString();
         String homePhone = mHomePhoneEdit.getText().toString();
         String mobilePhone = mMobilePhoneEdit.getText().toString();
-        byte[] signImage = ImageUtil.convertBitmapToByte(mInkView.getBitmap());
+//        byte[] signImage = ImageUtil.convertBitmapToByte(mInkView.getBitmap());
 
         return new Client(firstName, lastName, idCard, address, email,
-                homePhone, mobilePhone, signImage);
+                homePhone, mobilePhone);
     }
 
     public Product buildProduct(){

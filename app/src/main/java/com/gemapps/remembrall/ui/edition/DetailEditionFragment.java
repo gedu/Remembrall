@@ -80,11 +80,12 @@ public class DetailEditionFragment extends ButterFragment {
         setupNameHeader();
     }
 
+    @Deprecated
     private void setupImageHeader(){
 
-        Bitmap bitmap = ImageUtil.convertByteToBitmap(mJob.getClient().getSignImage());
-        ImageUtil.changeBlackLinesToWhite(bitmap);
-        if(bitmap != null)mImageView.setImageBitmap(bitmap);
+//        Bitmap bitmap = ImageUtil.convertByteToBitmap(mJob.getClient().getSignImage());
+//        ImageUtil.changeBlackLinesToWhite(bitmap);
+//        if(bitmap != null)mImageView.setImageBitmap(bitmap);
     }
 
     private void setupNameHeader(){

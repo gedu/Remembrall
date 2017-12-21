@@ -30,7 +30,9 @@ public class RememberListActivityFragment extends ButterFragment
 
     private static final String TAG = "RememberListActivityFra";
     private static final int LIST_ORIENTATION = LinearLayoutManager.VERTICAL;
+
     @BindView(R.id.recycler_view) RecyclerView mRecyclerView;
+
     private Realm mRealm;
     private RecyclerViewRemembrallAdapter mAdapter;
     private RealmResults<Job> mJobs;

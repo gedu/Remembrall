@@ -11,8 +11,8 @@ import java.util.Locale;
 
 public class DateUtil {
 
-    private static final SimpleDateFormat FULL_DATE_FORMAT = new SimpleDateFormat("dd/MM/yy", Locale.US);
-    private static final SimpleDateFormat DAY_MONTH_DATE_FORMAT = new SimpleDateFormat("dd MMM", Locale.US);
+    private static final SimpleDateFormat FULL_DATE_FORMAT = new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
+    private static final SimpleDateFormat DAY_MONTH_DATE_FORMAT = new SimpleDateFormat("dd MMM", Locale.getDefault());
 
     public static long getDate(){
         return getDate(0);

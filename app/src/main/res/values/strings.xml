@@ -32,4 +32,5 @@
     <string name="cancel">Cancelar</string>
     <string name="accept">Aceptar</string>
     <string name="save_success_msg">Saved</string>
+  <string name="deliver_mg_to">Entregar MG a %s</string>
 </resources>

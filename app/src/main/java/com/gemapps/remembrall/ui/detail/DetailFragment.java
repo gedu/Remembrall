@@ -2,7 +2,6 @@ package com.gemapps.remembrall.ui.detail;
 
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -25,7 +24,6 @@ import com.gemapps.remembrall.ui.model.Job;
 import com.gemapps.remembrall.ui.widget.CreateDeliverySheet;
 import com.gemapps.remembrall.ui.widget.DetailHeaderHelper;
 import com.gemapps.remembrall.util.DateUtil;
-import com.gemapps.remembrall.util.ImageUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -183,10 +181,12 @@ public class DetailFragment extends ButterFragment {
                 String.format("<p>Importe: %s</p>", delivery.getPrice()));
     }
 
+    @Deprecated
+    @Nullable
     private Uri saveImage(){
-        Bitmap bitmap = ImageUtil.convertByteToBitmap(mJob.getClient().getSignImage());
-        ImageUtil.changeBlackLinesToWhite(bitmap);
-        return ImageUtil.saveImage(mJob.getClient(), bitmap);
+//        Bitmap bitmap = ImageUtil.convertByteToBitmap(mJob.getClient().getSignImage());
+//        ImageUtil.changeBlackLinesToWhite(bitmap);
+        return null;// ImageUtil.saveImage(mJob.getClient(), bitmap);
     }
 
     private FragmentManager getSupportFragmentManager(){

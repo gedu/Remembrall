@@ -1,6 +1,7 @@
 package com.gemapps.remembrall.alarm;
 
 import android.content.Context;
+import android.os.Handler;
 import android.util.Log;
 
 import com.gemapps.remembrall.ui.model.Job;
@@ -40,7 +41,13 @@ public class AlarmUpdateHandler {
                 Log.d(TAG, "onSuccess");
                 AlarmStateManager.getInstance()
                         .registerAlarm(mContext, job.getId(), job.getDeliveries());
-                EventBus.getDefault().post(new DbTransaction(DbTransaction.SAVE));
+                //todo: new way to post an event creation
+                new Handler().postDelayed(new Runnable() {
+                  @Override
+                  public void run() {
+                    EventBus.getDefault().post(new DbTransaction(DbTransaction.SAVE, job));
+                  }
+                }, 500);
             }
         }, new Realm.Transaction.OnError() {
             @Override

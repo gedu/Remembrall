@@ -2,6 +2,8 @@ package com.gemapps.remembrall.ui.model.bus;
 
 import android.support.annotation.IntDef;
 
+import com.gemapps.remembrall.ui.model.Job;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
@@ -11,19 +13,30 @@ import java.lang.annotation.RetentionPolicy;
 
 public class DbTransaction {
 
-    @IntDef(flag=true, value={SAVE, ERROR})
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface TransactionType{}
-    public static final int SAVE = 0;
-    public static final int ERROR = 1<<1;
+  @IntDef(flag = true, value = {SAVE, ERROR})
+  @Retention(RetentionPolicy.SOURCE)
+  public @interface TransactionType {
+  }
 
-    private int mType;
+  public static final int SAVE = 0;
+  public static final int ERROR = 1 << 1;
+  private int mType;
+  private Job mJob;
 
-    public DbTransaction(@TransactionType int type) {
-        mType = type;
-    }
+  public DbTransaction(@TransactionType int type) {
+    mType = type;
+  }
 
-    public int getType() {
-        return mType;
-    }
+  public DbTransaction(int type, Job job) {
+    this(type);
+    mJob = job;
+  }
+
+  public int getType() {
+    return mType;
+  }
+
+  public Job getJob() {
+    return mJob;
+  }
 }

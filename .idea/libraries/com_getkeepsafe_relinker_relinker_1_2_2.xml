@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="com.getkeepsafe.relinker:relinker-1.2.2">
     <CLASSES>
-      <root url="file://$USER_HOME$/.android/build-cache/d17de2302ee6113709639a6151dc6fb2f3ec87bd/output/res" />
-      <root url="jar://$USER_HOME$/.android/build-cache/d17de2302ee6113709639a6151dc6fb2f3ec87bd/output/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.android/build-cache/c12fa2084e44d94558b376ae0b46da8e22e48701/output/res" />
+      <root url="jar://$USER_HOME$/.android/build-cache/c12fa2084e44d94558b376ae0b46da8e22e48701/output/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

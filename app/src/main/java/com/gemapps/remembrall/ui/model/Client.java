@@ -36,6 +36,10 @@ public class Client extends RealmObject implements Searcheable {
         mMobilePhone = mobilePhone;
     }
 
+    public String getFormattedName() {
+      return  mFirstName + " " + mLastName;
+    }
+
     public String getFirstName() {
         return mFirstName;
     }

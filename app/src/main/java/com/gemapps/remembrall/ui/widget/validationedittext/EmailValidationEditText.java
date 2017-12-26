@@ -3,8 +3,9 @@ package com.gemapps.remembrall.ui.widget.validationedittext;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import com.gemapps.remembrall.ui.widget.validationedittext.textwatcher.EmailTextWatcher;
-import com.gemapps.remembrall.ui.widget.validationedittext.textwatcher.TextWatcherWrapper;
+import com.gemapps.remembrall.R;
+
+import java.util.regex.Pattern;
 
 /**
  * Created by edu on 1/18/17.
@@ -12,20 +13,30 @@ import com.gemapps.remembrall.ui.widget.validationedittext.textwatcher.TextWatch
 
 public class EmailValidationEditText extends ValidationEditionText {
 
-    public EmailValidationEditText(Context context) {
-        super(context);
-    }
+  private static final String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+      + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
-    public EmailValidationEditText(Context context, AttributeSet attrs) {
-        super(context, attrs);
-    }
+  private static final Pattern mPattern = Pattern.compile(EMAIL_PATTERN);
 
-    public EmailValidationEditText(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-    }
+  public EmailValidationEditText(Context context) {
+    super(context);
+  }
 
-    @Override
-    protected TextWatcherWrapper getWatcher() {
-        return new EmailTextWatcher();
-    }
+  public EmailValidationEditText(Context context, AttributeSet attrs) {
+    super(context, attrs);
+  }
+
+  public EmailValidationEditText(Context context, AttributeSet attrs, int defStyleAttr) {
+    super(context, attrs, defStyleAttr);
+  }
+
+  @Override
+  protected boolean validate() {
+    return mPattern.matcher(getText()).matches();
+  }
+
+  @Override
+  protected int errorMessage() {
+    return R.string.error_email_pattern;
+  }
 }

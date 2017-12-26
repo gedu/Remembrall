@@ -17,8 +17,9 @@ public class Client extends RealmObject implements Searcheable {
     private String mEmail;
     private String mHomePhone;
     private String mMobilePhone;
+    private byte[] mSignImage;
 
-    public Client() {}
+  public Client() {}
 
     public Client(String firstName, String lastName) {
         mFirstName = firstName;
@@ -26,7 +27,7 @@ public class Client extends RealmObject implements Searcheable {
     }
 
     public Client(String firstName, String lastName, String idCard, String address,
-                  String email, String homePhone, String mobilePhone) {
+                  String email, String homePhone, String mobilePhone, byte[] signImage) {
         mFirstName = firstName;
         mLastName = lastName;
         mIdCard = idCard;
@@ -34,6 +35,7 @@ public class Client extends RealmObject implements Searcheable {
         mEmail = email;
         mHomePhone = homePhone;
         mMobilePhone = mobilePhone;
+        mSignImage = signImage;
     }
 
     public String getFormattedName() {
@@ -95,6 +97,14 @@ public class Client extends RealmObject implements Searcheable {
     public void setMobilePhone(String mobilePhone) {
         mMobilePhone = mobilePhone;
     }
+
+  public byte[] getSignImage() {
+    return mSignImage == null ? new byte[0] : mSignImage;
+  }
+
+  public void setSignImage(byte[] signImage) {
+    mSignImage = signImage;
+  }
 
     @Override
     public String getLabel() {

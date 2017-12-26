@@ -3,8 +3,7 @@ package com.gemapps.remembrall.ui.widget.validationedittext;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import com.gemapps.remembrall.ui.widget.validationedittext.textwatcher.EmptyTextWatcher;
-import com.gemapps.remembrall.ui.widget.validationedittext.textwatcher.TextWatcherWrapper;
+import com.gemapps.remembrall.R;
 
 /**
  * Created by edu on 1/18/17.
@@ -12,20 +11,25 @@ import com.gemapps.remembrall.ui.widget.validationedittext.textwatcher.TextWatch
 
 public class TextValidationEditText extends ValidationEditionText {
 
-    public TextValidationEditText(Context context) {
-        super(context);
-    }
+  public TextValidationEditText(Context context) {
+    super(context);
+  }
 
-    public TextValidationEditText(Context context, AttributeSet attrs) {
-        super(context, attrs);
-    }
+  public TextValidationEditText(Context context, AttributeSet attrs) {
+    super(context, attrs);
+  }
 
-    public TextValidationEditText(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-    }
+  public TextValidationEditText(Context context, AttributeSet attrs, int defStyleAttr) {
+    super(context, attrs, defStyleAttr);
+  }
 
-    @Override
-    protected TextWatcherWrapper getWatcher() {
-        return new EmptyTextWatcher();
-    }
+  @Override
+  protected boolean validate() {
+    return getText().length() > 0;
+  }
+
+  @Override
+  protected int errorMessage() {
+    return R.string.error_empty_text;
+  }
 }

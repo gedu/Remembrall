@@ -23,93 +23,95 @@ import io.realm.Realm;
 
 public class DetailEditionFragment extends ButterFragment {
 
-    private static final String TAG = "RemembrallDetailFragmen";
+  private static final String TAG = "RemembrallDetailFragmen";
 
-    public DetailEditionFragment() {}
+  public DetailEditionFragment() {
+  }
 
-    @BindView(R.id.client_sign_image)
-    ImageView mImageView;
-    @BindView(R.id.client_name_text)
-    TextView mClientNameText;
+  @BindView(R.id.client_sign_image)
+  ImageView mImageView;
+  @BindView(R.id.client_name_text)
+  TextView mClientNameText;
 
-    private Realm mRealm;
-    private FormUIHandler mForm;
-    private Job mJob;
+  private Realm mRealm;
+  private FormUIHandler mForm;
+  private Job mJob;
 
-    public static DetailEditionFragment getInstance(String id){
-        Bundle bundle = new Bundle();
-        bundle.putString(ID_ARGS, id);
-        DetailEditionFragment detailFragment = new DetailEditionFragment();
-        detailFragment.setArguments(bundle);
-        return detailFragment;
+  public static DetailEditionFragment getInstance(String id) {
+    Bundle bundle = new Bundle();
+    bundle.putString(ID_ARGS, id);
+    DetailEditionFragment detailFragment = new DetailEditionFragment();
+    detailFragment.setArguments(bundle);
+    return detailFragment;
+  }
+
+  @Override
+  public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                           Bundle savedInstanceState) {
+    // Inflate the layout for this fragment
+    View rootView = createView(inflater, container, R.layout.fragment_remembrall_detail_edition);
+    mForm = new FormUIHandler(rootView, false);
+    return rootView;
+  }
+
+  @Override
+  public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    super.onViewCreated(view, savedInstanceState);
+    mRealm = Realm.getDefaultInstance();
+    setupUI();
+  }
+
+  private void setupUI() {
+    setUpButton();
+    findRemembrallItem();
+    setupClientInfo();
+    setupProductInfo();
+  }
+
+  private void findRemembrallItem() {
+    mJob = mRealm.where(Job.class)
+        .equalTo(RemembrallContract.JobEntry.COLUMN_ID,
+            getArguments().getString(ID_ARGS)).findFirst();
+  }
+
+  private void setupClientInfo() {
+
+    mForm.fillClientUI(mJob.getClient());
+    setupImageHeader();
+    setupNameHeader();
+  }
+
+  private void setupImageHeader() {
+
+    Bitmap bitmap = ImageUtil.convertByteToBitmap(mJob.getClient().getSignImage());
+    if (bitmap != null) {
+      mImageView.setImageBitmap(bitmap);
+      ImageUtil.changeBlackLinesToWhite(bitmap);
     }
+  }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View rootView = createView(inflater, container, R.layout.fragment_remembrall_detail_edition);
-        mForm = new FormUIHandler(rootView, false);
-        return rootView;
-    }
+  private void setupNameHeader() {
+    mClientNameText.setText(mJob.getClient().getFirstName() +
+        " " + mJob.getClient().getLastName());
+  }
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        mRealm = Realm.getDefaultInstance();
-        setupUI();
-    }
+  private void setupProductInfo() {
+    mForm.fillProductUI(mJob.getProduct());
+  }
 
-    private void setupUI(){
-        setUpButton();
-        findRemembrallItem();
-        setupClientInfo();
-        setupProductInfo();
-    }
+  @OnClick(R.id.fab)
+  public void onFabClicked() {
+    update();
+  }
 
-    private void findRemembrallItem(){
-        mJob = mRealm.where(Job.class)
-                .equalTo(RemembrallContract.JobEntry.COLUMN_ID,
-                        getArguments().getString(ID_ARGS)).findFirst();
-    }
+  private void update() {
+    mForm.updateClient(mRealm, mJob.getClient());
+    getActivity().onBackPressed();
+  }
 
-    private void setupClientInfo() {
-
-        mForm.fillClientUI(mJob.getClient());
-        setupImageHeader();
-        setupNameHeader();
-    }
-
-    @Deprecated
-    private void setupImageHeader(){
-
-//        Bitmap bitmap = ImageUtil.convertByteToBitmap(mJob.getClient().getSignImage());
-//        ImageUtil.changeBlackLinesToWhite(bitmap);
-//        if(bitmap != null)mImageView.setImageBitmap(bitmap);
-    }
-
-    private void setupNameHeader(){
-        mClientNameText.setText(mJob.getClient().getFirstName() +
-                " "+ mJob.getClient().getLastName());
-    }
-
-    private void setupProductInfo(){
-        mForm.fillProductUI(mJob.getProduct());
-    }
-
-    @OnClick(R.id.fab)
-    public void onFabClicked(){
-        update();
-    }
-
-    private void update(){
-        mForm.updateClient(mRealm, mJob.getClient());
-        getActivity().onBackPressed();
-    }
-
-    @Override
-    public void onDestroy() {
-        mRealm.close();
-        super.onDestroy();
-    }
+  @Override
+  public void onDestroy() {
+    mRealm.close();
+    super.onDestroy();
+  }
 }

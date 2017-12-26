@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 /**
  * Created by edu on 1/18/17.
  */
-
+@Deprecated
 public class EmailTextWatcher extends TextWatcherWrapper {
 
     private static final String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"

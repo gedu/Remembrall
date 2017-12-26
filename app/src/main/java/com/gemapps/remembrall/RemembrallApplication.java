@@ -2,7 +2,10 @@ package com.gemapps.remembrall;
 
 import android.app.Application;
 
+import com.gemapps.remembrall.migration.RemembrallMigration;
+
 import io.realm.Realm;
+import io.realm.RealmConfiguration;
 
 /**
  * Created by edu on 1/11/17.
@@ -10,10 +13,18 @@ import io.realm.Realm;
 
 public class RemembrallApplication extends Application {
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
+  private static final int REAL_VERSION = 2;
 
-        Realm.init(this);
-    }
+  @Override
+  public void onCreate() {
+    super.onCreate();
+
+    Realm.init(this);
+
+    RealmConfiguration configuration = new RealmConfiguration.Builder()
+        .migration(new RemembrallMigration())
+        .schemaVersion(REAL_VERSION).build();
+
+    Realm.setDefaultConfiguration(configuration);
+  }
 }

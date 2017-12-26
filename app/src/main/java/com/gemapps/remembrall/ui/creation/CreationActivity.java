@@ -85,8 +85,7 @@ public class CreationActivity extends ButterActivity {
             mCreationFragment.fabAction();
             finish();
         }else{
-            Snackbar.make(view, "ERROR", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
+            Snackbar.make(view, "ERROR "+ValidationWatcherManager.getInstance().getFieldWithError(), Snackbar.LENGTH_LONG).show();
         }
 
     }

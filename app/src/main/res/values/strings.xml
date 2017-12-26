@@ -33,4 +33,7 @@
     <string name="accept">Aceptar</string>
     <string name="save_success_msg">Saved</string>
   <string name="deliver_mg_to">Entregar MG a %s</string>
+  <string name="yes">Yes</string>
+  <string name="no">No</string>
+  <string name="ask_deletion_message">Seguro que quiere borrarlo?</string>
 </resources>

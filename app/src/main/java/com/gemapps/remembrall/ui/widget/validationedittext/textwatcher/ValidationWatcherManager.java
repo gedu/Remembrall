@@ -1,5 +1,7 @@
 package com.gemapps.remembrall.ui.widget.validationedittext.textwatcher;
 
+import com.gemapps.remembrall.ui.widget.validationedittext.TextValidation;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +11,7 @@ import java.util.List;
 
 public class ValidationWatcherManager {
 
-    private List<TextWatcherWrapper> mTextWatcherList = new ArrayList<>();
+    private List<TextValidation> mTextWatcherList = new ArrayList<>();
 
     private static ValidationWatcherManager mInstance;
 
@@ -18,18 +20,31 @@ public class ValidationWatcherManager {
         return mInstance;
     }
 
-    public void addWatcher(TextWatcherWrapper textWatcher){
+    public void addWatcher(TextValidation textWatcher){
 
         mTextWatcherList.add(textWatcher);
     }
 
     public boolean formValidationPassed(){
-        boolean allWatchersAreValid = true;
 
-        for (TextWatcherWrapper textWatcher : mTextWatcherList){
-            allWatchersAreValid &= textWatcher.isValid();
+        for (TextValidation textWatcher : mTextWatcherList){
+
+          if (!textWatcher.isValid()) {
+            textWatcher.showErrorMessage();
+            return false;
+          }
         }
 
-        return allWatchersAreValid;
+        return true;
+    }
+
+    public String getFieldWithError() {
+      for (TextValidation textWatcher : mTextWatcherList){
+
+        if (!textWatcher.isValid()) {
+          return textWatcher.getIdVal();
+        }
+      }
+      return "";
     }
 }

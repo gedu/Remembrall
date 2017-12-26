@@ -7,7 +7,7 @@ import com.gemapps.remembrall.R;
 /**
  * Created by edu on 1/18/17.
  */
-
+@Deprecated
 public class EmptyTextWatcher extends TextWatcherWrapper {
 
     public EmptyTextWatcher() {

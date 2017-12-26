@@ -108,7 +108,7 @@ public class CreationFormFragment extends ButterFragment
         getActivity().startActivityForResult(intent, CreationActivity.REQUEST_END_DATE_RESULT);
     }
 
-//    @OnClick(R.id.redo_button)
+    @OnClick(R.id.redo_button)
     public void onRedoInkSign(){
         mForm.clearSignView();
     }

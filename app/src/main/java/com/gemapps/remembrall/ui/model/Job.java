@@ -33,9 +33,9 @@ public class Job extends RealmObject {
     public Job(String firstName, String lastName, String idCard, String address,
                String email, String homePhone, String mobilePhone, RealmList<Delivery> deliveries,
                String equipLabel, String equipNum, String testerNum, String terminalNum,
-               String description) {
+               String description, byte[] signImage) {
 
-        this.mClient = new Client(firstName, lastName, idCard, address, email, homePhone, mobilePhone);
+        this.mClient = new Client(firstName, lastName, idCard, address, email, homePhone, mobilePhone, signImage);
         this.mDeliveries = deliveries;
         this.mProduct = new Product(equipLabel, equipNum, testerNum, terminalNum, description);
         setPrimaryKey();

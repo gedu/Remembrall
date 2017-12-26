@@ -8,7 +8,7 @@ import android.util.Log;
 /**
  * Created by edu on 1/18/17.
  */
-
+@Deprecated
 public abstract class TextWatcherWrapper implements TextWatcher {
 
     private static final String TAG = "TextWatcherWrapper";
@@ -21,7 +21,7 @@ public abstract class TextWatcherWrapper implements TextWatcher {
     private TextValidationListener mListener;
 
     TextWatcherWrapper(){
-        ValidationWatcherManager.getInstance().addWatcher(this);
+//        ValidationWatcherManager.getInstance().addWatcher(this);
     }
 
     public void setListener(TextValidationListener listener){
@@ -48,8 +48,16 @@ public abstract class TextWatcherWrapper implements TextWatcher {
         else Log.w(TAG, "No listener attached.");
     }
 
+    public void broadcastCurrentInvalidState() {
+      if(mListener != null) mListener.onValidated(mIsValid, getErrorMessage());
+    }
+
     public boolean isValid(){
         return mIsValid;
+    }
+
+    public int getResErrorMessage(){
+      return getErrorMessage();
     }
 
     protected abstract boolean isValid(String text);

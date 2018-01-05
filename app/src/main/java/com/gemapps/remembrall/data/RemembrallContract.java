@@ -85,6 +85,10 @@ public class RemembrallContract {
         public static final String COLUMN_DESCRIPTION = "mDescription";
     }
 
+    public static class DeliveryEntry {
+      public static final String COLUMN_ID = "mId";
+    }
+
     public static class JobEntry implements BaseColumns {
 
         public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon()

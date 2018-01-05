@@ -20,76 +20,77 @@ import io.realm.RealmRecyclerViewAdapter;
  * Created by edu on 8/25/16.
  */
 public class RecyclerViewRemembrallAdapter
-        extends RealmRecyclerViewAdapter<Job, RecyclerViewRemembrallAdapter.RemembrallViewHolder> {
+    extends RealmRecyclerViewAdapter<Job, RecyclerViewRemembrallAdapter.RemembrallViewHolder> {
 
-    public interface RemembrallItemsListener {
-        void onItemClicked(int position);
-        void onDeleteClicked(int position);
+  public interface RemembrallItemsListener {
+    void onItemCreated();
+    void onItemClicked(int position);
+    void onDeleteClicked(int position);
+  }
+
+  private static final String TAG = "RecyclerViewRemembrallA";
+
+  private RemembrallItemsListener mListener;
+
+  public RecyclerViewRemembrallAdapter(Context context, RemembrallItemsListener listener,
+                                       OrderedRealmCollection<Job> data) {
+    super(context, data, true);
+
+    mListener = listener;
+  }
+
+  @Override
+  public RemembrallViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    mListener.onItemCreated();
+    View v = LayoutInflater.from(parent.getContext())
+        .inflate(R.layout.remembrall_item_list, parent, false);
+    return new RemembrallViewHolder(v);
+  }
+
+  @Override
+  public void onBindViewHolder(RemembrallViewHolder holder, int position) {
+
+    try {
+      setupViewUsing(holder, getContentAt(position));
+    } catch (NullPointerException e) {
+      Log.w(TAG, "Failed to get OBJ at position: " + position, e);
     }
+  }
 
-    private static final String TAG = "RecyclerViewRemembrallA";
+  private Job getContentAt(int position) throws NullPointerException {
+    return getData().get(position);
+  }
 
-    private RemembrallItemsListener mListener;
+  private void setupViewUsing(RemembrallViewHolder holder, final Job job) {
 
-    public RecyclerViewRemembrallAdapter(Context context, RemembrallItemsListener listener,
-                                         OrderedRealmCollection<Job> data) {
-        super(context, data, true);
+    holder.mDateView.setText(DateUtil
+        .formatDayMonthFrom(job.getDeliveries().get(0).getAlarm().getEndDate()));
+    holder.mContactNameView.setText(job.getClient().getFirstName());
+    holder.mContactAddressView.setText(job.getClient().getAddress());
+  }
 
-        mListener = listener;
+  public class RemembrallViewHolder extends CursorViewHolder
+      implements View.OnClickListener {
+
+    @BindView(R.id.item_container) View mContainer;
+    @BindView(R.id.date_text) TextView mDateView;
+    @BindView(R.id.contact_name_text) TextView mContactNameView;
+    @BindView(R.id.contact_address_text) TextView mContactAddressView;
+
+    public RemembrallViewHolder(View view) {
+      super(view);
+      view.setOnClickListener(this);
     }
 
     @Override
-    public RemembrallViewHolder onCreateViewHolder(ViewGroup parent,
-                                                   int viewType) {
-        View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.remembrall_item_list, parent, false);
-        return new RemembrallViewHolder(v);
+    public void onClick(View v) {
+
+      mListener.onItemClicked(getAdapterPosition());
     }
 
-    @Override
-    public void onBindViewHolder(RemembrallViewHolder holder, int position) {
-
-        try {
-            setupViewUsing(holder, getContentAt(position));
-        }catch (NullPointerException e){
-            Log.w(TAG, "Failed to get OBJ at position: "+position, e);
-        }
+    @OnClick(R.id.delete_button)
+    public void onDelete() {
+      mListener.onDeleteClicked(getAdapterPosition());
     }
-
-    private Job getContentAt(int position) throws NullPointerException {
-        return getData().get(position);
-    }
-
-    private void setupViewUsing(RemembrallViewHolder holder, final Job job){
-
-        holder.mDateView.setText(DateUtil
-                .formatDayMonthFrom(job.getDeliveries().get(0).getAlarm().getEndDate()));
-        holder.mContactNameView.setText(job.getClient().getFirstName());
-        holder.mContactAddressView.setText(job.getClient().getAddress());
-    }
-
-    public class RemembrallViewHolder extends CursorViewHolder
-            implements View.OnClickListener {
-
-        @BindView(R.id.item_container) View mContainer;
-        @BindView(R.id.date_text) TextView mDateView;
-        @BindView(R.id.contact_name_text) TextView mContactNameView;
-        @BindView(R.id.contact_address_text) TextView mContactAddressView;
-
-        public RemembrallViewHolder(View view) {
-            super(view);
-            view.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View v) {
-
-            mListener.onItemClicked(getAdapterPosition());
-        }
-
-        @OnClick(R.id.delete_button)
-        public void onDelete(){
-            mListener.onDeleteClicked(getAdapterPosition());
-        }
-    }
+  }
 }

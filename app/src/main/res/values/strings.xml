@@ -36,4 +36,6 @@
   <string name="yes">Yes</string>
   <string name="no">No</string>
   <string name="ask_deletion_message">Seguro que quiere borrarlo?</string>
+  <string name="empty_events_msg">No hay eventos</string>
+  <string name="only_can_delete_more_one_delivery_msg">Lista quedaria vacia, no borrar</string>
 </resources>

@@ -7,7 +7,6 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +33,7 @@ public class RememberListActivityFragment extends ButterFragment
   private static final int LIST_ORIENTATION = LinearLayoutManager.VERTICAL;
 
   @BindView(R.id.recycler_view) RecyclerView mRecyclerView;
+  @BindView(R.id.empty_view) View mEmptyView;
 
   private Realm mRealm;
   private RecyclerViewRemembrallAdapter mAdapter;
@@ -47,8 +47,6 @@ public class RememberListActivityFragment extends ButterFragment
     super.onCreate(savedInstanceState);
 
     mRealm = Realm.getDefaultInstance();
-
-    Log.d(TAG, "is a large: " + Util.isLargeTablet(getActivity()));
 
     mJobs = mRealm.where(Job.class).findAllAsync();
     // TODO: 1/16/17 : should be sorted by date, endDate at the top
@@ -78,7 +76,6 @@ public class RememberListActivityFragment extends ButterFragment
       ((LinearLayoutManager) layoutManager).setStackFromEnd(true);
     }
 
-
     mRecyclerView.setLayoutManager(layoutManager);
     mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LIST_ORIENTATION));
     mRecyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -86,9 +83,24 @@ public class RememberListActivityFragment extends ButterFragment
   }
 
   @Override
+  public void onResume() {
+    super.onResume();
+    updateEmptyView();
+  }
+
+  void updateEmptyView() {
+    mEmptyView.setVisibility(mAdapter.getItemCount() == 0 ? View.VISIBLE : View.GONE);
+  }
+
+  @Override
   public void onItemClicked(int position) {
     Job job = mJobs.get(position);
     startActivity(DetailActivity.getInstance(getContext(), job.getId()));
+  }
+
+  @Override
+  public void onItemCreated() {
+    updateEmptyView();
   }
 
   @Override
@@ -100,6 +112,7 @@ public class RememberListActivityFragment extends ButterFragment
           public void onPositiveClick() {
             final String clientId = getClientIdFrom(position);
             RealmUtil.deleteJobs(mRealm, clientId);
+            updateEmptyView();
           }
 
           @Override

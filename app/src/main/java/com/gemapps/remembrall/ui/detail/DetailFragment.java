@@ -2,6 +2,7 @@ package com.gemapps.remembrall.ui.detail;
 
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,7 +13,9 @@ import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.gemapps.remembrall.R;
 import com.gemapps.remembrall.data.RemembrallContract;
@@ -21,9 +24,12 @@ import com.gemapps.remembrall.ui.adapter.DeliveriesAdapter;
 import com.gemapps.remembrall.ui.model.Client;
 import com.gemapps.remembrall.ui.model.Delivery;
 import com.gemapps.remembrall.ui.model.Job;
+import com.gemapps.remembrall.ui.widget.AskDialog;
 import com.gemapps.remembrall.ui.widget.CreateDeliverySheet;
 import com.gemapps.remembrall.ui.widget.DetailHeaderHelper;
 import com.gemapps.remembrall.util.DateUtil;
+import com.gemapps.remembrall.util.ImageUtil;
+import com.gemapps.remembrall.util.RealmUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -119,9 +125,37 @@ public class DetailFragment extends ButterFragment {
 
         mAdapter = new DeliveriesAdapter(getActivity(), mJob.getDeliveries());
         mDeliveryList.setAdapter(mAdapter);
+        mDeliveryList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+          @Override
+          public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+            if (mJob.getDeliveries().size() > 1) {
+              AskDialog.showAskDialog(getFragmentManager(),
+                  getString(R.string.ask_deletion_message),
+                  new AskDialog.AskListener() {
+                    @Override
+                    public void onPositiveClick() {
+                      final int deliveryId = mJob.getDeliveries().get(position).getId();
+                      RealmUtil.deleteDelivery(mRealm, mJob.getId(), deliveryId);
+                      updateListAndTotal();
+                    }
+
+                    @Override
+                    public void onNegativeClick() {
+
+                    }
+                  });
+            } else {
+              Toast.makeText(getContext(),
+
+                  R.string.only_can_delete_more_one_delivery_msg, Toast.LENGTH_LONG).show();
+            }
+            return false;
+          }
+        });
+
     }
 
-    private void updateListAndTotal(){
+    void updateListAndTotal(){
         mAdapter.notifyDataSetChanged();
         setupTotalPriceUI();
     }
@@ -184,9 +218,9 @@ public class DetailFragment extends ButterFragment {
     @Deprecated
     @Nullable
     private Uri saveImage(){
-//        Bitmap bitmap = ImageUtil.convertByteToBitmap(mJob.getClient().getSignImage());
-//        ImageUtil.changeBlackLinesToWhite(bitmap);
-        return null;// ImageUtil.saveImage(mJob.getClient(), bitmap);
+        Bitmap bitmap = ImageUtil.convertByteToBitmap(mJob.getClient().getSignImage());
+        ImageUtil.changeBlackLinesToWhite(bitmap);
+        return ImageUtil.saveImage(mJob.getClient(), bitmap);
     }
 
     private FragmentManager getSupportFragmentManager(){

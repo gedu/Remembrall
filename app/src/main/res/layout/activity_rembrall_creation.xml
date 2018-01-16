@@ -22,6 +22,15 @@
             app:layout_scrollFlags="scroll"
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
+          <ImageView
+            style="?attr/selectableItemBackgroundBorderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:contentDescription="@string/search_user_desc"
+            android:padding="@dimen/activity_horizontal_margin"
+            app:srcCompat="@drawable/ic_search_white_24dp"/>
+
         </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>

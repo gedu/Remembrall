@@ -38,4 +38,5 @@
   <string name="ask_deletion_message">Seguro que quiere borrarlo?</string>
   <string name="empty_events_msg">No hay eventos</string>
   <string name="only_can_delete_more_one_delivery_msg">Lista quedaria vacia, no borrar</string>
+  <string name="search_user_desc">Buscar usuarios</string>
 </resources>

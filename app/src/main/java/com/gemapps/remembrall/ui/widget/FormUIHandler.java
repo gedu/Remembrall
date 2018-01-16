@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.gemapps.remembrall.R;
-import com.gemapps.remembrall.data.RemembrallContract;
 import com.gemapps.remembrall.ui.model.Client;
 import com.gemapps.remembrall.ui.model.Product;
 import com.gemapps.remembrall.ui.widget.searchtext.SearchPopupHelper;
@@ -72,10 +71,10 @@ public class FormUIHandler {
   }
 
   private void setupSearchPopups() {
-    mClientSearchPopup = new SearchPopupHelper(mFirstNameEdit, Client.class,
-        RemembrallContract.ClientEntry.COLUMN_FIRST_NAME, mClientSearchListener);
-    mProductSearchPopup = new SearchPopupHelper(mEquipLabelEdit, Product.class,
-        RemembrallContract.ProductEntry.COLUMN_LABEL, mProductSearchListener);
+//    mClientSearchPopup = new SearchPopupHelper(mFirstNameEdit, Client.class,
+//        RemembrallContract.ClientEntry.COLUMN_FIRST_NAME, mClientSearchListener);
+//    mProductSearchPopup = new SearchPopupHelper(mEquipLabelEdit, Product.class,
+//        RemembrallContract.ProductEntry.COLUMN_LABEL, mProductSearchListener);
   }
 
 
@@ -172,8 +171,8 @@ public class FormUIHandler {
   }
 
   public void onDestroy() {
-    mClientSearchPopup.onDestroy();
-    mProductSearchPopup.onDestroy();
+//    mClientSearchPopup.onDestroy();
+//    mProductSearchPopup.onDestroy();
   }
 
   private SearchPopupHelper.SearchPopupListener mClientSearchListener = new SearchPopupHelper.SearchPopupListener() {

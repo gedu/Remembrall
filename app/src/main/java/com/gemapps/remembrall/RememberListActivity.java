@@ -55,6 +55,7 @@ public class RememberListActivity extends ButterActivity {
       RememberAlarm alarm = job.getDeliveries().get(0).getAlarm();
       Intent intent = new Intent(Intent.ACTION_INSERT);
       intent.setData(CalendarContract.Events.CONTENT_URI)
+          .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, alarm.getEndDate())
           .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, alarm.getEndDate())
           .putExtra(CalendarContract.Events.TITLE,
               getString(R.string.deliver_mg_to, job.getClient().getFormattedName()))
